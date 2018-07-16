@@ -43,4 +43,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void loginHelper(String mUsernam, String mPassword){
+
+
+    }
 }
