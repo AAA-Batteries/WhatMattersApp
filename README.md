@@ -2,9 +2,9 @@
 Messaging app that specializes in prioritization
 
 
-July 13 Update:
-[X] - set up basic wire-frames, created user stories.
-[X] - determine required and stretch goals:
+## July 13 Update:
+- [X] - set up basic wire-frames, created user stories.
+- [X] - determine required and stretch goals:
 
 ## Required Stories
 
