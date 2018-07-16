@@ -18,7 +18,8 @@
         android:hint="Username"
         android:imeOptions="actionSend"
         tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="158dp" />
+        tools:layout_editor_absoluteY="158dp"
+        android:layout_alignParentLeft="true" />
 
     <EditText
         android:id="@+id/loginPassword"
@@ -29,7 +30,8 @@
         android:layout_marginBottom="183dp"
         android:gravity="top"
         android:hint="Password"
-        android:imeOptions="actionSend" />
+        android:imeOptions="actionSend"
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:id="@+id/createButton"
@@ -39,7 +41,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="92dp"
         android:layout_marginEnd="66dp"
-        android:text="create account" />
+        android:text="create account"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="66dp" />
 
     <Button
         android:id="@+id/loginButton"
@@ -48,6 +52,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/createButton"
         android:layout_marginStart="66dp"
-        android:text="login" />
+        android:text="login"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="66dp" />
 
 </RelativeLayout>
