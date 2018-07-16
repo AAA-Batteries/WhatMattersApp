@@ -25,4 +25,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    implementation 'com.parse.bolts:bolts-android:1.4.0'
+    implementation 'com.parse:parse-android:1.17.3'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'jp.wasabeef:glide-transformations:3.3.0'
+    implementation 'org.parceler:parceler-api:1.1.6'
+    annotationProcessor 'org.parceler:parceler:1.1.6'
+    implementation "android.arch.paging:runtime:1.0.0"
+
 }
