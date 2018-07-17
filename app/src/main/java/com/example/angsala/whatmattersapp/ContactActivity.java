@@ -19,7 +19,7 @@ static String TAG = "ContactActivity";
 
   private void makeToast() {
     // if 10, then something has gone wrong
-    int i = getIntent().getIntExtra("Code", 10);
+    int i = getIntent().getIntExtra("CODE", 10);
 
     if (i == 1) {
       Toast.makeText(
