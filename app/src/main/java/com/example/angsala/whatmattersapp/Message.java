@@ -1,7 +1,10 @@
 package com.example.angsala.whatmattersapp;
 
+import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
@@ -20,10 +23,20 @@ public class Message extends ParseObject {
     }
 
     public void setUserSent(String userId) {
-        put(USER_SENT_KEY, userId);
+        try {
+            put(USER_SENT_KEY, ParseUser.getQuery().get(userId));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setUserReceived(String userId) { put(USER_RECEIVED_KEY, userId); }
+    public void setUserReceived(String userId) {
+        try {
+            put(USER_RECEIVED_KEY, ParseUser.getQuery().get(userId));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setBody(String body) {
         put(BODY_KEY, body);

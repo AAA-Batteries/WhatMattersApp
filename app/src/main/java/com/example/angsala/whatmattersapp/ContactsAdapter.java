@@ -33,8 +33,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_contact, parent, false);
+<<<<<<< HEAD
 //        user = new User();
 //        contacts = new ArrayList<>();
+=======
+>>>>>>> 9f1fdccd9461b477986c4d26a802c6f1e1608473
 
         return new ViewHolder(postView);
     }
@@ -46,7 +49,15 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
          viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
+<<<<<<< HEAD
          viewHolder.tvUserName.setText(n);
+=======
+        for (int i = 0; i < contacts.size(); i++){
+            viewHolder.tvUserName.setText(contacts.get(position));
+        }
+
+
+>>>>>>> 9f1fdccd9461b477986c4d26a802c6f1e1608473
 
     }
 
