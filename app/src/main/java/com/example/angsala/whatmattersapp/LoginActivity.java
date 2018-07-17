@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -20,98 +22,137 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
-    static String TAG = "LoginActivity";
-    static String TOAST_CODE = "CODE";
-     int LOGIN_CODE = 1;
-     int CREATE_CODE = 2;
-    EditText loginUsername;
-    EditText loginPassword;
-    Button loginButton;
-    Button createButton;
+  static String TAG = "LoginActivity";
+  static String TOAST_CODE = "CODE";
+  int LOGIN_CODE = 1;
+  int CREATE_CODE = 2;
+  EditText loginUsername;
+  EditText loginPassword;
+  Button loginButton;
+  Button createButton;
 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_login);
+    // test
 
+    loginUsername = (EditText) findViewById(R.id.loginUsername);
+    loginPassword = (EditText) findViewById(R.id.loginPassword);
+    loginButton = (Button) findViewById(R.id.loginButton);
+    createButton = (Button) findViewById(R.id.createButton);
+    ;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        //test
-
-        loginUsername = (EditText) findViewById(R.id.loginUsername);
-        loginPassword = (EditText) findViewById(R.id.loginPassword);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        createButton = (Button) findViewById(R.id.createButton);
-        ;
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String username = loginUsername.getText().toString();
-                final String password = loginPassword.getText().toString();
-               loginHelper(username, password);
-            }
+    loginButton.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            final String username = loginUsername.getText().toString();
+            final String password = loginPassword.getText().toString();
+            loginHelper(username, password);
+          }
         });
 
-
-
-
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String newusername = loginUsername.getText().toString();
-                final String newpassword = loginPassword.getText().toString();
-                createAccountHelper(newusername, newpassword);
-            }
+    createButton.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            final String newusername = loginUsername.getText().toString();
+            final String newpassword = loginPassword.getText().toString();
+            createAccountHelper(newusername, newpassword);
+          }
         });
-    }
+  }
 
+  public void loginHelper(String mUsername, String mPassword) {
 
-    public void loginHelper(String mUsername, String mPassword){
+    ParseUser.logInInBackground(
+        mUsername,
+        mPassword,
+        new LogInCallback() {
+          @Override
+          public void done(ParseUser user, ParseException e) {
+            if (user != null) {
+              Log.d(TAG, "Login successful");
+              Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
 
-        ParseUser.logInInBackground(mUsername, mPassword, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (user!= null){
-                    Log.d(TAG, "Login successful");
-                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+              intent.putExtra(TOAST_CODE, LOGIN_CODE);
+              ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
+              // Log.d(TAG, contactsTest.toString());
+              //  Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
+              intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
 
-                    intent.putExtra(TOAST_CODE, LOGIN_CODE);
-                    ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
-                   // Log.d(TAG, contactsTest.toString());
-                  //  Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
-                    intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
-
-                    startActivity(intent);
-                }
-                else{
-                    Log.e(TAG, "Failed to login");
-                    Toast.makeText(LoginActivity.this, "Failed to login", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
+              startActivity(intent);
+            } else {
+              Log.e(TAG, "Failed to login");
+              Toast.makeText(LoginActivity.this, "Failed to login", Toast.LENGTH_LONG).show();
+              e.printStackTrace();
             }
+          }
         });
-        }
+  }
 
-        public void createAccountHelper(String mUsername, String mPassword){
-        ParseUser newUser = new ParseUser();
-        newUser.setUsername(mUsername);
-        newUser.setPassword(mPassword);
+  public void createAccountHelper(String mUsername, String mPassword) {
+    // start of new code
+    final String u = mUsername;
+    final String p = mPassword;
+    ParseQuery<ParseUser> query = ParseUser.getQuery();
+    query.whereEqualTo("username", mUsername);
+    query.countInBackground(
+        new CountCallback() {
+          @Override
+          public void done(int count, ParseException e) {
+            if (e == null) {
+              if (count == 0) {
+                final ParseUser newUser = new ParseUser();
+                newUser.setUsername(u);
+                newUser.setPassword(p);
 
-        newUser.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null){
-                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
-                    intent.putExtra(TOAST_CODE, CREATE_CODE);
-                    startActivity(intent);
-                } else {
-                    Log.e(TAG, "Failed to create Account");
-                    Toast.makeText(LoginActivity.this, "Create Account", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
+                newUser.signUpInBackground(
+                    new SignUpCallback() {
+                      @Override
+                      public void done(ParseException e) {
+                        if (e == null) {
+                          Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                          intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
+                          intent.putExtra(TOAST_CODE, CREATE_CODE);
+                          startActivity(intent);
+                        } else {
+                          Log.e(TAG, "Failed to create Account");
+                          Toast.makeText(LoginActivity.this, "Create Account", Toast.LENGTH_LONG)
+                              .show();
+                          e.printStackTrace();
+                        }
+                      }
+                    });
+              }
+              else {
+                  Log.d(TAG, "Username has already been taken");
+                  Toast.makeText(LoginActivity.this, "Username taken", Toast.LENGTH_LONG).show();
+              }
             }
+          }
         });
-        }
+    // end of new code
 
-
+    //        ParseUser newUser = new ParseUser();
+    //        newUser.setUsername(mUsername);
+    //        newUser.setPassword(mPassword);
+    //
+    //        newUser.signUpInBackground(new SignUpCallback() {
+    //            @Override
+    //            public void done(ParseException e) {
+    //                if(e == null){
+    //                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+    //                    intent.putExtra(TOAST_CODE, CREATE_CODE);
+    //                    startActivity(intent);
+    //                } else {
+    //                    Log.e(TAG, "Failed to create Account");
+    //                    Toast.makeText(LoginActivity.this, "Create Account",
+    // Toast.LENGTH_LONG).show();
+    //                    e.printStackTrace();
+    //                }
+    //            }
+    //        });
+  }
 }
