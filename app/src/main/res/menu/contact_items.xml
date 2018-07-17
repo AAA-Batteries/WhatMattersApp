@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@mipmap/ic_launcher_round"
+        android:title="Compose"
+        app:showAsAction="ifRoom"></item>
+
+    <item
+        android:id="@+id/addContact"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="" />
+
+</menu>
