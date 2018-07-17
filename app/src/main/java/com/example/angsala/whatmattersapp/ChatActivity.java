@@ -11,11 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -40,7 +42,8 @@ public class ChatActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
-    static String recipient;
+    static String recipientId = "PWoOLhNXGX";
+    static String currentId = ParseUser.getCurrentUser().getObjectId();
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -63,8 +66,7 @@ public class ChatActivity extends AppCompatActivity {
 
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
         // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
-        parseQuery.whereEqualTo(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
-        parseQuery.whereEqualTo(USER_ID_KEY, recipient);
+        // TODO
 
         // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -145,9 +147,10 @@ public class ChatActivity extends AppCompatActivity {
                 /*** START OF CHANGE **/
 
                 // Using new `Message` Parse-backed model now
-                Message message = new Message();
+                final Message message = new Message();
                 message.setBody(data);
-                message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                message.setUserSent(ParseUser.getCurrentUser().getObjectId());
+                message.setUserReceived(recipientId);
 
                 /*** END OF CHANGE **/
 
@@ -155,7 +158,24 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if(e == null) {
-                            mAdapter.notifyDataSetChanged();
+                            // check for existing chat between the two specified users, current and recipient
+                            // create chat if non-existent
+                            List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+
+                            queries.add(ParseQuery.getQuery("Chat").whereMatches("User1", currentId).whereMatches("User2", recipientId));
+                            queries.add(ParseQuery.getQuery("Chat").whereMatches("User2", currentId).whereMatches("User1", recipientId));
+
+                            if (queries.size() != 0) {
+                                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+                            } else {
+                                Chat chat = new Chat();
+                                chat.setUser1(currentId);
+                                chat.setUser2(recipientId);
+                                chat.addMessage(message);
+
+                                chat.saveInBackground();
+                            }
+
                             Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -170,16 +190,33 @@ public class ChatActivity extends AppCompatActivity {
 
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
-        // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+        // Construct queries to execute, one for current user and one for the recipient user
+        ParseQuery<Message> queryCurrent = ParseQuery.getQuery(Message.class);
+        ParseQuery<Message> queryRecipient = ParseQuery.getQuery(Message.class);
+
+        // limit messages loaded to only those between the current user and set recipient
+        queryCurrent.whereEqualTo("UserSent", currentId);
+        queryCurrent.whereEqualTo("UserReceived", recipientId);
+
+        queryRecipient.whereEqualTo("UserSent", recipientId);
+        queryRecipient.whereEqualTo("UserReceived", currentId);
+
+        // list all queries condition
+        List<ParseQuery<Message>> queries = new ArrayList<ParseQuery<Message>>();
+        queries.add(queryCurrent);
+        queries.add(queryRecipient);
+
+        // Compose the OR clause
+        ParseQuery<Message> innerQuery = ParseQuery.or(queries);
+
+        // Configure limit and sort order for combined query
+        innerQuery.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
         // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByDescending("createdAt");
+        innerQuery.orderByAscending("createdAt");
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Message>() {
+        innerQuery.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
                     mMessages.clear();
@@ -198,7 +235,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void setRecipient(String givenRecipient) {
-        recipient = givenRecipient;
+        recipientId = givenRecipient;
     }
 
 }
