@@ -40,6 +40,8 @@ public class ChatActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
+    static String recipient;
+
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
     Handler myHandler = new Handler();  // android.os.Handler
@@ -51,7 +53,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,8 @@ public class ChatActivity extends AppCompatActivity {
 
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
         // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
-        // parseQuery.whereNotEqualTo(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+        parseQuery.whereEqualTo(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+        parseQuery.whereEqualTo(USER_ID_KEY, recipient);
 
         // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -195,5 +197,8 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    public void setRecipient(String givenRecipient) {
+        recipient = givenRecipient;
+    }
 
 }
