@@ -5,8 +5,8 @@ import com.parse.ParseObject;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
-    public static final String USER_SENT_KEY = "userSent";
-    public static final String USER_RECEIVED_KEY = "userReceived";
+    public static final String USER_SENT_KEY = "UserSent";
+    public static final String USER_RECEIVED_KEY = "UserReceived";
     public static final String BODY_KEY = "body";
 
     public String getUserSent() {
