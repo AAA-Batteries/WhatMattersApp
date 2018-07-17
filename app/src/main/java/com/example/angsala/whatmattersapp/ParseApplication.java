@@ -28,12 +28,11 @@ public class ParseApplication extends Application{
                 new Parse.Configuration.Builder(this)
                         .applicationId("what-matterz")
                         .clientKey("3Amatterz") // password
+                        .clientBuilder(builder)
                         .server("http://what-matterz.herokuapp.com/parse") // server
                         .build();
 
         Parse.initialize(configuration);
-
-
     }
 
 
