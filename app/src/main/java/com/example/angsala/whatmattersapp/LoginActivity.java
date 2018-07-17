@@ -14,6 +14,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
@@ -76,7 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra(TOAST_CODE, LOGIN_CODE);
                     ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
                     Log.d(TAG, contactsTest.toString());
-                    intent.putExtra("contacts", contactsTest);
+                    intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
+                   // intent.putExtra("contacts", contactsTest);
                     startActivity(intent);
                 }
                 else{

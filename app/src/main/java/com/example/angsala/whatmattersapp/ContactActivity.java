@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,8 @@ static String TAG = "ContactActivity";
     getmyContacts();
 
 
-
+      Intent mintent = getIntent();
+      mintent.getStringArrayListExtra("contacts");
   }
 
 
