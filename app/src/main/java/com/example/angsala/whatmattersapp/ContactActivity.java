@@ -12,11 +12,9 @@ import android.view.MenuItem;
 
 import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ public class ContactActivity extends AppCompatActivity {
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
-        getmyContacts();
+        MyContacts();
 
 
     }
@@ -110,25 +108,6 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
- public void getmyContacts(){
-
-        ParseQuery<User> query = ParseQuery.getQuery("User");
-        query.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<User>() {
-            
-            @Override
-            public void done(User object, ParseException e) {
-                if (e == null){
-                    contacts = object.getContacts();
-                    Log.d("ContactsActivity", contacts.toString());
-
-                }
-
-                else{
-                    e.printStackTrace();
-                }
-            }
-        });
- }
 
 
 
