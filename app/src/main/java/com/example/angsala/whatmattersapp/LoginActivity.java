@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     Button createButton;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         loginPassword = (EditText) findViewById(R.id.loginPassword);
         loginButton = (Button) findViewById(R.id.loginButton);
         createButton = (Button) findViewById(R.id.createButton);
+        ;
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
                loginHelper(username, password);
             }
         });
+
+
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +69,11 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (user!= null){
                     Log.d(TAG, "Login successful");
-                    Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+
                     intent.putExtra(TOAST_CODE, LOGIN_CODE);
+
+
                     startActivity(intent);
                 }
                 else{
