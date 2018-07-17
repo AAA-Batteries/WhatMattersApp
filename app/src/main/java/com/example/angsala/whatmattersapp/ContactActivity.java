@@ -12,17 +12,19 @@ import android.view.MenuItem;
 
 import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
-    User user;
+    private static final String TAG = "1" ;
+    ParseUser user;
     List<String> contacts;
     ContactsAdapter adapter;
     RecyclerView rvContacts;
@@ -40,8 +42,7 @@ public class ContactActivity extends AppCompatActivity {
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
-        getmyContacts();
-
+        mContacts(user);
 
     }
 
@@ -110,25 +111,17 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
- public void getmyContacts(){
+    public void mContacts(ParseUser user){
+        user = Parcels.unwrap(getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
+        ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
+        Log.d(TAG, contactsTest.toString());
+        contacts.addAll(contactsTest);
+        adapter.notifyItemInserted(contacts.size() - 1);
+        Log.d("ContactsActivity", contacts.toString());
 
-        ParseQuery<User> query = ParseQuery.getQuery("User");
-        query.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<User>() {
-            
-            @Override
-            public void done(User object, ParseException e) {
-                if (e == null){
-                    contacts = object.getContacts();
-                    Log.d("ContactsActivity", contacts.toString());
+    }
 
-                }
 
-                else{
-                    e.printStackTrace();
-                }
-            }
-        });
- }
 
 
 
