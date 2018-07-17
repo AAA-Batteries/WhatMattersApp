@@ -24,8 +24,7 @@ import com.parse.SubscriptionHandling;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity{
-
+public class ChatActivity extends AppCompatActivity {
     static final String TAG = ChatActivity.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
@@ -88,7 +87,7 @@ public class ChatActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_chat);
         // User login
-        if (com.parse.ParseUser.getCurrentUser() != null) { // start with existing user
+        if (ParseUser.getCurrentUser() != null) { // start with existing user
             startWithCurrentUser();
         } else { // If not logged in, login as a new anonymous user
             login();
@@ -100,7 +99,7 @@ public class ChatActivity extends AppCompatActivity{
     void login() {
         ParseAnonymousUtils.logIn(new LogInCallback() {
             @Override
-            public void done(com.parse.ParseUser user, ParseException e) {
+            public void done(ParseUser user, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Anonymous login failed: ", e);
                 } else {
@@ -123,7 +122,7 @@ public class ChatActivity extends AppCompatActivity{
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
-        final String userId = com.parse.ParseUser.getCurrentUser().getObjectId();
+        final String userId = ParseUser.getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
@@ -137,11 +136,18 @@ public class ChatActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
+                // ParseObject message = ParseObject.create("Message");
+                // message.put(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+                // message.put(BODY_KEY, data);
+
+                /*** START OF CHANGE **/
 
                 // Using new `Message` Parse-backed model now
                 Message message = new Message();
                 message.setBody(data);
                 message.setUserId(ParseUser.getCurrentUser().getObjectId());
+
+                /*** END OF CHANGE **/
 
                 message.saveInBackground(new SaveCallback() {
                     @Override
@@ -187,5 +193,6 @@ public class ChatActivity extends AppCompatActivity{
             }
         });
     }
+
 
 }

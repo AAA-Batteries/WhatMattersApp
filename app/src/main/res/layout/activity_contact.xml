@@ -23,5 +23,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         tools:layout_editor_absoluteX="-31dp"
-        tools:layout_editor_absoluteY="-13dp" />
+        tools:layout_editor_absoluteY="-13dp"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>
