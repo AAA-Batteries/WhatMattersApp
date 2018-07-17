@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>  {
@@ -34,28 +33,26 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_contact, parent, false);
-        user = new User();
-        contacts = new ArrayList<>();
+//        user = new User();
+//        contacts = new ArrayList<>();
 
         return new ViewHolder(postView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactsAdapter.ViewHolder viewHolder, int position) {
-         contacts.get(position);
+        String n = contacts.get(position);
+      //  Log.d("ContactsAdapter", n);
 
          viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
-         viewHolder.tvUserName.setText(contacts.toString());
-
-
-
+         viewHolder.tvUserName.setText(n);
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return contacts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
