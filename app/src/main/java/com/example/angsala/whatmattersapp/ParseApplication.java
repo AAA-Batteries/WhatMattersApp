@@ -35,5 +35,4 @@ public class ParseApplication extends Application{
         Parse.initialize(configuration);
     }
 
-
 }
