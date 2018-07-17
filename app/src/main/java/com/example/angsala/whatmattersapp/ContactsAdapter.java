@@ -42,8 +42,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ContactsAdapter.ViewHolder viewHolder, int position) {
          contacts.get(position);
-
-             viewHolder.tvUserName.setText((CharSequence) contacts);
+         viewHolder.tvUserName.setText((CharSequence) contacts);
 
 
 
