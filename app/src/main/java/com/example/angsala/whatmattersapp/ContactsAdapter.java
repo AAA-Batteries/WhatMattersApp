@@ -46,7 +46,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
          viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
-         viewHolder.tvUserName.setText(contacts.get(position));
+         viewHolder.tvUserName.setText(contacts.toString());
 
 
 

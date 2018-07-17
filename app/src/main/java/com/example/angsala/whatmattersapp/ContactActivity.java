@@ -1,6 +1,5 @@
 package com.example.angsala.whatmattersapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +15,16 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
-    User user;
+    private static final String TAG = "1" ;
+    ParseUser user;
     List<String> contacts;
     ContactsAdapter adapter;
     RecyclerView rvContacts;
@@ -39,7 +42,7 @@ public class ContactActivity extends AppCompatActivity {
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
-        mContacts();
+        mContacts(user);
 
     }
 
@@ -108,10 +111,11 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void mContacts(){
-        Intent mIntent = new Intent();
-        List<String> listHolder  =  mIntent.getStringArrayListExtra("contacts");
-        contacts.addAll(listHolder);
+    public void mContacts(ParseUser user){
+        user = Parcels.unwrap(getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
+        ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
+        Log.d(TAG, contactsTest.toString());
+        contacts.addAll(contactsTest);
         adapter.notifyItemInserted(contacts.size() - 1);
         Log.d("ContactsActivity", contacts.toString());
 
