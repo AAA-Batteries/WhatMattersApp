@@ -17,41 +17,42 @@ import com.parse.SignUpCallback;
 public class LoginActivity extends AppCompatActivity {
 
     static String TAG = "LoginActivity";
+    static int LOGIN_CODE = 1;
+    static int CREATE_CODE = 2;
     EditText loginUsername;
     EditText loginPassword;
     Button loginButton;
     Button createButton;
 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_login);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        //test
+      loginUsername = (EditText) findViewById(R.id.loginUsername);
+      loginPassword = (EditText) findViewById(R.id.loginPassword);
+      loginButton = (Button) findViewById(R.id.loginButton);
+      createButton = (Button) findViewById(R.id.createButton);
 
-        loginUsername = (EditText) findViewById(R.id.loginUsername);
-        loginPassword = (EditText) findViewById(R.id.loginPassword);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        createButton = (Button) findViewById(R.id.createButton);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
+      loginButton.setOnClickListener(
+          new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String username = loginUsername.getText().toString();
-                final String password = loginPassword.getText().toString();
-               loginHelper(username, password);
+              final String username = loginUsername.getText().toString();
+              final String password = loginPassword.getText().toString();
+              loginHelper(username, password);
             }
-        });
+          });
 
-
-        createButton.setOnClickListener(new View.OnClickListener() {
+      createButton.setOnClickListener(
+          new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String newusername = loginUsername.getText().toString();
-                final String newpassword = loginPassword.getText().toString();
-                createAccountHelper(newusername, newpassword);
+              final String newusername = loginUsername.getText().toString();
+              final String newpassword = loginPassword.getText().toString();
+              createAccountHelper(newusername, newpassword);
             }
-        });
+          });
     }
 
 
@@ -63,7 +64,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (user!= null){
                     Log.d(TAG, "Login successful");
                     Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                    //this extra is used to determine if the user is new or returning
+                    intent.putExtra("Code", LOGIN_CODE);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     Log.e(TAG, "Failed to login");
@@ -84,10 +88,12 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if(e == null){
                     Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                    intent.putExtra("Code", CREATE_CODE);
                     startActivity(intent);
+                    finish();
                 } else {
                     Log.e(TAG, "Failed to create Account");
-                    Toast.makeText(LoginActivity.this, "Create Account", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Failed to Create Account", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
