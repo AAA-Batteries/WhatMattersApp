@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +39,7 @@ public class ContactActivity extends AppCompatActivity {
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
-        MyContacts();
-
+        mContacts();
 
     }
 
@@ -107,6 +107,16 @@ public class ContactActivity extends AppCompatActivity {
         });
 
     }
+
+    public void mContacts(){
+        Intent mIntent = new Intent();
+        List<String> listHolder  =  mIntent.getStringArrayListExtra("contacts");
+        contacts.addAll(listHolder);
+        adapter.notifyItemInserted(contacts.size() - 1);
+        Log.d("ContactsActivity", contacts.toString());
+
+    }
+
 
 
 
