@@ -43,6 +43,7 @@ public class ContactActivity extends AppCompatActivity {
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
         mContacts(user);
+        Log.d("ContactActivty", contacts.toString());
 
     }
 
