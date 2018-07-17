@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -158,64 +159,13 @@ public class ChatActivity extends AppCompatActivity {
                             queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User1", currentId).whereEqualTo("User2", recipientId));
                             queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User2", currentId).whereEqualTo("User1", recipientId));
 
-                            ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-
-                            mainQuery.findInBackground(new FindCallback<ParseObject>() {
-                                public void done(List<ParseObject> objects, ParseException ex) {
-                                    if(ex != null) {
-                                        final int statusCode = ex.getCode();
-                                        if (statusCode == ParseException.OBJECT_NOT_FOUND) {
-                                            // Object did not exist on the parse backend, create new chat object
-                                            Chat chat = new Chat();
-                                            chat.setUser1(currentId);
-                                            chat.setUser2(recipientId);
-                                            chat.addMessage(message);
-
-                                            chat.saveInBackground(new SaveCallback() {
-                                                @Override
-                                                public void done(ParseException e) {
-                                                    if(e == null) {
-                                                        Toast.makeText(ChatActivity.this, "Successfully started a new chat!",
-                                                                Toast.LENGTH_SHORT).show();
-                                                    } else {
-                                                        Log.e(TAG, "Failed to send", e);
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                    else {
-                                        // No exception means the object exists
-                                    }
-                                }
-                            });
-                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "Failed to save message", e);
-                        }
-                    }
-                });
-
-                // check for existing chat between the two specified users, current and recipient
-                // create chat if non-existent
-                List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-
-                queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User1", currentId).whereEqualTo("User2", recipientId));
-                queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User2", currentId).whereEqualTo("User1", recipientId));
-
-                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-
-                mainQuery.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> objects, ParseException ex) {
-                        if(ex != null) {
-                            final int statusCode = ex.getCode();
-                            if (statusCode == ParseException.OBJECT_NOT_FOUND) {
+                            if (queries.get(0).getLimit() == -1 && queries.get(1).getLimit() == -1) {
                                 // Object did not exist on the parse backend, create new chat object
                                 Chat chat = new Chat();
                                 chat.setUser1(currentId);
                                 chat.setUser2(recipientId);
                                 chat.addMessage(message);
+                                queries.get(0).setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
                                 chat.saveInBackground(new SaveCallback() {
                                     @Override
@@ -228,14 +178,40 @@ public class ChatActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
+                            } else {
+                                ParseQuery<ParseObject> query;
+                                if (queries.get(0).getLimit() == -1) {
+                                    query = queries.get(0);
+                                    try {
+                                        // TODO
+                                    } catch (ParseException exception) {
+                                        exception.printStackTrace();
+                                    }
+                                } else {
+
+                                }
                             }
-                        }
-                        else {
-                            // No exception means the object exists
+
+//                            mainQuery.findInBackground(new FindCallback<ParseObject>() {
+//                                public void done(List<ParseObject> objects, ParseException ex) {
+//                                    if(ex != null) {
+//                                        final int statusCode = ex.getCode();
+//                                        if (statusCode == ParseException.OBJECT_NOT_FOUND) {
+//                                        }
+//                                    }
+//                                    else {
+//                                        // No exception means the object exists
+//                                    }
+//                                }
+//                            });
+
+                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "Failed to save message", e);
                         }
                     }
                 });
-
                 etMessage.setText(null);
             }
         });
