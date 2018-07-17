@@ -17,6 +17,9 @@ import com.parse.SignUpCallback;
 public class LoginActivity extends AppCompatActivity {
 
     static String TAG = "LoginActivity";
+    static String TOAST_CODE = "CODE";
+     int LOGIN_CODE = 1;
+     int CREATE_CODE = 2;
     EditText loginUsername;
     EditText loginPassword;
     Button loginButton;
@@ -62,7 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (user!= null){
                     Log.d(TAG, "Login successful");
-                    Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                    intent.putExtra(TOAST_CODE, LOGIN_CODE);
                     startActivity(intent);
                 }
                 else{
@@ -84,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if(e == null){
                     Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                    intent.putExtra(TOAST_CODE, CREATE_CODE);
                     startActivity(intent);
                 } else {
                     Log.e(TAG, "Failed to create Account");
