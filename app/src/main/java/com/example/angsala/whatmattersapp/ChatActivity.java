@@ -140,19 +140,12 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                // ParseObject message = ParseObject.create("Message");
-                // message.put(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
-                // message.put(BODY_KEY, data);
-
-                /*** START OF CHANGE **/
 
                 // Using new `Message` Parse-backed model now
                 final Message message = new Message();
                 message.setBody(data);
                 message.setUserSent(ParseUser.getCurrentUser().getObjectId());
                 message.setUserReceived(recipientId);
-
-                /*** END OF CHANGE **/
 
                 message.saveInBackground(new SaveCallback() {
                     @Override
@@ -162,20 +155,40 @@ public class ChatActivity extends AppCompatActivity {
                             // create chat if non-existent
                             List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
 
-                            queries.add(ParseQuery.getQuery("Chat").whereMatches("User1", currentId).whereMatches("User2", recipientId));
-                            queries.add(ParseQuery.getQuery("Chat").whereMatches("User2", currentId).whereMatches("User1", recipientId));
+                            queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User1", currentId).whereEqualTo("User2", recipientId));
+                            queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User2", currentId).whereEqualTo("User1", recipientId));
 
-                            if (queries.size() != 0) {
-                                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-                            } else {
-                                Chat chat = new Chat();
-                                chat.setUser1(currentId);
-                                chat.setUser2(recipientId);
-                                chat.addMessage(message);
+                            ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
 
-                                chat.saveInBackground();
-                            }
+                            mainQuery.findInBackground(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> objects, ParseException ex) {
+                                    if(ex != null) {
+                                        final int statusCode = ex.getCode();
+                                        if (statusCode == ParseException.OBJECT_NOT_FOUND) {
+                                            // Object did not exist on the parse backend, create new chat object
+                                            Chat chat = new Chat();
+                                            chat.setUser1(currentId);
+                                            chat.setUser2(recipientId);
+                                            chat.addMessage(message);
 
+                                            chat.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if(e == null) {
+                                                        Toast.makeText(ChatActivity.this, "Successfully started a new chat!",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Log.e(TAG, "Failed to send", e);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        // No exception means the object exists
+                                    }
+                                }
+                            });
                             Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -183,6 +196,46 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+                // check for existing chat between the two specified users, current and recipient
+                // create chat if non-existent
+                List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+
+                queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User1", currentId).whereEqualTo("User2", recipientId));
+                queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User2", currentId).whereEqualTo("User1", recipientId));
+
+                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+
+                mainQuery.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> objects, ParseException ex) {
+                        if(ex != null) {
+                            final int statusCode = ex.getCode();
+                            if (statusCode == ParseException.OBJECT_NOT_FOUND) {
+                                // Object did not exist on the parse backend, create new chat object
+                                Chat chat = new Chat();
+                                chat.setUser1(currentId);
+                                chat.setUser2(recipientId);
+                                chat.addMessage(message);
+
+                                chat.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if(e == null) {
+                                            Toast.makeText(ChatActivity.this, "Successfully started a new chat!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Log.e(TAG, "Failed to send", e);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            // No exception means the object exists
+                        }
+                    }
+                });
+
                 etMessage.setText(null);
             }
         });
