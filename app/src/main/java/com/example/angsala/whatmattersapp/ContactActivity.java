@@ -1,14 +1,10 @@
 package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
@@ -18,90 +14,64 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
-<<<<<<< HEAD
 static String TAG = "ContactActivity";
+  User user;
+    List<String> contacts;
+    ContactsAdapter adapter;
+   RecyclerView rvContacts;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_contact);
 
-    makeToast();
+//    Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
+//    setSupportActionBar(myToolbar);
+//    contacts = new ArrayList<>();
+//    // contacts = user.getContacts();
+//    adapter = new ContactsAdapter(contacts);
+//    rvContacts = findViewById(R.id.rvContacts);
+//    rvContacts.setLayoutManager(new LinearLayoutManager(this));
+//    rvContacts.setAdapter(adapter);
+    getmyContacts();
+
+
+
   }
 
-  private void makeToast() {
-    // if 10, then something has gone wrong
-    int i = getIntent().getIntExtra("CODE", 10);
-
-    if (i == 1) {
-      Toast.makeText(
-              ContactActivity.this,
-              "Welcome Back " + ParseUser.getCurrentUser().getUsername(),
-              Toast.LENGTH_LONG)
-          .show();
-    } else if (i == 2) {
-        Toast.makeText(
-                ContactActivity.this,
-                "Welcome " + ParseUser.getCurrentUser().getUsername(),
-                Toast.LENGTH_LONG)
-                .show();
-    } else {
-        Log.e(TAG, "Error, kind of user not found");
-=======
-    User user;
-    List<String> contacts;
-    ContactsAdapter adapter;
-    RecyclerView rvContacts;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
-        setSupportActionBar(myToolbar);
-        contacts = new ArrayList<>();
-        // contacts = user.getContacts();
-        adapter = new ContactsAdapter(contacts);
-        rvContacts = findViewById(R.id.rvContacts);
-        rvContacts.setLayoutManager(new LinearLayoutManager(this));
-        rvContacts.setAdapter(adapter);
-        getmyContacts();
 
 
->>>>>>> b92755a92309771457fdd9f6a48473a8142003aa
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.contact_items, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addContact:
-                DialogFragment dialogFragment = new ContactFragment();
-                dialogFragment.show(getSupportFragmentManager(), "contacts");
-                return true;
-
-           /* case R.id.action_favorite:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                return true;*/
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
-
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.contact_items, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.addContact:
+//                DialogFragment dialogFragment = new ContactFragment();
+//                dialogFragment.show(getSupportFragmentManager(), "contacts");
+//                return true;
+//
+//           /* case R.id.action_favorite:
+//                // User chose the "Favorite" action, mark the current item
+//                // as a favorite...
+//                return true;*/
+//
+//            default:
+//                // If we got here, the user's action was not recognized.
+//                // Invoke the superclass to handle it.
+//                return super.onOptionsItemSelected(item);
+//
+//        }
+//
+//    }
 
     public void MyContacts() {
 
@@ -142,25 +112,50 @@ static String TAG = "ContactActivity";
 
  public void getmyContacts(){
 
-        ParseQuery<User> query = ParseQuery.getQuery("User");
-        query.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<User>() {
-            
-            @Override
-            public void done(User object, ParseException e) {
-                if (e == null){
-                    contacts = object.getContacts();
-                    Log.d("ContactsActivity", contacts.toString());
+       ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-                }
+       query.getInBackground("QsOMIfSlQf", new GetCallback<ParseUser>() {
+           @Override
+           public void done(ParseUser object, ParseException e) {
 
-                else{
-                    e.printStackTrace();
-                }
-            }
-        });
+           }
+       });
+        //query.getInBackground("QsOMIfSlQf", new GetCallback<User>() {
+
+//            @Override
+//            public void done(User object, ParseException e) {
+//                if (e == null){
+//                    contacts = object.getContacts();
+//                    Log.d("ContactsActivity", contacts.toString());
+//                }
+//                else{
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
  }
 
 
 
+  private void makeToast() {
+    // if 10, then something has gone wrong
+    int i = getIntent().getIntExtra("CODE", 10);
+
+    if (i == 1) {
+      Toast.makeText(
+              ContactActivity.this,
+              "Welcome Back " + ParseUser.getCurrentUser().getUsername(),
+              Toast.LENGTH_LONG)
+              .show();
+    } else if (i == 2) {
+      Toast.makeText(
+              ContactActivity.this,
+              "Welcome " + ParseUser.getCurrentUser().getUsername(),
+              Toast.LENGTH_LONG)
+              .show();
+    } else {
+      Log.e(TAG, "Error, kind of user not found");
+    }
+  }
 
 }
