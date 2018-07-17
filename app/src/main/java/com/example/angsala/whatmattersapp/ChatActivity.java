@@ -53,10 +53,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-    public ChatActivity(String givenRecipient) {
-        recipient = givenRecipient;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,5 +197,8 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    public void setRecipient(String givenRecipient) {
+        recipient = givenRecipient;
+    }
 
 }
