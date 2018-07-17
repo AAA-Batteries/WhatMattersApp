@@ -147,9 +147,10 @@ public class ChatActivity extends AppCompatActivity {
                 /*** START OF CHANGE **/
 
                 // Using new `Message` Parse-backed model now
-                Message message = new Message();
+                final Message message = new Message();
                 message.setBody(data);
-                message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                message.setUserSent(ParseUser.getCurrentUser().getObjectId());
+                message.setUserReceived(recipientId);
 
                 /*** END OF CHANGE **/
 
@@ -157,7 +158,24 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if(e == null) {
-                            mAdapter.notifyDataSetChanged();
+                            // check for existing chat between the two specified users, current and recipient
+                            // create chat if non-existent
+                            List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+
+                            queries.add(ParseQuery.getQuery("Chat").whereMatches("User1", currentId).whereMatches("User2", recipientId));
+                            queries.add(ParseQuery.getQuery("Chat").whereMatches("User2", currentId).whereMatches("User1", recipientId));
+
+                            if (queries.size() != 0) {
+                                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+                            } else {
+                                Chat chat = new Chat();
+                                chat.setUser1(currentId);
+                                chat.setUser2(recipientId);
+                                chat.addMessage(message);
+
+                                chat.saveInBackground();
+                            }
+
                             Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                     Toast.LENGTH_SHORT).show();
                         } else {
