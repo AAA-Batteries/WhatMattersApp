@@ -133,26 +133,5 @@ public class LoginActivity extends AppCompatActivity {
             }
           }
         });
-    // end of new code
-
-    //        ParseUser newUser = new ParseUser();
-    //        newUser.setUsername(mUsername);
-    //        newUser.setPassword(mPassword);
-    //
-    //        newUser.signUpInBackground(new SignUpCallback() {
-    //            @Override
-    //            public void done(ParseException e) {
-    //                if(e == null){
-    //                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
-    //                    intent.putExtra(TOAST_CODE, CREATE_CODE);
-    //                    startActivity(intent);
-    //                } else {
-    //                    Log.e(TAG, "Failed to create Account");
-    //                    Toast.makeText(LoginActivity.this, "Create Account",
-    // Toast.LENGTH_LONG).show();
-    //                    e.printStackTrace();
-    //                }
-    //            }
-    //        });
   }
 }
