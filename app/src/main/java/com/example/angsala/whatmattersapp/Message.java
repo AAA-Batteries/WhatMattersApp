@@ -13,13 +13,25 @@ public class Message extends ParseObject {
     public static final String BODY_KEY = "body";
 
     public String getUserSent() {
-        ParseUser userSent = (ParseUser) get(USER_SENT_KEY);
-        return userSent.getObjectId();
+        try {
+            this.fetchIfNeeded();
+            ParseUser userSent = (ParseUser) get(USER_SENT_KEY);
+            return userSent.getObjectId();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String getUserReceived() {
-        ParseUser userReceived = (ParseUser) get(USER_RECEIVED_KEY);
-        return userReceived.getObjectId();
+        try {
+            this.fetchIfNeeded();
+            ParseUser userReceived = (ParseUser) get(USER_RECEIVED_KEY);
+            return userReceived.getObjectId();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String getBody() {

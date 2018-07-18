@@ -44,8 +44,10 @@ public class Chat extends ParseObject {
 
     public void addMessage(Message message) {
         ArrayList<Message> curr = getMessages();
+        if (curr == null) {
+            curr = new ArrayList<>();
+        }
         curr.add(message);
-        put(MESSAGE_KEY, curr);
+        this.put(MESSAGE_KEY, curr);
     }
-
 }
