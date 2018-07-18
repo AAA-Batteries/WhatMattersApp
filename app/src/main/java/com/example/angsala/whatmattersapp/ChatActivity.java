@@ -146,11 +146,12 @@ public class ChatActivity extends AppCompatActivity {
                 String data = etMessage.getText().toString();
 
                 // Using new `Message` Parse-backed model now
-                final Message message = new Message();
+                Message message = new Message();
                 message.setBody(data);
                 message.setUserSent(ParseUser.getCurrentUser().getObjectId());
                 message.setUserReceived(recipientId);
 
+                final Message tempMessage = message;
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -183,14 +184,10 @@ public class ChatActivity extends AppCompatActivity {
                                 public void done(List<ParseObject> object, ParseException e) {
                                     if(!object.isEmpty()) {
                                         // query object exists
-                                        ParseQuery<ParseObject> query = finalQuery1;
-                                        try {
-                                            // add new message to the chat log
-                                            Chat chat = (Chat) query.getFirst();
-                                            chat.addMessage(message);
-                                        } catch (ParseException exception) {
-                                            exception.printStackTrace();
-                                        }
+                                        // add new message to the chat log
+                                        Chat chat = (Chat) object.get(0);
+                                        chat.addMessage(tempMessage);
+                                        chat.saveInBackground();
                                     }
                                     else {
                                         // query object doesn't exist with current user as user1, check for current user as user2
@@ -198,21 +195,16 @@ public class ChatActivity extends AppCompatActivity {
                                             public void done(List<ParseObject> object, ParseException e) {
                                                 if(!object.isEmpty()) {
                                                     // query object exists
-                                                    ParseQuery<ParseObject> query = finalQuery2;
-                                                    try {
-                                                        // add new message to the chat log
-                                                        Chat chat = (Chat) query.getFirst();
-                                                        chat.addMessage(message);
-                                                    } catch (ParseException exception) {
-                                                        exception.printStackTrace();
-                                                    }
+                                                    // add new message to the chat log
+                                                    Chat chat = (Chat) object.get(0);
+                                                    chat.addMessage(tempMessage);
                                                 }
                                                 else {
                                                     // query object did not exist on the parse backend, create new chat object
                                                     Chat chat = new Chat();
                                                     chat.setUser1(currentId);
                                                     chat.setUser2(recipientId);
-                                                    chat.addMessage(message);
+                                                    chat.addMessage(tempMessage);
 
                                                     chat.saveInBackground(new SaveCallback() {
                                                         @Override
