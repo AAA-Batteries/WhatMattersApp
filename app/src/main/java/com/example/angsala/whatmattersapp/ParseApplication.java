@@ -14,6 +14,7 @@ public class ParseApplication extends Application {
     super.onCreate();
     ParseObject.registerSubclass(Message.class);
     ParseObject.registerSubclass(Chat.class);
+    ParseObject.registerSubclass(User.class);
 
     // Use for monitoring Parse network traffic
     OkHttpClient.Builder builder = new OkHttpClient.Builder();

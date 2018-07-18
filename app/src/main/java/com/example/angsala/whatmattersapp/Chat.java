@@ -7,7 +7,6 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
-
 @ParseClassName("Chat")
 public class Chat extends ParseObject {
     public static final String USER_1_KEY = "User1";
