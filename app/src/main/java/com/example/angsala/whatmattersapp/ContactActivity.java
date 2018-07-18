@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -56,6 +57,8 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         rvContacts.setAdapter(adapter);
         mContacts(user);
         Log.d("ContactActivity", contacts.toString());
+       // userExists("FakeJill");
+
 
 
     }
@@ -84,6 +87,7 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         List<String> contactsTest = (List<String>) user.get("contacts");
         if (contactsTest != null) {
             contacts.addAll(contactsTest);
+            Log.d("Exist", contacts.toString());
             adapter.notifyItemInserted(contacts.size() - 1);
         }
     }
@@ -108,7 +112,12 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         testuser = userName;
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
-        myHandler.postDelayed(runnable, 5000);
+        if (!userExists(testuser)) {
+            myHandler.postDelayed(runnable, 5000);
+        } else {
+            Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void checkVerified(String verified) {
@@ -130,7 +139,9 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
                 }
             }
         });
+    }
 
-
+    public boolean userExists(String userExist){
+        return  contacts.contains(userExist);
     }
 }

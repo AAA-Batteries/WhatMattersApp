@@ -1,4 +1,4 @@
-package com.example.angsala.whatmattersapp.model;
+package com.example.angsala.whatmattersapp;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -13,9 +13,7 @@ public class User extends ParseObject {
   private static final String CONTACTS = "contacts";
   private static final String KEY_USER = "username";
 
-  public User() {}
-
-  public static String getKeyUser() {
+  public static String getUser() {
     return KEY_USER;
   }
 
