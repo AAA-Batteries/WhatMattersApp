@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -73,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (user!= null){
                     Log.d(TAG, "Login successful");
-                    Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
 
                     intent.putExtra(TOAST_CODE, LOGIN_CODE);
                     ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
@@ -93,29 +95,62 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         public void createAccountHelper(String mUsername, String mPassword){
-        ParseUser newUser = new ParseUser();
-        newUser.setUsername(mUsername);
-        newUser.setPassword(mPassword);
-
-        newUser.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null){
-                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
-                    intent.putExtra(TOAST_CODE, CREATE_CODE);
-                    startActivity(intent);
-                } else {
-                    Log.e(TAG, "Failed to create Account");
-                    Toast.makeText(LoginActivity.this, "Create Account", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
+        //start of new code- determine if Username is taken
+        final String u = mUsername;
+        final String p = mPassword;
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("username", u);
+            query.countInBackground(new CountCallback() {
+                @Override
+                public void done(int count, ParseException e) {
+                    if (e == null){
+                        if (count == 0){
+                            final ParseUser newUser = new ParseUser();
+                            newUser.setUsername(u);
+                            newUser.setPassword(p);
+                            newUser.signUpInBackground(new SignUpCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null){
+                                        Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                                        intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
+                                        intent.putExtra(TOAST_CODE, CREATE_CODE);
+                                        startActivity(intent);
+                                    } else {
+                                        Log.e(TAG, "Failed to create Account");
+                                        Toast.makeText(LoginActivity.this, "Failed to Create Account", Toast.LENGTH_LONG).show();
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } else{
+                            Log.d(TAG, "Username has already been taken");
+                            Toast.makeText(LoginActivity.this, "Username taken", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
-            }
-        });
-<<<<<<< HEAD
+            });
+
+        //end of new code
+//        ParseUser newUser = new ParseUser();
+//        newUser.setUsername(mUsername);
+//        newUser.setPassword(mPassword);
+//
+//        newUser.signUpInBackground(new SignUpCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if(e == null){
+//                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+//                    intent.putExtra(TOAST_CODE, CREATE_CODE);
+//                    startActivity(intent);
+//                } else {
+//                    Log.e(TAG, "Failed to create Account");
+//                    Toast.makeText(LoginActivity.this, "Create Account", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
   }
-=======
         }
 
 
->>>>>>> 9c0053887e23c117f704b43b2dceb5f3e7f0754e
-}
