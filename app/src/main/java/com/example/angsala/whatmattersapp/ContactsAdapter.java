@@ -70,11 +70,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
       int viewPosition = getAdapterPosition();
       if (viewPosition != RecyclerView.NO_POSITION){
         String message = contacts.get(viewPosition);
-        ChatActivity.setRecipient(message);
         Intent chatIntent = new Intent (context, ChatActivity.class);
-        context.startActivity(chatIntent);
-
-
+        chatIntent.putExtra("UsernameSelected", message);
+         context.startActivity(chatIntent);
       }
     }
   }
