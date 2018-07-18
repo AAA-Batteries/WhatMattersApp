@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (user!= null){
                     Log.d(TAG, "Login successful");
-                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
 
                     intent.putExtra(TOAST_CODE, LOGIN_CODE);
                     ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");

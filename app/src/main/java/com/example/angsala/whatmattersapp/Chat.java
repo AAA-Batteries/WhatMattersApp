@@ -5,6 +5,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+
 
 @ParseClassName("Chat")
 public class Chat extends ParseObject {
@@ -12,11 +14,17 @@ public class Chat extends ParseObject {
     public static final String USER_2_KEY = "User2";
     public static final String MESSAGE_KEY = "Messages";
 
-    public String getUser1() { return getString(USER_1_KEY); }
+    public String getUser1() {
+        ParseUser user1 = (ParseUser) get(USER_1_KEY);
+        return user1.getObjectId();
+    }
 
-    public String getUser2() { return getString(USER_2_KEY); }
+    public String getUser2() {
+        ParseUser user2 = (ParseUser) get(USER_2_KEY);
+        return user2.getObjectId();
+    }
 
-    public Message[] getMessages() { return (Message[]) get(MESSAGE_KEY); }
+    public ArrayList<Message> getMessages() { return (ArrayList<Message>) get(MESSAGE_KEY); }
 
     public void setUser1(String userId) {
         try {
@@ -35,19 +43,9 @@ public class Chat extends ParseObject {
     }
 
     public void addMessage(Message message) {
-        Object[] curr = getMessages();
-        Object[] messages;
-        if (curr == null) {
-            messages = new Message[1];
-            messages[0] = message;
-        } else {
-            messages = new Message[curr.length + 1];
-            for (int index = 0; index < curr.length; index++) {
-                messages[index] = curr[index];
-            }
-            messages[messages.length - 1] = message;
-        }
-        add(MESSAGE_KEY, message.getObjectId());
+        ArrayList<Message> curr = getMessages();
+        curr.add(message);
+        put(MESSAGE_KEY, curr);
     }
 
 }

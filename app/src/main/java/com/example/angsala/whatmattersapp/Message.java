@@ -13,10 +13,14 @@ public class Message extends ParseObject {
     public static final String BODY_KEY = "body";
 
     public String getUserSent() {
-        return getString(USER_SENT_KEY);
+        ParseUser userSent = (ParseUser) get(USER_SENT_KEY);
+        return userSent.getObjectId();
     }
 
-    public String getUserReceived() { return getString(USER_RECEIVED_KEY); }
+    public String getUserReceived() {
+        ParseUser userReceived = (ParseUser) get(USER_RECEIVED_KEY);
+        return userReceived.getObjectId();
+    }
 
     public String getBody() {
         return getString(BODY_KEY);
