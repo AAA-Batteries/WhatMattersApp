@@ -44,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
-    static String recipientId = "PWoOLhNXGX";
+    static String recipientId = "QsOMIfSlQf";
     static String currentId;
 
     // Create a handler which can run code periodically
@@ -54,6 +54,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
             refreshMessages();
+            myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
         }
     };
 
@@ -61,6 +62,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
 
         // Make sure the Parse server is setup to configured for live queries
@@ -193,6 +195,7 @@ public class ChatActivity extends AppCompatActivity {
                                                     // add new message to the chat log
                                                     Chat chat = (Chat) object.get(0);
                                                     chat.addMessage(tempMessage);
+                                                    chat.saveInBackground();
                                                 }
                                                 else {
                                                     // query object between the two users did not exist on the parse backend, create new chat object
@@ -218,7 +221,9 @@ public class ChatActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
+                            // reload the screen and notify user of successful new message creation
+                            refreshMessages();
+                            mAdapter.notifyDataSetChanged();
                             Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                     Toast.LENGTH_SHORT).show();
                         } else {
