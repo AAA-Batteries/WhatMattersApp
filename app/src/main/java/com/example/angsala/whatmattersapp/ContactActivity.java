@@ -116,14 +116,16 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
 
     }
 
-    public void mContacts(ParseUser user){
-        user = Parcels.unwrap(getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
-        ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
-        Log.d(TAG, contactsTest.toString());
-        contacts.addAll(contactsTest);
-        adapter.notifyItemInserted(contacts.size() - 1);
-        Log.d("ContactsActivity", contacts.toString());
-
+  public void mContacts(ParseUser user) {
+    user = Parcels.unwrap(getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
+    List<String> contactsTest = (List<String>) user.get("contacts");
+    //  Log.d(TAG, contactsTest.toString());
+    //  Log.d(TAG, contactsTest.get(0) + "ONE JERRY");
+    if (contactsTest != null) {
+      contacts.addAll(contactsTest);
+      adapter.notifyItemInserted(contacts.size() - 1);
+      //   Log.d("ContactsActivity", contacts.toString());
+    }
     }
 
     public List<String> addContacts(String newUser){

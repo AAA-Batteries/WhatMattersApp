@@ -34,19 +34,23 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_contact, parent, false);
 
+//        user = new User();
+//        contacts = new ArrayList<>();
+
         return new ViewHolder(postView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactsAdapter.ViewHolder viewHolder, int position) {
-         contacts.get(position);
+        String n = contacts.get(position);
+      //  Log.d("ContactsAdapter", n);
 
          viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
+         viewHolder.tvUserName.setText(n);
         for (int i = 0; i < contacts.size(); i++){
             viewHolder.tvUserName.setText(contacts.get(position));
         }
-
 
 
     }

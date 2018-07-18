@@ -20,9 +20,10 @@
 
     <TextView
         android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="292dp"
+        android:layout_height="84dp"
         android:layout_alignBottom="@+id/contactImage"
+        android:layout_marginBottom="-65dp"
         android:layout_toEndOf="@+id/contactImage"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="99dp" />
