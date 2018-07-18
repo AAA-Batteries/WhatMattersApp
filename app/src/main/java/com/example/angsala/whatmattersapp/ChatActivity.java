@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
@@ -44,7 +45,7 @@ public class ChatActivity extends AppCompatActivity {
     boolean mFirstLoad;
 
     static String recipientId = "PWoOLhNXGX";
-    static String currentId = ParseUser.getCurrentUser().getObjectId();
+    static String currentId;
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -60,6 +61,8 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        currentId = ParseUser.getCurrentUser().getObjectId();
 
         // Make sure the Parse server is setup to configured for live queries
         // URL for server is determined by Parse.initialize() call.
@@ -152,58 +155,82 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if(e == null) {
-                            // check for existing chat between the two specified users, current and recipient
+                            // create queries to check for existing chat between the two specified users, current and recipient
                             // create chat if non-existent
-                            List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-
-                            queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User1", currentId).whereEqualTo("User2", recipientId));
-                            queries.add(ParseQuery.getQuery("Chat").whereEqualTo("User2", currentId).whereEqualTo("User1", recipientId));
-
-                            if (queries.get(0).getLimit() == -1 && queries.get(1).getLimit() == -1) {
-                                // Object did not exist on the parse backend, create new chat object
-                                Chat chat = new Chat();
-                                chat.setUser1(currentId);
-                                chat.setUser2(recipientId);
-                                chat.addMessage(message);
-                                queries.get(0).setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-
-                                chat.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(ChatActivity.this, "Successfully started a new chat!",
-                                                    Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Log.e(TAG, "Failed to send", e);
-                                        }
-                                    }
-                                });
-                            } else {
-                                ParseQuery<ParseObject> query;
-                                if (queries.get(0).getLimit() == -1) {
-                                    query = queries.get(0);
-                                    try {
-                                        // TODO
-                                    } catch (ParseException exception) {
-                                        exception.printStackTrace();
-                                    }
-                                } else {
-
-                                }
+                            ParseQuery<ParseObject> query1 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
+                            try {
+                                query1 = ParseQuery.getQuery("Chat")
+                                        .whereEqualTo("User1", ParseUser.getQuery().get(currentId))
+                                        .whereEqualTo("User2", ParseUser.getQuery().get(recipientId));
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
                             }
 
-//                            mainQuery.findInBackground(new FindCallback<ParseObject>() {
-//                                public void done(List<ParseObject> objects, ParseException ex) {
-//                                    if(ex != null) {
-//                                        final int statusCode = ex.getCode();
-//                                        if (statusCode == ParseException.OBJECT_NOT_FOUND) {
-//                                        }
-//                                    }
-//                                    else {
-//                                        // No exception means the object exists
-//                                    }
-//                                }
-//                            });
+                            ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
+                            try {
+                                query2 = ParseQuery.getQuery("Chat")
+                                        .whereEqualTo("User1", ParseUser.getQuery().get(recipientId))
+                                        .whereEqualTo("User2", ParseUser.getQuery().get(currentId));
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            Log.d("ChatActivity", "current: " + currentId + " recipientId" + recipientId);
+
+                            final ParseQuery<ParseObject> finalQuery1 = query1;
+                            final ParseQuery<ParseObject> finalQuery2 = query2;
+                            finalQuery1.findInBackground(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> object, ParseException e) {
+                                    if(!object.isEmpty()) {
+                                        // query object exists
+                                        ParseQuery<ParseObject> query = finalQuery1;
+                                        try {
+                                            // add new message to the chat log
+                                            Chat chat = (Chat) query.getFirst();
+                                            chat.addMessage(message);
+                                        } catch (ParseException exception) {
+                                            exception.printStackTrace();
+                                        }
+                                    }
+                                    else {
+                                        // query object doesn't exist with current user as user1, check for current user as user2
+                                        finalQuery2.findInBackground(new FindCallback<ParseObject>() {
+                                            public void done(List<ParseObject> object, ParseException e) {
+                                                if(!object.isEmpty()) {
+                                                    // query object exists
+                                                    ParseQuery<ParseObject> query = finalQuery2;
+                                                    try {
+                                                        // add new message to the chat log
+                                                        Chat chat = (Chat) query.getFirst();
+                                                        chat.addMessage(message);
+                                                    } catch (ParseException exception) {
+                                                        exception.printStackTrace();
+                                                    }
+                                                }
+                                                else {
+                                                    // query object did not exist on the parse backend, create new chat object
+                                                    Chat chat = new Chat();
+                                                    chat.setUser1(currentId);
+                                                    chat.setUser2(recipientId);
+                                                    chat.addMessage(message);
+
+                                                    chat.saveInBackground(new SaveCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            if(e == null) {
+                                                                Toast.makeText(ChatActivity.this, "Successfully started a new chat!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            } else {
+                                                                Log.e(TAG, "Failed to send", e);
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
 
                             Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                     Toast.LENGTH_SHORT).show();

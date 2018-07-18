@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/miCompose"
-        android:icon="@mipmap/ic_launcher_round"
+        android:id="@+id/addContact"
+        android:icon="@android:drawable/ic_input_add"
         android:title="Compose"
         app:showAsAction="ifRoom"></item>
-
-    <item
-        android:id="@+id/addContact"
-        android:enabled="true"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="" />
 
 </menu>

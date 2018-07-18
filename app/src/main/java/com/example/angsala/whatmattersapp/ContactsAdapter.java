@@ -34,6 +34,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_contact, parent, false);
 
+//        user = new User();
+//        contacts = new ArrayList<>();
+
         return new ViewHolder(postView);
     }
 
@@ -48,6 +51,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         for (int i = 0; i < contacts.size(); i++){
             viewHolder.tvUserName.setText(contacts.get(position));
         }
+
 
     }
 
