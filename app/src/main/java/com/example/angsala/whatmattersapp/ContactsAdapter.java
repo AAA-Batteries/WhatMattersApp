@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,7 +56,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     return contacts.size();
   }
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
+  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     ImageView contactImage;
     TextView tvUserName;
 
@@ -63,6 +64,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
       super(itemView);
       contactImage = itemView.findViewById(R.id.contactImage);
       tvUserName = itemView.findViewById(R.id.tvUserName);
+      itemView.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+      int viewPosition = getAdapterPosition();
+      if (viewPosition != RecyclerView.NO_POSITION){
+        String message = contacts.get(viewPosition);
+        ChatActivity.setRecipient(message);
+        Intent chatIntent = new Intent (context, ChatActivity.class);
+        context.startActivity(chatIntent);
+
+
+      }
     }
   }
 }

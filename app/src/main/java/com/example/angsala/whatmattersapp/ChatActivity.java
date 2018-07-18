@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
@@ -41,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
   // Keep track of initial load to scroll to the bottom of the ListView
   boolean mFirstLoad;
 
-  static String recipientId = "QsOMIfSlQf";
+  static String recipientId;
   static String currentId;
 
   // Create a handler which can run code periodically
@@ -63,7 +64,7 @@ public class ChatActivity extends AppCompatActivity {
     // set current user reference for future use
     currentId = ParseUser.getCurrentUser().getObjectId();
 
-    // Make sure the Parse server is setup to configured for live queries
+      // Make sure the Parse server is setup to configured for live queries
     // URL for server is determined by Parse.initialize() call.
     ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
@@ -307,9 +308,21 @@ public class ChatActivity extends AppCompatActivity {
             }
           }
         });
-  }
+    }
 
-  public void setRecipient(String givenRecipient) {
-    recipientId = givenRecipient;
-  }
+    // using the name of the given recipient, find that user's object id and assign it to recipientId variable
+    public static void setRecipient(final String recipientName) {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("User").whereEqualTo("username", recipientName);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null && object != null) {
+                    ParseUser recipient = (ParseUser) object;
+                    recipientId = recipient.getObjectId();
+                } else {
+                    Log.d("User cannot be found: ", recipientName);
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
