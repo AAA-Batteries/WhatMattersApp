@@ -42,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
   // Keep track of initial load to scroll to the bottom of the ListView
   boolean mFirstLoad;
 
-  static String recipientId = "QsOMIfSlQf";
+  static String recipientId;
   static String currentId;
 
   // Create a handler which can run code periodically
@@ -64,7 +64,7 @@ public class ChatActivity extends AppCompatActivity {
     // set current user reference for future use
     currentId = ParseUser.getCurrentUser().getObjectId();
 
-    // Make sure the Parse server is setup to configured for live queries
+      // Make sure the Parse server is setup to configured for live queries
     // URL for server is determined by Parse.initialize() call.
     ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
