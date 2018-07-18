@@ -1,33 +1,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <ImageView
-        android:src="@drawable/ic_launcher_foreground"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:background="@android:color/holo_blue_bright"
+        android:contentDescription="@string/app_name"
         android:scaleType="center"
-        android:background="#FFFFBB33"
-        android:contentDescription="@string/app_name" />
+        android:src="@drawable/ic_launcher_foreground"
+        app:srcCompat="@android:drawable/ic_menu_add" />
+
     <EditText
-        android:id="@+id/username"
-        android:inputType="textEmailAddress"
+        android:id="@+id/newUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Username" />
-    <EditText
-        android:id="@+id/password"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif"
-        android:hint="Password"/>
+        android:layout_marginTop="16dp"
+        android:hint="Username"
+        android:inputType="textEmailAddress" />
 </LinearLayout>

@@ -22,17 +22,19 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactActivity extends AppCompatActivity {
+public class ContactActivity extends AppCompatActivity implements ContactFragment.ContactFragmentListener {
     private static final String TAG = "1" ;
     ParseUser user;
     ArrayList<String> contacts;
     ContactsAdapter adapter;
     RecyclerView rvContacts;
+    String testuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+        user = ParseUser.getCurrentUser();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(myToolbar);
@@ -57,8 +59,10 @@ public class ContactActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addContact:
+
                 DialogFragment dialogFragment = new ContactFragment();
                 dialogFragment.show(getSupportFragmentManager(), "contacts");
+                openDialog();
                 return true;
 
            /* case R.id.action_favorite:
@@ -124,9 +128,28 @@ public class ContactActivity extends AppCompatActivity {
     }
     }
 
+    public List<String> addContacts(String newUser){
+        user.add("contacts", newUser);
+        contacts.add(newUser);
+        user.saveInBackground();
+        adapter.notifyItemInserted(contacts.size() - 1);
+
+        Log.d("ContactzActivity", contacts.toString());
+        return contacts;
+
+    }
+
+    public void openDialog(){
+        ContactFragment contactFragment = new ContactFragment();
+        contactFragment.show(getSupportFragmentManager(), "contact fragment");
+    }
 
 
+    @Override
+    public void applyTexts(String userName) {
+        testuser = userName;
+        Log.d("ContactActivity", testuser);
+        addContacts(testuser);
 
-
-
+    }
 }
