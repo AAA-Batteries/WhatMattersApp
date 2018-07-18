@@ -24,6 +24,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +63,10 @@ public class ChatActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // set current user reference for future use
+    SubscriptionHandling.Event event = Parcels.unwrap(getIntent().getParcelableExtra("Recipient"));
+    
+
+      // set current user reference for future use
     currentId = ParseUser.getCurrentUser().getObjectId();
 
       // Make sure the Parse server is setup to configured for live queries
