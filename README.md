@@ -3,7 +3,7 @@ Messaging app that specializes in prioritization
 
 ## July 18 Update
 - [X] - Finished login implementation
-= [X] - Created contacts page
+- [X] - Created contacts page
 - [X] - Implemented direct messages via chats between two users
 
 ## July 13 Update:
