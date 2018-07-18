@@ -283,7 +283,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     // using the name of the given recipient, find that user's object id and assign it to recipientId variable
-    public void setRecipient(final String recipientName) {
+    public static void setRecipient(final String recipientName) {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("User").whereEqualTo("username", recipientName);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
