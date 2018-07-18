@@ -1,7 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,8 +59,8 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         switch (item.getItemId()) {
             case R.id.addContact:
 
-                DialogFragment dialogFragment = new ContactFragment();
-                dialogFragment.show(getSupportFragmentManager(), "contacts");
+                //DialogFragment dialogFragment = new ContactFragment();
+               // dialogFragment.show(getSupportFragmentManager(), "contacts");
                 openDialog();
                 return true;
 
