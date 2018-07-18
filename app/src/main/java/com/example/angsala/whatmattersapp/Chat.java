@@ -24,7 +24,7 @@ public class Chat extends ParseObject {
         return user2.getObjectId();
     }
 
-    public ArrayList<String> getMessages() { return (ArrayList<String>) get(MESSAGE_KEY); }
+    public ArrayList<Message> getMessages() { return (ArrayList<Message>) get(MESSAGE_KEY); }
 
     public void setUser1(String userId) {
         try {
@@ -43,12 +43,11 @@ public class Chat extends ParseObject {
     }
 
     public void addMessage(Message message) {
-        ArrayList<String> curr = getMessages();
+        ArrayList<Message> curr = getMessages();
         if (curr == null) {
             curr = new ArrayList<>();
         }
-        curr.add(message.getObjectId());
+        curr.add(message);
         this.put(MESSAGE_KEY, curr);
     }
-
 }

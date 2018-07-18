@@ -92,6 +92,34 @@ public class LoginActivity extends AppCompatActivity {
         });
   }
 
+  //    public void loginHelper(String mUsername, String mPassword){
+  //
+  //        ParseUser.logInInBackground(mUsername, mPassword, new LogInCallback() {
+  //            @Override
+  //            public void done(ParseUser user, ParseException e) {
+  //                if (user!= null){
+  //                    Log.d(TAG, "Login successful");
+  //                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+  //
+  //                    intent.putExtra(TOAST_CODE, LOGIN_CODE);
+  //                    ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
+  //                   // Log.d(TAG, contactsTest.toString());
+  //                   // Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
+  //                    intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
+  //
+  //                    startActivity(intent);
+  //                }
+  //                else{
+  //                    Log.e(TAG, "Failed to login");
+  //                    Toast.makeText(LoginActivity.this, "Failed to login",
+  // Toast.LENGTH_LONG).show();
+  //                    e.printStackTrace();
+  //                }
+  //            }
+  //          }
+  //        });
+  //  }
+
   public void createAccountHelper(String mUsername, String mPassword) {
     // start of new code- determine if Username is taken
     final String u = mUsername;
@@ -132,26 +160,5 @@ public class LoginActivity extends AppCompatActivity {
             }
           }
         });
-
-    // end of new code
-    //        ParseUser newUser = new ParseUser();
-    //        newUser.setUsername(mUsername);
-    //        newUser.setPassword(mPassword);
-    //
-    //        newUser.signUpInBackground(new SignUpCallback() {
-    //            @Override
-    //            public void done(ParseException e) {
-    //                if(e == null){
-    //                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
-    //                    intent.putExtra(TOAST_CODE, CREATE_CODE);
-    //                    startActivity(intent);
-    //                } else {
-    //                    Log.e(TAG, "Failed to create Account");
-    //                    Toast.makeText(LoginActivity.this, "Create Account",
-    // Toast.LENGTH_LONG).show();
-    //                    e.printStackTrace();
-    //                }
-    //            }
-    //        });
   }
-}
+  }
