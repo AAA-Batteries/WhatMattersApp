@@ -54,7 +54,6 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
             refreshMessages();
-            myHandler.postDelayed(this, POLL_INTERVAL);
         }
     };
 
@@ -70,7 +69,6 @@ public class ChatActivity extends AppCompatActivity {
 
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
         // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
-        // TODO
 
         // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -235,15 +233,33 @@ public class ChatActivity extends AppCompatActivity {
 
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
+        // create queries to check for existing chat between the two specified users, current and recipient
+        // query1 and query2 accounts for the possible user configurations between user1 and user2, current and recipient users
+        ParseQuery<ParseObject> query1 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
+        ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
+        try {
+            query1 = ParseQuery.getQuery("Chat")
+                    .whereEqualTo("User1", ParseUser.getQuery().get(currentId))
+                    .whereEqualTo("User2", ParseUser.getQuery().get(recipientId));
+            query2 = ParseQuery.getQuery("Chat")
+                    .whereEqualTo("User1", ParseUser.getQuery().get(recipientId))
+                    .whereEqualTo("User2", ParseUser.getQuery().get(currentId));
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
         // Construct query to execute, using the chat object between the two users
-        ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
+        ArrayList<ParseQuery<ParseObject>> queries = new ArrayList<>();
+        queries.add(query1);
+        queries.add(query2);
+        ParseQuery<ParseObject> query = ParseQuery.or(queries);
 
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Chat>() {
-            public void done(List<Chat> chats, ParseException e) {
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> chats, ParseException e) {
                 if (e == null && !chats.isEmpty()) {
-                    Chat chat = chats.get(0);
+                    Chat chat = (Chat) chats.get(0);
                     mMessages.clear();
                     for (int index = chat.getMessages().size() - 1; index >= 0; index--) {
                         mMessages.add(chat.getMessages().get(index));

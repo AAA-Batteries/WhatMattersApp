@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra(TOAST_CODE, LOGIN_CODE);
                     ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
                    // Log.d(TAG, contactsTest.toString());
-                   //  Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
+                   // Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
 
                     startActivity(intent);
