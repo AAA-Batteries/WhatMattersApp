@@ -157,18 +157,13 @@ public class ChatActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if(e == null) {
                             // create queries to check for existing chat between the two specified users, current and recipient
-                            // create chat if non-existent
+                            // query1 and query2 accounts for the possible user configurations between user1 and user2, current and recipient users
                             ParseQuery<ParseObject> query1 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
+                            ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
                             try {
                                 query1 = ParseQuery.getQuery("Chat")
                                         .whereEqualTo("User1", ParseUser.getQuery().get(currentId))
                                         .whereEqualTo("User2", ParseUser.getQuery().get(recipientId));
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
-
-                            ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
-                            try {
                                 query2 = ParseQuery.getQuery("Chat")
                                         .whereEqualTo("User1", ParseUser.getQuery().get(recipientId))
                                         .whereEqualTo("User2", ParseUser.getQuery().get(currentId));
@@ -178,10 +173,12 @@ public class ChatActivity extends AppCompatActivity {
 
                             Log.d("ChatActivity", "current: " + currentId + " recipientId" + recipientId);
 
+                            // check Parse server for existing chat object, else create a new chat object between current and recipient users
                             final ParseQuery<ParseObject> finalQuery1 = query1;
                             final ParseQuery<ParseObject> finalQuery2 = query2;
                             finalQuery1.findInBackground(new FindCallback<ParseObject>() {
                                 public void done(List<ParseObject> object, ParseException e) {
+                                    // query object exists with current user as user1, recipient user as user2
                                     if(!object.isEmpty()) {
                                         // query object exists
                                         // add new message to the chat log
@@ -194,13 +191,13 @@ public class ChatActivity extends AppCompatActivity {
                                         finalQuery2.findInBackground(new FindCallback<ParseObject>() {
                                             public void done(List<ParseObject> object, ParseException e) {
                                                 if(!object.isEmpty()) {
-                                                    // query object exists
+                                                    // query object exists with current user as user2, recipient user as user1
                                                     // add new message to the chat log
                                                     Chat chat = (Chat) object.get(0);
                                                     chat.addMessage(tempMessage);
                                                 }
                                                 else {
-                                                    // query object did not exist on the parse backend, create new chat object
+                                                    // query object between the two users did not exist on the parse backend, create new chat object
                                                     Chat chat = new Chat();
                                                     chat.setUser1(currentId);
                                                     chat.setUser2(recipientId);
@@ -238,44 +235,26 @@ public class ChatActivity extends AppCompatActivity {
 
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
-        // Construct queries to execute, one for current user and one for the recipient user
-        ParseQuery<Message> queryCurrent = ParseQuery.getQuery(Message.class);
-        ParseQuery<Message> queryRecipient = ParseQuery.getQuery(Message.class);
+        // Construct query to execute, using the chat object between the two users
+        ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
 
-        // limit messages loaded to only those between the current user and set recipient
-        queryCurrent.whereEqualTo("UserSent", currentId);
-        queryCurrent.whereEqualTo("UserReceived", recipientId);
-
-        queryRecipient.whereEqualTo("UserSent", recipientId);
-        queryRecipient.whereEqualTo("UserReceived", currentId);
-
-        // list all queries condition
-        List<ParseQuery<Message>> queries = new ArrayList<ParseQuery<Message>>();
-        queries.add(queryCurrent);
-        queries.add(queryRecipient);
-
-        // Compose the OR clause
-        ParseQuery<Message> innerQuery = ParseQuery.or(queries);
-
-        // Configure limit and sort order for combined query
-        innerQuery.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        innerQuery.orderByAscending("createdAt");
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
-        innerQuery.findInBackground(new FindCallback<Message>() {
-            public void done(List<Message> messages, ParseException e) {
-                if (e == null) {
+        query.findInBackground(new FindCallback<Chat>() {
+            public void done(List<Chat> chats, ParseException e) {
+                if (e == null && !chats.isEmpty()) {
+                    Chat chat = chats.get(0);
                     mMessages.clear();
-                    mMessages.addAll(messages);
+                    for (int index = chat.getMessages().size() - 1; index >= 0; index--) {
+                        mMessages.add(chat.getMessages().get(index));
+                    }
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
                     if (mFirstLoad) {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
-                } else {
+                } else if (e != null){
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
