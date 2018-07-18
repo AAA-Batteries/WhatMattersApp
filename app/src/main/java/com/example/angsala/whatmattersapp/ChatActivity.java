@@ -318,6 +318,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (e == null && object != null) {
                     ParseUser recipient = (ParseUser) object;
                     recipientId = recipient.getObjectId();
+                    Log.d("ChatActivity", recipientId);
                 } else {
                     Log.d("User cannot be found: ", recipientName);
                     e.printStackTrace();
