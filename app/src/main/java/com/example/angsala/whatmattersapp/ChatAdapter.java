@@ -41,7 +41,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = mMessages.get(position);
-        final boolean isMe = message.getUserSent() != null && message.getUserSent().equals(mUserId);
+        final boolean isMe = message.getUserSent() != null && message.getUserSent().getObjectId().equals(mUserId);
 
         if (isMe) {
             holder.imageMe.setVisibility(View.VISIBLE);
@@ -54,7 +54,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
 
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(getProfileUrl(message.getUserSent())).into(profileView);
+        Glide.with(mContext).load(getProfileUrl(message.getUserSent().getObjectId())).into(profileView);
         holder.body.setText(message.getBody());
     }
 

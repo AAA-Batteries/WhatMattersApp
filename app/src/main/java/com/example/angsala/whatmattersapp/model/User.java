@@ -12,13 +12,18 @@ public class User extends ParseObject {
 
     private static final String CONTACTS = "contacts";
     private static final String KEY_USER = "username";
+    private static final String NOTIFICATION_KEY = "Notification";
 
     public static String getUser() {
-        return KEY_USER;
+        return ParseUser.getCurrentUser().getUsername();
     }
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public void setNotification(Notification notif) {
+        put(NOTIFICATION_KEY, notif);
     }
 
     public void setContacts(List<String> contacts) {
@@ -27,6 +32,10 @@ public class User extends ParseObject {
 
     public List<String> getContacts() {
         return getList(CONTACTS);
+    }
+
+    public Notification getNotification() {
+        return (Notification) ParseUser.getCurrentUser().get(NOTIFICATION_KEY);
     }
 
     public static class Query extends ParseQuery<User> {

@@ -40,10 +40,14 @@ public class Notification extends ParseObject {
     }
 
     public void addReceived(Message message) {
-        getReceived().add(message);
+        ArrayList<Message> messages = getReceived();
+        messages.add(message);
+        put(RECEIVED_MESSAGES_KEY, messages);
     }
 
     public void removeReceived(Message message) {
-        getReceived().remove(message);
+        ArrayList<Message> messages = getReceived();
+        messages.remove(message);
+        put(RECEIVED_MESSAGES_KEY, messages);
     }
 }
