@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -16,6 +18,8 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -38,7 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
         signUpcreatebutton = (Button) findViewById(R.id.signUpcreateButton);
 
 
-
         signUpcreatebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +53,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     }
-
 
 
     public void createAccountHelper(String mUsername, String mPassword) {
@@ -73,6 +75,11 @@ public class SignUpActivity extends AppCompatActivity {
                                             @Override
                                             public void done(ParseException e) {
                                                 if (e == null) {
+                                                    // create notification object for the new user
+                                                    Notification notif = new Notification();
+                                                    notif.setUserReceived(newUser.getObjectId());
+                                                    notif.setReceived(new ArrayList<Message>());
+
                                                     Intent intent = new Intent(SignUpActivity.this, ContactActivity.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
                                                     intent.putExtra(TOAST_CODE, CREATE_CODE);

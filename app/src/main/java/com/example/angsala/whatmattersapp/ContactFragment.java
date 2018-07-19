@@ -34,8 +34,8 @@ public class ContactFragment extends DialogFragment {
         try {
             listener = (ContactFragmentListener) context;
 
-        } catch (ClassCastException e){
-           throw new ClassCastException(context.toString() + "must implement ContactFragmentListener");
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement ContactFragmentListener");
         }
 
 
@@ -53,8 +53,6 @@ public class ContactFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.addcontact, null);
-
-
 
 
         // Inflate and set the layout for the dialog
@@ -82,7 +80,7 @@ public class ContactFragment extends DialogFragment {
         return builder.create();
     }
 
-    public interface  ContactFragmentListener{
+    public interface ContactFragmentListener {
         void applyTexts(String userName);
     }
 

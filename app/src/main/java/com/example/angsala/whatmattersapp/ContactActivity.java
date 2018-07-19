@@ -56,20 +56,21 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
-    if (user != null) {
-      mContacts(user);
+        if (user != null) {
+            mContacts(user);
         }
         Log.d("ContactActivity", contacts.toString());
-       // userExists("FakeJill");
-
+        // userExists("FakeJill");
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.contact_items, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,7 +154,7 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         });
     }
 
-    public boolean userExists(String userExist){
-        return  contacts.contains(userExist);
+    public boolean userExists(String userExist) {
+        return contacts.contains(userExist);
     }
 }

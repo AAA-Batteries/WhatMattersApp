@@ -23,7 +23,9 @@ public class Chat extends ParseObject {
         return user2.getObjectId();
     }
 
-    public ArrayList<Message> getMessages() { return (ArrayList<Message>) get(MESSAGE_KEY); }
+    public ArrayList<Message> getMessages() {
+        return (ArrayList<Message>) get(MESSAGE_KEY);
+    }
 
     public void setUser1(String userId) {
         try {
