@@ -34,6 +34,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     //        contacts = new ArrayList<>();
 
     return new ViewHolder(postView);
+
   }
 
   @Override
