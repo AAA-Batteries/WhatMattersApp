@@ -12,16 +12,20 @@ import android.widget.Toast;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -84,18 +88,26 @@ public class LoginActivity extends AppCompatActivity {
                 mPassword,
                 new LogInCallback() {
                     @Override
-                    public void done(ParseUser user, ParseException e) {
+                    public void done(final ParseUser user, ParseException e) {
                         if (user != null) {
                             Log.d(TAG, "Login successful");
 
                             // check that a notification object exists for the user logging in
                             // create a notification object for user retroactively if one is not found
                             ParseQuery<Notification> notifFound = ParseQuery.getQuery(Notification.class).whereEqualTo("UserReceived", user);
-                            if (notifFound == null) {
-                                Notification notif = new Notification();
-                                notif.setUserReceived(user.getObjectId());
-                                notif.setReceived(new ArrayList<Message>());
-                            }
+                            notifFound.findInBackground(
+                                    new FindCallback<Notification>() {
+                                        public void done(List<Notification> object, ParseException e) {
+                                            if (object.isEmpty()) {
+                                                Notification notif = new Notification();
+                                                notif.setUserReceived(user.getObjectId());
+                                                notif.setReceived(new ArrayList<Message>());
+
+                                                notif.saveInBackground();
+                                            }
+                                        }
+                                    }
+                            );
 
                             ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
                             Log.d(TAG, contactsTest.toString());
