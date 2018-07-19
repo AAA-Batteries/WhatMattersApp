@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.angsala.whatmattersapp.model.Message;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

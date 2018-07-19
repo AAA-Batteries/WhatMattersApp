@@ -2,6 +2,10 @@ package com.example.angsala.whatmattersapp;
 
 import android.app.Application;
 
+import com.example.angsala.whatmattersapp.model.Chat;
+import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.Notification;
+import com.example.angsala.whatmattersapp.model.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -15,6 +19,7 @@ public class ParseApplication extends Application {
     ParseObject.registerSubclass(Message.class);
     ParseObject.registerSubclass(Chat.class);
     ParseObject.registerSubclass(User.class);
+    ParseObject.registerSubclass(Notification.class);
 
     // Use for monitoring Parse network traffic
     OkHttpClient.Builder builder = new OkHttpClient.Builder();

@@ -1,4 +1,4 @@
-package com.example.angsala.whatmattersapp;
+package com.example.angsala.whatmattersapp.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

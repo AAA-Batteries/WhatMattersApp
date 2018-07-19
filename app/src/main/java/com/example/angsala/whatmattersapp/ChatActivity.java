@@ -2,7 +2,6 @@ package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Chat;
+import com.example.angsala.whatmattersapp.model.Message;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -24,8 +24,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
