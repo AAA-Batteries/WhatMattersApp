@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
       loginUsername = (EditText) findViewById(R.id.loginUsername);
       loginPassword = (EditText) findViewById(R.id.loginPassword);
       loginButton = (Button) findViewById(R.id.loginButton);
-      createButton = (Button) findViewById(R.id.createButton);
+      createButton = (Button) findViewById(R.id.signUpcreateButton);
 
       loginButton.setOnClickListener(
           new View.OnClickListener() {
@@ -58,9 +58,11 @@ public class LoginActivity extends AppCompatActivity {
           new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              final String newusername = loginUsername.getText().toString();
-              final String newpassword = loginPassword.getText().toString();
-              createAccountHelper(newusername, newpassword);
+//              final String newusername = loginUsername.getText().toString();
+//              final String newpassword = loginPassword.getText().toString();
+//              createAccountHelper(newusername, newpassword);
+                Intent createAccountIntent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(createAccountIntent);
             }
           });
     }

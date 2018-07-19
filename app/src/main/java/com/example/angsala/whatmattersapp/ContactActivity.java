@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,15 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         switch (item.getItemId()) {
             case R.id.addContact:
                 openDialog();
+                return true;
+
+            case R.id.logOut:
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                currentUser.logOut();
+                Log.d(TAG, "pushed the logout button");
+                Intent i = new Intent(ContactActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
                 return true;
 
             default:
