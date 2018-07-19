@@ -2,6 +2,7 @@ package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +45,8 @@ public class ChatActivity extends AppCompatActivity {
   // Keep track of initial load to scroll to the bottom of the ListView
   boolean mFirstLoad;
 
-  static String recipientId;
-  static String currentId;
+  String recipientId;
+  String currentId;
 
   // Create a handler which can run code periodically
   static final int POLL_INTERVAL = 1000; // milliseconds
@@ -53,7 +56,6 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
           refreshMessages();
-          myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
         }
       };
 
@@ -61,7 +63,10 @@ public class ChatActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // set current user reference for future use
+    SubscriptionHandling.Event event = Parcels.unwrap(getIntent().getParcelableExtra("Recipient"));
+    
+
+      // set current user reference for future use
     currentId = ParseUser.getCurrentUser().getObjectId();
 
       // Make sure the Parse server is setup to configured for live queries
@@ -212,7 +217,7 @@ public class ChatActivity extends AppCompatActivity {
                                           Chat chat = (Chat) object.get(0);
                                           chat.addMessage(tempMessage);
                                           chat.saveInBackground();
-                                        } else {
+                                        } else if (recipientId != null) {
                                           // query object between the two users did not exist on the
                                           // parse backend, create new chat object
                                           Chat chat = new Chat();
@@ -246,7 +251,7 @@ public class ChatActivity extends AppCompatActivity {
                       mAdapter.notifyDataSetChanged();
                       Toast.makeText(
                               ChatActivity.this,
-                              "Successfully created message on Parse",
+                              "Successfully sent message!",
                               Toast.LENGTH_SHORT)
                           .show();
                     } else {
@@ -311,18 +316,20 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     // using the name of the given recipient, find that user's object id and assign it to recipientId variable
-    public static void setRecipient(final String recipientName) {
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("User").whereEqualTo("username", recipientName);
+    public void setRecipient(final String recipientName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User").whereEqualTo("username", recipientName);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
+                ParseUser recipient = (ParseUser) object;
                 if (e == null && object != null) {
-                    ParseUser recipient = (ParseUser) object;
                     recipientId = recipient.getObjectId();
+                    Log.d("ChatActivity", recipientId);
                 } else {
-                    Log.d("User cannot be found: ", recipientName);
+                    Log.d("User cannot be found ", recipientName);
                     e.printStackTrace();
                 }
             }
         });
     }
+
 }

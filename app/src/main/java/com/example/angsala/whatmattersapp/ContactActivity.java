@@ -55,7 +55,9 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
-        mContacts(user);
+    if (user != null) {
+      mContacts(user);
+        }
         Log.d("ContactActivity", contacts.toString());
        // userExists("FakeJill");
 
@@ -139,8 +141,6 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
                 }
             }
         });
-
-
     }
 
     public boolean userExists(String userExist){

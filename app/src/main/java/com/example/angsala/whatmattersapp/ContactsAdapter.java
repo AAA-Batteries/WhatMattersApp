@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.angsala.whatmattersapp.model.User;
-
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
@@ -36,6 +34,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     //        contacts = new ArrayList<>();
 
     return new ViewHolder(postView);
+
   }
 
   @Override
@@ -72,11 +71,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
       int viewPosition = getAdapterPosition();
       if (viewPosition != RecyclerView.NO_POSITION){
         String message = contacts.get(viewPosition);
-        ChatActivity.setRecipient(message);
         Intent chatIntent = new Intent (context, ChatActivity.class);
-        context.startActivity(chatIntent);
-
-
+        chatIntent.putExtra("Recipient", message);
+         context.startActivity(chatIntent);
       }
     }
   }
