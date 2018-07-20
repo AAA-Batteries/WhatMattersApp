@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -54,8 +56,6 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     };
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +71,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contacts, container, false);
 
-}
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         user = ParseUser.getCurrentUser();
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_contacts);
         // myToolbar.setTitle("Contacts");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
 
@@ -93,13 +93,8 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         }
         Log.d("ContactActivity", contacts.toString());
         // userExists("FakeJill");
-         }
-
-
-
-
-
-
+        myContacts();
+    }
 
 
     public void mContacts(ParseUser user) {
@@ -123,17 +118,11 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
 
-
-
-
-
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.contact_items, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        }
+    }
 
 
     @Override
@@ -149,6 +138,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
                 return super.onOptionsItemSelected(item);
         }
     }
+
     public void openDialog() {
         FragmentManager fm = getFragmentManager();
         ContactFragment contactFragment = new ContactFragment();
@@ -157,7 +147,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
 
-    public void receiveText(String userText){
+    public void receiveText(String userText) {
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
@@ -190,18 +180,44 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         });
     }
 
-    public boolean userExists(String userExist){
-        return  contacts.contains(userExist);
+    public boolean userExists(String userExist) {
+        return contacts.contains(userExist);
     }
 
 
     @Override
     public void applyTexts(String userName) {
         Log.d("MyText", userName.toString());
+        testuser = userName;
+    }
+    String testString;
 
 
+
+    public void myContacts(){
+        user = ParseUser.getCurrentUser();
+        ParseQuery<Contacts> query = ParseQuery.getQuery("Contacts").whereEqualTo("Owner", user.getUsername());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null){
+
+                        testString = objects.get(0).getString("ContactName");
+                        Log.d("myNewQuery", testString.toString());
+
+
+
+
+                }
+                else {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
     }
+
 }
 
 
