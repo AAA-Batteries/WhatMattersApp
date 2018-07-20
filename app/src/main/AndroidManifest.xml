@@ -24,7 +24,11 @@
         <activity android:name=".ChatActivity" />
         <activity android:name=".ContactActivity" />
         <activity android:name=".NotificationsActivity" />
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".BottomNavigation"
+            android:label="@string/title_activity_fragments_controller" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

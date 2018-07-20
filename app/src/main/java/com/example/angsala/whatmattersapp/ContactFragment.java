@@ -1,7 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,19 +26,9 @@ public class ContactFragment extends DialogFragment {
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (ContactFragmentListener) context;
-
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement ContactFragmentListener");
-        }
 
 
-    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,6 +44,8 @@ public class ContactFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.addcontact, null);
 
 
+
+
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
@@ -62,10 +53,8 @@ public class ContactFragment extends DialogFragment {
                 .setPositiveButton(R.string.addUser, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                            sendBackResult();
 
-
-                        String userText = newUsername.getText().toString();
-                        listener.applyTexts(userText);
 
 
                     }
@@ -80,8 +69,15 @@ public class ContactFragment extends DialogFragment {
         return builder.create();
     }
 
-    public interface ContactFragmentListener {
+    public interface  ContactFragmentListener{
         void applyTexts(String userName);
+    }
+
+    public void sendBackResult(){
+        ContactFragmentListener listener = (ContactFragmentListener) getTargetFragment();
+        listener.applyTexts(newUsername.getText().toString());
+
+        dismiss();
     }
 
 }

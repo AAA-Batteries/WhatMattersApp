@@ -12,18 +12,13 @@ public class User extends ParseObject {
 
     private static final String CONTACTS = "contacts";
     private static final String KEY_USER = "username";
-    private static final String NOTIFICATION_KEY = "Notification";
 
     public static String getUser() {
-        return ParseUser.getCurrentUser().getUsername();
+        return KEY_USER;
     }
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
-    }
-
-    public void setNotification(Notification notif) {
-        put(NOTIFICATION_KEY, notif);
     }
 
     public void setContacts(List<String> contacts) {
@@ -32,10 +27,6 @@ public class User extends ParseObject {
 
     public List<String> getContacts() {
         return getList(CONTACTS);
-    }
-
-    public Notification getNotification() {
-        return (Notification) ParseUser.getCurrentUser().get(NOTIFICATION_KEY);
     }
 
     public static class Query extends ParseQuery<User> {
@@ -49,4 +40,12 @@ public class User extends ParseObject {
             return this;
         }
     }
+//    public void addMessage(HashMap<String, String> hmap) {
+//        ArrayList<Message> curr = getMessages();
+//        if (curr == null) {
+//            curr = new ArrayList<>();
+//        }
+//        curr.add(message);
+//        this.put(CONTACTS, curr);
+//    }
 }
