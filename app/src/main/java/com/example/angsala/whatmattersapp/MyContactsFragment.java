@@ -2,11 +2,20 @@ package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.parse.CountCallback;
@@ -19,7 +28,11 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactActivity extends AppCompatActivity implements ContactFragment.ContactFragmentListener {
+import static com.parse.Parse.getApplicationContext;
+
+
+public class MyContactsFragment extends Fragment implements ContactFragment.ContactFragmentListener {
+
     private static final String TAG = "1";
     ParseUser user;
     ArrayList<String> contacts;
@@ -40,50 +53,57 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         }
     };
 
+
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact);
-        user = ParseUser.getCurrentUser();
-       // Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
-       // setSupportActionBar(myToolbar);
         contacts = new ArrayList<>();
+        setHasOptionsMenu(true);
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_contacts, container, false);
+
+}
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        user = ParseUser.getCurrentUser();
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_contacts);
+        // myToolbar.setTitle("Contacts");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
+
+
         // contacts = user.getContacts();
-       // adapter = new ContactsAdapter(contacts);
-       // rvContacts = findViewById(R.id.rvContacts);
-       // rvContacts.setLayoutManager(new LinearLayoutManager(this));
-       // rvContacts.setAdapter(adapter);
-    if (user != null) {
-      mContacts(user);
+        adapter = new ContactsAdapter(contacts);
+        rvContacts = view.findViewById(R.id.rvContacts);
+//        rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        rvContacts.setAdapter(adapter);
+        if (user != null) {
+            mContacts(user);
         }
         Log.d("ContactActivity", contacts.toString());
-       // userExists("FakeJill");
+        // userExists("FakeJill");
+         }
 
 
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.contact_items, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addContact:
-                openDialog();
-                return true;
 
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-        }
 
-    }
+
+
 
     public void mContacts(ParseUser user) {
-        user = Parcels.unwrap(getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
+        user = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
         List<String> contactsTest = (List<String>) user.get("contacts");
         if (contactsTest != null) {
             contacts.addAll(contactsTest);
@@ -102,14 +122,42 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
 
     }
 
-    public void openDialog() {
-        ContactFragment contactFragment = new ContactFragment();
-        contactFragment.show(getSupportFragmentManager(), "contact fragment");
-    }
+
+
+
+
+
+
 
     @Override
-    public void applyTexts(String userName) {
-        testuser = userName;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.contact_items, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addContact:
+
+                openDialog();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    public void openDialog() {
+        FragmentManager fm = getFragmentManager();
+        ContactFragment contactFragment = new ContactFragment();
+        contactFragment.setTargetFragment(MyContactsFragment.this, 1);
+        contactFragment.show(fm, "contact fragment");
+    }
+
+
+    public void receiveText(String userText){
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
@@ -119,6 +167,7 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         }
 
     }
+
 
     public void checkVerified(String verified) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -144,4 +193,15 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     public boolean userExists(String userExist){
         return  contacts.contains(userExist);
     }
+
+
+    @Override
+    public void applyTexts(String userName) {
+        Log.d("MyText", userName.toString());
+
+
+
+    }
 }
+
+

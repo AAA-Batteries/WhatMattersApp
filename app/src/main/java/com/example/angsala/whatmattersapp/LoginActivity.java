@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
           });
     }
     else{
-        Intent i = new Intent (LoginActivity.this, ContactActivity.class);
+        Intent i = new Intent (LoginActivity.this, BottomNavigation.class);
         i.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(currentUser));
 
         startActivity(i);
