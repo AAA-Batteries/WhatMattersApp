@@ -19,10 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -93,12 +95,9 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
             mContacts(user);
         }
         Log.d("ContactActivity", contacts.toString());
+
         // userExists("FakeJill");
          }
-
-
-
-
 
 
 
@@ -207,8 +206,34 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     @Override
     public void applyTexts(String userName) {
         Log.d("MyText", userName.toString());
+        //See if this will post when i call the make contact method
+        makeContact(userName, "Friendz");
 
     }
+
+    //we may have to put this into the delay, in order to be able to check if verified
+    public void makeContact(String username, String relationship){
+        String uname = user.getUsername();
+        Log.d("MyContactsFragment", uname);
+        //Will try making a new Contact by hard coding Fake Mario
+        Contacts newContact = new Contacts();
+        newContact.setOwner(uname);
+        newContact.setContactName("FakeMario");
+        newContact.setRelationship("Parent");
+        //should post newContact in parse
+        newContact.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.d("MyContactsFragment", "Made new contact");
+            }
+        });
+        //Hopefully will return Friend
+        String rank = user.getString("Relationship1");
+        Log.d("MyContactsFragment", rank);
+
+        //consider this to be where we will add the contact into the array to feed the adapter
+    }
+
 }
 
 
