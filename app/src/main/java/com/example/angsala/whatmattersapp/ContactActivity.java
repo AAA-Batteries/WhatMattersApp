@@ -114,12 +114,9 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
-<<<<<<< HEAD
+
             myHandler.postDelayed(runnable, 1000);
 
-=======
-            myHandler.postDelayed(runnable, 5000);
->>>>>>> f50a61995ec98fb86ef0052c4157a86f2869a7df
         } else {
             Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
         }
@@ -150,7 +147,6 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     public boolean userExists(String userExist){
         return  contacts.contains(userExist);
     }
-<<<<<<< HEAD
 
     //this is to test if I can add anything I want into a parse array
     public void makeContact(String username, String relationship){
@@ -159,13 +155,8 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
          newContact.setOwner(user.getUsername());
          newContact.setContactName(username);
          newContact.setRelationship(relationship);
-
+         String rank = user.getString("Relationship1");
     }
 
 
-
-
-
-=======
->>>>>>> f50a61995ec98fb86ef0052c4157a86f2869a7df
 }

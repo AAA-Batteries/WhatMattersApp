@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
       loginUsername = (EditText) findViewById(R.id.loginUsername);
       loginPassword = (EditText) findViewById(R.id.loginPassword);
       loginButton = (Button) findViewById(R.id.loginButton);
-      createButton = (Button) findViewById(R.id.createButton);
+      createButton = (Button) findViewById(R.id.signUpcreateButton);
 
       loginButton.setOnClickListener(
           new View.OnClickListener() {
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
               ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
              Log.d(TAG, contactsTest.toString());
               //  Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
-                Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
                 intent.putExtra(TOAST_CODE, LOGIN_CODE);
                 intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
 
@@ -96,34 +96,6 @@ public class LoginActivity extends AppCompatActivity {
           }
         });
   }
-
-  //    public void loginHelper(String mUsername, String mPassword){
-  //
-  //        ParseUser.logInInBackground(mUsername, mPassword, new LogInCallback() {
-  //            @Override
-  //            public void done(ParseUser user, ParseException e) {
-  //                if (user!= null){
-  //                    Log.d(TAG, "Login successful");
-  //                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
-  //
-  //                    intent.putExtra(TOAST_CODE, LOGIN_CODE);
-  //                    ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
-  //                   // Log.d(TAG, contactsTest.toString());
-  //                   // Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
-  //                    intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
-  //
-  //                    startActivity(intent);
-  //                }
-  //                else{
-  //                    Log.e(TAG, "Failed to login");
-  //                    Toast.makeText(LoginActivity.this, "Failed to login",
-  // Toast.LENGTH_LONG).show();
-  //                    e.printStackTrace();
-  //                }
-  //            }
-  //          }
-  //        });
-  //  }
 
 
 }
