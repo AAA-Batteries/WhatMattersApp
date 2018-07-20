@@ -325,10 +325,8 @@ public class ChatActivity extends AppCompatActivity {
                         if (e == null && notif != null) {
                             notif.addReceived(message);
                             notif.saveInBackground();
-                            Log.d("WORKed", message.getBody());
                         } else {
                             e.printStackTrace();
-                            Log.d("DIDN'T WORK", message.getBody());
                         }
                     }
                 }
