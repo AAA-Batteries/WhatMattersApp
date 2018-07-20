@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.angsala.whatmattersapp.model.Message;
-import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -19,40 +18,40 @@ import com.parse.SignUpCallback;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
+import static com.example.angsala.whatmattersapp.LoginActivity.TOAST_CODE;
 
 public class SignUpActivity extends AppCompatActivity {
-
-    static String TAG = "LoginActivity";
-    static String TOAST_CODE = "CODE";
-    int LOGIN_CODE = 1;
+    static String TAG = "SignUpActivity";
     int CREATE_CODE = 2;
+    Button btSignUp;
+    EditText etUsername;
+    EditText etPassword;
 
-    EditText signUpusername;
-    EditText signUppassword;
-    Button signUpcreatebutton;
-
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        signUpusername = (EditText) findViewById(R.id.signUpUsername);
-        signUppassword = (EditText) findViewById(R.id.signUpPassword);
-        signUpcreatebutton = (Button) findViewById(R.id.signUpcreateButton);
-
-
-        signUpcreatebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String usernameText = signUpusername.getText().toString();
-                String passwordText = signUppassword.getText().toString();
-                createAccountHelper(usernameText, passwordText);
-            }
-        });
+        btSignUp = findViewById(R.id.btSignUp);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
 
 
+
+
+        btSignUp.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String newusername = etUsername.getText().toString();
+                        final String newpassword = etPassword.getText().toString();
+                        createAccountHelper(newusername, newpassword);
+                    }
+                });
     }
+
+
+
 
 
     public void createAccountHelper(String mUsername, String mPassword) {
@@ -75,11 +74,6 @@ public class SignUpActivity extends AppCompatActivity {
                                             @Override
                                             public void done(ParseException e) {
                                                 if (e == null) {
-                                                    // create notification object for the new user
-                                                    Notification notif = new Notification();
-                                                    notif.setUserReceived(newUser.getObjectId());
-                                                    notif.setReceived(new ArrayList<Message>());
-
                                                     Intent intent = new Intent(SignUpActivity.this, ContactActivity.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
                                                     intent.putExtra(TOAST_CODE, CREATE_CODE);
@@ -87,8 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 } else {
                                                     Log.e(TAG, "Failed to create Account");
                                                     Toast.makeText(
-                                                            SignUpActivity.this, "Failed to Create Account", Toast.LENGTH_LONG)
-                                                            .show();
+                                                            SignUpActivity.this, "Failed to Create Account", Toast.LENGTH_LONG).show();
                                                     e.printStackTrace();
                                                 }
                                             }

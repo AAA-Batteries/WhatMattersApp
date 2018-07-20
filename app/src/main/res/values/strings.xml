@@ -10,12 +10,13 @@
     <string name="signin">Sign In</string>
     <string name="cancel">Cancel</string>
     <string name="addUser">Add User</string>
-
-    <string-array name = "relationships">
-        <item>Relationship…</item>
-        <item>Parent</item>>
-        <item>Friend</item>>
-    </string-array>
+    <string name="title_activity_fragments_controller">FragmentsController</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="my_profile">Profile</string>
+    <string name="my_Camera">Camera</string>
+    <string name="my_contacts">Contacts</string>
     />
     />
 </resources>
