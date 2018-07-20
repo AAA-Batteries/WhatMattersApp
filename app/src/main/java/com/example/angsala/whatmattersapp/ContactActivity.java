@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -29,6 +30,7 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     ContactsAdapter adapter;
     RecyclerView rvContacts;
     String testuser;
+    String testrelationship;
     boolean isVerified;
     public static boolean notfinished = true;
     Handler myHandler = new Handler();
@@ -38,7 +40,8 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
 
             if (isVerified) {
                 Log.d("TestActivity", String.valueOf(isVerified));
-                addContacts(testuser);
+
+          addContacts(testuser);
             }
         }
     };
@@ -121,19 +124,24 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     }
 
     @Override
-    public void applyTexts(String userName) {
+    public void applyTexts(String userName, String relationshipText) {
         testuser = userName;
+        testrelationship = relationshipText;
+        Log.d(TAG, relationshipText);
+        Toast.makeText(ContactActivity.this, relationshipText + " was selected as relationship", Toast.LENGTH_LONG).show();
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
             myHandler.postDelayed(runnable, 5000);
+
         } else {
             Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
         }
 
+
     }
 
-    public void checkVerified(String verified) {
+    public void checkVerified(final String verified) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", verified);
         query.countInBackground(new CountCallback() {
@@ -143,6 +151,29 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
                     if (count == 1) {
                         isVerified = true;
                         Log.d("TestActivities", String.valueOf(isVerified));
+                        //Start of new code
+                        ParseQuery<ParseUser> query = ParseUser.getQuery();
+                        query.whereEqualTo("username", verified);
+                        query.findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> objects, ParseException e) {
+                                if (e == null){
+                                    ParseUser foundUser = objects.get(0);
+                                    addUser(foundUser);
+                                }
+
+                                else{
+                                    Log.e("TestActivities", "Could not find user");
+                                }
+                            }
+                        });
+
+
+
+
+
+                        //End of new code
+
                     } else if (count == 0) {
                         isVerified = false;
 
@@ -157,4 +188,9 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     public boolean userExists(String userExist) {
         return contacts.contains(userExist);
     }
+
+        public void addUser(ParseUser addedUser){
+        user.add("contacts", addedUser);
+        user.saveInBackground();
+        }
 }

@@ -40,4 +40,12 @@ public class User extends ParseObject {
             return this;
         }
     }
+//    public void addMessage(HashMap<String, String> hmap) {
+//        ArrayList<Message> curr = getMessages();
+//        if (curr == null) {
+//            curr = new ArrayList<>();
+//        }
+//        curr.add(message);
+//        this.put(CONTACTS, curr);
+//    }
 }

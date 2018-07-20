@@ -10,6 +10,12 @@
     <string name="signin">Sign In</string>
     <string name="cancel">Cancel</string>
     <string name="addUser">Add User</string>
+
+    <string-array name = "relationships">
+        <item>Relationship…</item>
+        <item>Parent</item>>
+        <item>Friend</item>>
+    </string-array>
     />
     />
 </resources>

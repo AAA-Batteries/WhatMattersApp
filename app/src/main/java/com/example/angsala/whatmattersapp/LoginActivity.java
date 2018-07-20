@@ -13,7 +13,6 @@ import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.CountCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -98,8 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
-                            Log.d(TAG, contactsTest.toString());
-                            //  Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
                             Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
                             intent.putExtra(TOAST_CODE, LOGIN_CODE);
                             intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
