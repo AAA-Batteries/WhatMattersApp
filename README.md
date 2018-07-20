@@ -1,14 +1,19 @@
 # WhatMattersApp
 Messaging app that specializes in prioritization
 
+## July 20 Update
+- [X] - Added notification and contact classes
+- [X] - Added relationship field to help determine prioritization
+- [X] - Logout and user persist implementations finished
+
 ## July 18 Update
 - [X] - Finished login implementation
 - [X] - Created contacts page
 - [X] - Implemented direct messages via chats between two users
 
 ## July 13 Update:
-- [X] - set up basic wire-frames, created user stories.
-- [X] - determine required and stretch goals:
+- [X] - Set up basic wire-frames, created user stories.
+- [X] - Determine required and stretch goals:
 
 ## Required Stories
 
