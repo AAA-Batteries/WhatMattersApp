@@ -12,7 +12,7 @@
     <item
         android:id="@+id/contacts"
         android:enabled="true"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_options"
         android:title="@string/my_contacts"
         app:showAsAction="always" />
 
