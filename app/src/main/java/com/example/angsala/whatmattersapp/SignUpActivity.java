@@ -15,7 +15,6 @@ import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import org.parceler.Parcels;
@@ -80,8 +79,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                     Notification notif = new Notification();
                                                     notif.setUserReceived(newUser.getObjectId());
                                                     notif.setReceived(new ArrayList<Message>());
-
-                                                    notif.saveInBackground();
 
                                                     Intent intent = new Intent(SignUpActivity.this, ContactActivity.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));

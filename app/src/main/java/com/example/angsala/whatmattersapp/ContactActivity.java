@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.parse.CountCallback;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -40,8 +39,8 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
 
             if (isVerified) {
                 Log.d("TestActivity", String.valueOf(isVerified));
+                addContacts(testuser);
 
-          addContacts(testuser);
             }
         }
     };
@@ -126,6 +125,7 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     @Override
     public void applyTexts(String userName, String relationshipText) {
         testuser = userName;
+        //This is how we get the relationship field back from the dialogue box
         testrelationship = relationshipText;
         Log.d(TAG, relationshipText);
         Toast.makeText(ContactActivity.this, relationshipText + " was selected as relationship", Toast.LENGTH_LONG).show();
@@ -141,7 +141,7 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
 
     }
 
-    public void checkVerified(final String verified) {
+    public void checkVerified(String verified) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", verified);
         query.countInBackground(new CountCallback() {
@@ -151,29 +151,6 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
                     if (count == 1) {
                         isVerified = true;
                         Log.d("TestActivities", String.valueOf(isVerified));
-                        //Start of new code
-                        ParseQuery<ParseUser> query = ParseUser.getQuery();
-                        query.whereEqualTo("username", verified);
-                        query.findInBackground(new FindCallback<ParseUser>() {
-                            @Override
-                            public void done(List<ParseUser> objects, ParseException e) {
-                                if (e == null){
-                                    ParseUser foundUser = objects.get(0);
-                                    addUser(foundUser);
-                                }
-
-                                else{
-                                    Log.e("TestActivities", "Could not find user");
-                                }
-                            }
-                        });
-
-
-
-
-
-                        //End of new code
-
                     } else if (count == 0) {
                         isVerified = false;
 
@@ -189,8 +166,6 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         return contacts.contains(userExist);
     }
 
-        public void addUser(ParseUser addedUser){
-        user.add("contacts", addedUser);
-        user.saveInBackground();
-        }
+    //this is to test if I can add anything I want into a parse array
+
 }
