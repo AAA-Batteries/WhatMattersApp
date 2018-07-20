@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -71,8 +72,7 @@ public class ChatActivity extends AppCompatActivity {
         // URL for server is determined by Parse.initialize() call.
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
-        // This query can even be more granular (i.e. only refresh if message was
-        // sent/received by current user)
+        // This query can even be more granular (i.e. only refresh if message was sent/received by current user)
         ParseQuery<Message> query1 = ParseQuery.getQuery(Message.class).whereEqualTo("UserSent", currentId);
         ParseQuery<Message> query2 = ParseQuery.getQuery(Message.class).whereEqualTo("UserReceived", currentId);
 
@@ -90,8 +90,11 @@ public class ChatActivity extends AppCompatActivity {
                 SubscriptionHandling.Event.CREATE,
                 new SubscriptionHandling.HandleEventCallback<Message>() {
                     @Override
-                    public void onEvent(ParseQuery<Message> query, Message object) {
+                    public void onEvent(ParseQuery<Message> query, final Message object) {
                         mMessages.add(0, object);
+
+                        // find the notification object for the current/recipient user and update with new received message
+                        setNotif(object);
 
                         // RecyclerView updates need to be run on the UI thread
                         runOnUiThread(
@@ -162,10 +165,14 @@ public class ChatActivity extends AppCompatActivity {
                         // Using new `Message` Parse-backed model now
                         Message message = new Message();
                         message.setBody(data);
-                        message.setUserSent(ParseUser.getCurrentUser().getObjectId());
-                        message.setUserReceived(recipientId);
+                        message.setUserSent(ParseUser.getCurrentUser());
+                        try {
+                            message.setUserReceived(ParseUser.getQuery().get(recipientId));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                        final Message tempMessage = message;
+                        final Message finalMessage = message;
                         message.saveInBackground(
                                 new SaveCallback() {
                                     @Override
@@ -183,15 +190,17 @@ public class ChatActivity extends AppCompatActivity {
                                                                 // query object exists
                                                                 // add new message to the chat log
                                                                 Chat chat = (Chat) object.get(0);
-                                                                chat.addMessage(tempMessage);
+                                                                chat.addMessage(finalMessage);
                                                                 chat.saveInBackground();
+
+                                                                setNotif(finalMessage);
                                                             } else if (recipientId != null) {
                                                                 // query object between the two users did not exist on the
                                                                 // parse backend, create new chat object
                                                                 Chat chat = new Chat();
                                                                 chat.setUser1(currentId);
                                                                 chat.setUser2(recipientId);
-                                                                chat.addMessage(tempMessage);
+                                                                chat.addMessage(finalMessage);
 
                                                                 chat.saveInBackground(
                                                                         new SaveCallback() {
@@ -208,6 +217,8 @@ public class ChatActivity extends AppCompatActivity {
                                                                                 }
                                                                             }
                                                                         });
+
+                                                                setNotif(finalMessage);
                                                             }
                                                             // reload the screen and notify user of successful new message creation
                                                             refreshMessages();
@@ -302,6 +313,26 @@ public class ChatActivity extends AppCompatActivity {
         queries.add(query1);
         queries.add(query2);
         return queries;
+    }
+
+    public void setNotif(final Message message) {
+        ParseQuery<Notification> notifQuery = new ParseQuery<Notification>(Notification.class)
+                .whereEqualTo("UserReceived", message.getUserReceived());
+        notifQuery.getFirstInBackground(
+                new GetCallback<Notification>() {
+                    public void done(Notification object1, ParseException e) {
+                        Notification notif = object1;
+                        if (e == null && notif != null) {
+                            notif.addReceived(message);
+                            notif.saveInBackground();
+                            Log.d("WORKed", message.getBody());
+                        } else {
+                            e.printStackTrace();
+                            Log.d("DIDN'T WORK", message.getBody());
+                        }
+                    }
+                }
+        );
     }
 
 }

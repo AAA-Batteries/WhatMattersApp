@@ -11,7 +11,6 @@
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         app:srcCompat="@android:color/background_dark"
@@ -22,9 +21,10 @@
         android:id="@+id/tvUserName"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/contactImage"
-        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/contactImage"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/contactImage"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="99dp" />
 </RelativeLayout>
