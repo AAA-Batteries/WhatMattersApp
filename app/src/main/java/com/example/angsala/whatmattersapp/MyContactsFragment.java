@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -41,7 +42,6 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     RecyclerView rvContacts;
     String testuser;
     boolean isVerified;
-    public static boolean notfinished = true;
     Handler myHandler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -53,8 +53,6 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
             }
         }
     };
-
-
 
 
     @Override
@@ -72,15 +70,16 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contacts, container, false);
 
-}
+    }
 
+    // sets the view for the contact screen, including the actionbar
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_contacts);
         // myToolbar.setTitle("Contacts");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
 
@@ -94,15 +93,10 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         }
         Log.d("ContactActivity", contacts.toString());
         // userExists("FakeJill");
-         }
+    }
 
 
-
-
-
-
-
-
+    // get contacts for the user and populate the contacts list
     public void mContacts(ParseUser user) {
         user = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
         List<String> contactsTest = (List<String>) user.get("contacts");
@@ -113,28 +107,45 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         }
     }
 
-    public List<String> addContacts(String newUser) {
-        user.add("contacts", newUser);
-        contacts.add(newUser);
+    // adds a contact to the users contacts
+    public List<String> addContacts(String contact) {
+        user.add("contacts", contact);
+        contacts.add(contact);
         user.saveInBackground();
+
+        // create a new contact item for the new contact where the current user is the owner
+        Contacts contactCurr = new Contacts();
+
+        contactCurr.setOwner(user.getUsername());
+        contactCurr.setContactName(contact);
+        // TODO implement relationship and ranking fields
+        contactCurr.setRelationship("");
+        contactCurr.setRanking(0);
+
+        contactCurr.saveInBackground();
+
+        // also create a matching contact item for the newly added contact where they are the owner
+        Contacts contactOther = new Contacts();
+
+        contactOther.setOwner(contact);
+        contactOther.setContactName(user.getUsername());
+        // TODO implement relationship and ranking fields
+        contactOther.setRelationship("");
+        contactOther.setRanking(0);
+
+        contactOther.saveInBackground();
+
+
         adapter.notifyItemInserted(contacts.size() - 1);
-        Log.d("ContactzActivity", contacts.toString());
+        Log.d("ContactActivity", contacts.toString());
         return contacts;
-
     }
-
-
-
-
-
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.contact_items, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        }
+    }
 
 
     @Override
@@ -158,6 +169,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
                 return super.onOptionsItemSelected(item);
         }
     }
+
     public void openDialog() {
         FragmentManager fm = getFragmentManager();
         ContactFragment contactFragment = new ContactFragment();
@@ -166,7 +178,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
 
-    public void receiveText(String userText){
+    public void receiveText(String userText) {
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
@@ -199,8 +211,8 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         });
     }
 
-    public boolean userExists(String userExist){
-        return  contacts.contains(userExist);
+    public boolean userExists(String userExist) {
+        return contacts.contains(userExist);
     }
 
 
