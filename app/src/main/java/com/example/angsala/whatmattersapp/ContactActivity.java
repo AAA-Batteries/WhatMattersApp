@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -113,7 +114,9 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
-            myHandler.postDelayed(runnable, 5000);
+
+            myHandler.postDelayed(runnable, 1000);
+
         } else {
             Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
         }
@@ -144,4 +147,16 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
     public boolean userExists(String userExist){
         return  contacts.contains(userExist);
     }
+
+    //this is to test if I can add anything I want into a parse array
+    public void makeContact(String username, String relationship){
+
+         Contacts newContact = new Contacts();
+         newContact.setOwner(user.getUsername());
+         newContact.setContactName(username);
+         newContact.setRelationship(relationship);
+         String rank = user.getString("Relationship1");
+    }
+
+
 }

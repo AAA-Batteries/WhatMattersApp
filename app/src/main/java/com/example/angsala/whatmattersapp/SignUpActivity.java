@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             @Override
                                             public void done(ParseException e) {
                                                 if (e == null) {
-                                                    Intent intent = new Intent(SignUpActivity.this, ContactActivity.class);
+                                                    Intent intent = new Intent(SignUpActivity.this, BottomNavigation.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
                                                     intent.putExtra(TOAST_CODE, CREATE_CODE);
                                                     startActivity(intent);
