@@ -1,4 +1,4 @@
-package com.example.angsala.whatmattersapp;
+package com.example.angsala.whatmattersapp.model;
 
 import com.parse.Parse;
 import com.parse.ParseClassName;
@@ -8,9 +8,9 @@ import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
-    public static final String USER_SENT_KEY = "UserSent";
-    public static final String USER_RECEIVED_KEY = "UserReceived";
-    public static final String BODY_KEY = "body";
+    private static final String USER_SENT_KEY = "UserSent";
+    private static final String USER_RECEIVED_KEY = "UserReceived";
+    private static final String BODY_KEY = "body";
 
     public String getUserSent() {
         try {

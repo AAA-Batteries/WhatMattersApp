@@ -1,4 +1,4 @@
-package com.example.angsala.whatmattersapp;
+package com.example.angsala.whatmattersapp.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 @ParseClassName("Chat")
 public class Chat extends ParseObject {
-    public static final String USER_1_KEY = "User1";
-    public static final String USER_2_KEY = "User2";
-    public static final String MESSAGE_KEY = "Messages";
+    private static final String USER_1_KEY = "User1";
+    private static final String USER_2_KEY = "User2";
+    private static final String MESSAGE_KEY = "Messages";
 
     public String getUser1() {
         ParseUser user1 = (ParseUser) get(USER_1_KEY);
@@ -23,7 +23,9 @@ public class Chat extends ParseObject {
         return user2.getObjectId();
     }
 
-    public ArrayList<Message> getMessages() { return (ArrayList<Message>) get(MESSAGE_KEY); }
+    public ArrayList<Message> getMessages() {
+        return (ArrayList<Message>) get(MESSAGE_KEY);
+    }
 
     public void setUser1(String userId) {
         try {
