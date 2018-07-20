@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -302,6 +303,24 @@ public class ChatActivity extends AppCompatActivity {
         queries.add(query1);
         queries.add(query2);
         return queries;
+    }
+
+    public void setNotif(final Message message) {
+        ParseQuery<Notification> notifQuery = new ParseQuery<Notification>(Notification.class)
+                .whereEqualTo("UserReceived", message.getUserReceived());
+        notifQuery.getFirstInBackground(
+                new GetCallback<Notification>() {
+                    public void done(Notification object1, ParseException e) {
+                        Notification notif = object1;
+                        if (e == null && notif != null) {
+                            notif.addReceived(message);
+                            notif.saveInBackground();
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
     }
 
 }
