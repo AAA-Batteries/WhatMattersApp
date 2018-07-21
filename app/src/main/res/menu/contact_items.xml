@@ -10,11 +10,7 @@
 
     <item
         android:id="@+id/addContact"
-<<<<<<< HEAD
         android:icon="@drawable/baseline_person_add_black_18dp"
-=======
-        android:icon="@drawable/ic_contact"
->>>>>>> ed0cf953b3f8ccf6d020d50b571da08cfe51370c
         android:title="Compose"
         app:showAsAction="ifRoom"></item>
 
