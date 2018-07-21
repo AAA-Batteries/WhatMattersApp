@@ -17,6 +17,7 @@
     <string name="my_profile">Profile</string>
     <string name="my_Camera">Camera</string>
     <string name="my_contacts">Contacts</string>
+    <string name="my_groups">Groups</string>
     />
     />
 </resources>

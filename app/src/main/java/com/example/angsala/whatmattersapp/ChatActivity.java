@@ -305,6 +305,7 @@ public class ChatActivity extends AppCompatActivity {
         return queries;
     }
 
+    // update the notification object with newly received messages
     public void setNotif(final Message message) {
         ParseQuery<Notification> notifQuery = new ParseQuery<Notification>(Notification.class)
                 .whereEqualTo("UserReceived", message.getUserReceived());

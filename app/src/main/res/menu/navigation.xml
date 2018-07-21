@@ -3,30 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+
+
+
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />
-
-
+    <item
+        android:id="@+id/groups"
+        android:enabled="true"
+        android:icon="@drawable/baseline_people_black_18dp"
+        android:title="@string/my_groups" />
     <item
         android:id="@+id/contacts"
         android:enabled="true"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/my_contacts"
-        app:showAsAction="always" />
-
+        android:title="@string/my_contacts"/>
 
     <item
         android:id="@+id/profile"
         android:enabled="true"
         android:icon="@drawable/instagram_user_filled_24"
-        android:title="@string/my_profile"
-        app:showAsAction="ifRoom" />
-
-
-
-
-
+        android:title="@string/my_profile" />
 
 </menu>

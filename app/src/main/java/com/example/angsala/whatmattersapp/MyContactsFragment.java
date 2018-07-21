@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,14 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +36,14 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
     private static final String TAG = "1";
     ParseUser user;
-    ArrayList<String> contacts;
     ContactsAdapter adapter;
     RecyclerView rvContacts;
     String testuser;
     boolean isVerified;
+    List<Contacts> contactsList;
     public static boolean notfinished = true;
     Handler myHandler = new Handler();
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -59,7 +59,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contacts = new ArrayList<>();
+
         setHasOptionsMenu(true);
 
 
@@ -81,39 +81,24 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         // myToolbar.setTitle("Contacts");
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-
+        contactsList = new ArrayList<>();
+        adapter = new ContactsAdapter(contactsList);
 
         // contacts = user.getContacts();
-        adapter = new ContactsAdapter(contacts);
         rvContacts = view.findViewById(R.id.rvContacts);
-//        rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        rvContacts.setAdapter(adapter);
-        if (user != null) {
-            mContacts(user);
-        }
-        Log.d("ContactActivity", contacts.toString());
-        // userExists("FakeJill");
+        rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvContacts.setAdapter(adapter);
         myContacts();
     }
 
 
-    public void mContacts(ParseUser user) {
-        user = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
-        List<String> contactsTest = (List<String>) user.get("contacts");
-        if (contactsTest != null) {
-            contacts.addAll(contactsTest);
-            Log.d("Exist", contacts.toString());
-            adapter.notifyItemInserted(contacts.size() - 1);
-        }
-    }
-
-    public List<String> addContacts(String newUser) {
+    public List<Contacts> addContacts(String newUser) {
         user.add("contacts", newUser);
-        contacts.add(newUser);
+        // contactsList.add(newUser);
         user.saveInBackground();
-        adapter.notifyItemInserted(contacts.size() - 1);
-        Log.d("ContactzActivity", contacts.toString());
-        return contacts;
+        adapter.notifyItemInserted(contactsList.size() - 1);
+        Log.d("ContactzActivity", contactsList.toString());
+        return contactsList;
 
     }
 
@@ -181,7 +166,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
     public boolean userExists(String userExist) {
-        return contacts.contains(userExist);
+        return contactsList.contains(userExist);
     }
 
 
@@ -190,26 +175,23 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         Log.d("MyText", userName.toString());
         testuser = userName;
     }
-    String testString;
 
 
-
-    public void myContacts(){
+    public void myContacts() {
+        String username;
         user = ParseUser.getCurrentUser();
-        ParseQuery<Contacts> query = ParseQuery.getQuery("Contacts").whereEqualTo("Owner", user.getUsername());
-        query.findInBackground(new FindCallback<ParseObject>() {
+        username = user.getUsername();
+        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", username);
+        Log.d("Fragment", user.getUsername());
+        query.findInBackground(new FindCallback<Contacts>() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null){
+            public void done(List<Contacts> objects, ParseException e) {
+                if (e == null) {
+                    contactsList.addAll(objects);
 
-                        testString = objects.get(0).getString("ContactName");
-                        Log.d("myNewQuery", testString.toString());
-
-
-
-
-                }
-                else {
+                    adapter.notifyItemInserted(contactsList.size() - 1);
+                    Log.d("Fragmentcontact", contactsList.toString());
+                } else {
                     e.printStackTrace();
                 }
 
