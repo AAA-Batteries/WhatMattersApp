@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundFriends"
+    android:background="@drawable/background"
     tools:context=".LoginActivity">
 
     <EditText
@@ -40,29 +40,28 @@
         android:id="@+id/signUpcreateButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imageView"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="170dp"
-        android:background="@color/colorAccent"
+        android:layout_marginBottom="14dp"
+        android:background="#ffffff"
         android:text="create account" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="230dp"
-        android:background="@color/colorAccent"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_alignTop="@+id/signUpcreateButton"
+        android:background="#ffffff"
         android:text="login" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="303dp"
-        android:layout_height="64dp"
+        android:layout_width="336dp"
+        android:layout_height="67dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        app:srcCompat="@drawable/betterLogo" />
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/anotherLogo" />
 
 </RelativeLayout>
