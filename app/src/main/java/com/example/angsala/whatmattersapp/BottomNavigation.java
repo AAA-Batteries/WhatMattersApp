@@ -26,6 +26,7 @@ public class BottomNavigation extends AppCompatActivity{
         final Fragment fragment1 = new NotificationFragment();
         final Fragment fragment2 = new ProfileFragment();
         final Fragment fragment3 = new MyContactsFragment();
+        final Fragment fragment4 = new GroupFragment();
 
         // handle navigation selection
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
@@ -45,6 +46,10 @@ public class BottomNavigation extends AppCompatActivity{
                             case R.id.contacts:
                                 fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.my_placeholder, fragment3).commit();
+                                return true;
+                            case R.id.groups:
+                                fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.my_placeholder, fragment4).commit();
                                 return true;
                         }
                         return false;

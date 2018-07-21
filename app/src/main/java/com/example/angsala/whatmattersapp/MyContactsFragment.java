@@ -1,6 +1,5 @@
 package com.example.angsala.whatmattersapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -8,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,12 +21,10 @@ import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +36,15 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
     private static final String TAG = "MyContactsFragment";
     ParseUser user;
-    ArrayList<String> contacts;
     ContactsAdapter adapter;
     RecyclerView rvContacts;
     String testuser;
     String testrelationship;
     boolean isVerified;
+    List<Contacts> contactsList;
+    public static boolean notfinished = true;
     Handler myHandler = new Handler();
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -60,7 +60,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contacts = new ArrayList<>();
+
         setHasOptionsMenu(true);
 
 
@@ -74,7 +74,6 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
     }
 
-    // sets the view for the contact screen, including the actionbar
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -83,22 +82,18 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         // myToolbar.setTitle("Contacts");
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-
+        contactsList = new ArrayList<>();
+        adapter = new ContactsAdapter(contactsList);
 
         // contacts = user.getContacts();
-        adapter = new ContactsAdapter(contacts);
         rvContacts = view.findViewById(R.id.rvContacts);
-//        rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        rvContacts.setAdapter(adapter);
-        if (user != null) {
-            mContacts(user);
-        }
-        Log.d("ContactActivity", contacts.toString());
-
-        // userExists("FakeJill");
+        rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvContacts.setAdapter(adapter);
+        myContacts();
     }
 
 
+<<<<<<< HEAD
     // get contacts for the user and populate the contacts list
     public void mContacts(ParseUser user) {
         user = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
@@ -115,8 +110,17 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         //this will eventually be moved out
         user.add("contacts", contact);
         contacts.add(contact);
+=======
+    public List<Contacts> addContacts(String newUser) {
+        user.add("contacts", newUser);
+        // contactsList.add(newUser);
+>>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
         user.saveInBackground();
+        adapter.notifyItemInserted(contactsList.size() - 1);
+        Log.d("ContactzActivity", contactsList.toString());
+        return contactsList;
 
+<<<<<<< HEAD
         // create a new contact item for the new contact where the current user is the owner
         Contacts contactCurr = new Contacts();
 
@@ -153,7 +157,10 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         adapter.notifyItemInserted(contacts.size() - 1);
         Log.d("ContactActivity", contacts.toString());
         return contacts;
+=======
+>>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -168,14 +175,6 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
             case R.id.addContact:
 
                 openDialog();
-                return true;
-
-            case R.id.logOut:
-                user.logOut();
-                Log.d("MyContactsFragment", "I clicked the logout button");
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                startActivity(i);
-                getActivity().finish();
                 return true;
 
             default:
@@ -226,11 +225,12 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
     public boolean userExists(String userExist) {
-        return contacts.contains(userExist);
+        return contactsList.contains(userExist);
     }
 
 
     @Override
+<<<<<<< HEAD
     public void applyTexts(String userName, String relationship) {
         Log.d(TAG, userName.toString());
         Log.d(TAG, relationship);
@@ -240,29 +240,35 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         //See if this will post when i call the make contact method
 
 
+=======
+    public void applyTexts(String userName) {
+        Log.d("MyText", userName.toString());
+        testuser = userName;
+>>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
     }
 
-    //we may have to put this into the delay, in order to be able to check if verified
-    public void makeContact(String username, String relationship){
-        String uname = user.getUsername();
-        Log.d("MyContactsFragment", uname);
-        //Will try making a new Contact by hard coding Fake Mario
-        Contacts newContact = new Contacts();
-        newContact.setOwner(uname);
-        newContact.setContactName("FakeMario");
-        newContact.setRelationship("Parent");
-        //should post newContact in parse
-        newContact.saveInBackground(new SaveCallback() {
+
+    public void myContacts() {
+        String username;
+        user = ParseUser.getCurrentUser();
+        username = user.getUsername();
+        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", username);
+        Log.d("Fragment", user.getUsername());
+        query.findInBackground(new FindCallback<Contacts>() {
             @Override
-            public void done(ParseException e) {
-                Log.d("MyContactsFragment", "Made new contact");
+            public void done(List<Contacts> objects, ParseException e) {
+                if (e == null) {
+                    contactsList.addAll(objects);
+
+                    adapter.notifyItemInserted(contactsList.size() - 1);
+                    Log.d("Fragmentcontact", contactsList.toString());
+                } else {
+                    e.printStackTrace();
+                }
+
             }
         });
-        //Hopefully will return Friend
-        String rank = user.getString("Relationship1");
-        Log.d("MyContactsFragment", rank);
 
-        //consider this to be where we will add the contact into the array to feed the adapter
     }
 
 
