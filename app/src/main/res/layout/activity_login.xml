@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".LoginActivity">
 
     <EditText
@@ -13,7 +14,7 @@
 
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="217dp"
+        android:layout_marginTop="200dp"
         android:gravity="top"
         android:hint="Username"
         android:imeOptions="actionSend"
@@ -26,32 +27,38 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="275dp"
+        android:layout_marginBottom="239dp"
         android:gravity="top"
         android:hint="Password"
         android:imeOptions="actionSend" />
 
     <Button
         android:id="@+id/signUpcreateButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="92dp"
-        android:layout_marginEnd="66dp"
-        android:text="create account"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="66dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="116dp"
+        android:background="@color/colorAccent"
+        android:text="create account" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/signUpcreateButton"
-        android:layout_marginStart="66dp"
-        android:text="login"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="66dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="177dp"
+        android:background="@color/colorAccent"
+        android:text="login" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="337dp"
+        android:layout_height="68dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="77dp"
+        app:srcCompat="@drawable/logo" />
 
 </RelativeLayout>
