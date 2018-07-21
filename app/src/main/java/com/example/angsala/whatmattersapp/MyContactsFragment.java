@@ -36,12 +36,13 @@ import static com.parse.Parse.getApplicationContext;
 
 public class MyContactsFragment extends Fragment implements ContactFragment.ContactFragmentListener {
 
-    private static final String TAG = "1";
+    private static final String TAG = "MyContactsFragment";
     ParseUser user;
     ArrayList<String> contacts;
     ContactsAdapter adapter;
     RecyclerView rvContacts;
     String testuser;
+    String testrelationship;
     boolean isVerified;
     Handler myHandler = new Handler();
     Runnable runnable = new Runnable() {
@@ -50,7 +51,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
             if (isVerified) {
                 Log.d("TestActivity", String.valueOf(isVerified));
-                addContacts(testuser);
+                addContacts(testuser, testrelationship);
             }
         }
     };
@@ -110,7 +111,8 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
     // adds a contact to the users contacts
-    public List<String> addContacts(String contact) {
+    public List<String> addContacts(String contact, String relationship) {
+        //this will eventually be moved out
         user.add("contacts", contact);
         contacts.add(contact);
         user.saveInBackground();
@@ -118,13 +120,22 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         // create a new contact item for the new contact where the current user is the owner
         Contacts contactCurr = new Contacts();
 
-        contactCurr.setOwner(user.getUsername());
+        String uname = user.getUsername();
+        contactCurr.setOwner(uname);
         contactCurr.setContactName(contact);
         // TODO implement relationship and ranking fields
-        contactCurr.setRelationship("");
-        contactCurr.setRanking(0);
+        contactCurr.setRelationship(relationship);
+        int rank = makeRanking(relationship, user);
+       // contactCurr.setRanking(rank);
 
-        contactCurr.saveInBackground();
+        Log.d("addContacts method", rank + " uname: "+ uname + " contact name: " + contact + " relationship: " + relationship);
+
+        contactCurr.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.d("addContacts method", "posted");
+            }
+        });
 
         // also create a matching contact item for the newly added contact where they are the owner
         Contacts contactOther = new Contacts();
@@ -132,7 +143,8 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         contactOther.setOwner(contact);
         contactOther.setContactName(user.getUsername());
         // TODO implement relationship and ranking fields
-        contactOther.setRelationship("");
+        contactOther.setRelationship(relationship);
+        //test as 0, need to query later
         contactOther.setRanking(0);
 
         contactOther.saveInBackground();
@@ -219,10 +231,14 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
 
     @Override
-    public void applyTexts(String userName) {
-        Log.d("MyText", userName.toString());
+    public void applyTexts(String userName, String relationship) {
+        Log.d(TAG, userName.toString());
+        Log.d(TAG, relationship);
+        testuser = userName;
+        testrelationship = relationship;
+        receiveText(testuser);
         //See if this will post when i call the make contact method
-        makeContact(userName, "Friendz");
+
 
     }
 
@@ -247,6 +263,24 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         Log.d("MyContactsFragment", rank);
 
         //consider this to be where we will add the contact into the array to feed the adapter
+    }
+
+
+    public int makeRanking(String relationship, ParseUser OwnerUser){
+        String relationship1 = user.getString("Relationship1");
+        String relationship2 = user.getString("Relationship2");
+        String relationship3 = user.getString("Relationship3");
+        String relationship4 = user.getString("Relationship4");
+        String relationship5 = user.getString("Relationship5");
+        int basepoints = 10;
+
+        //look at the relationship ranking from the current User
+        if(relationship == relationship1){return 3*basepoints;}
+        else if(relationship == relationship2){return (int)(2.5*basepoints);}
+        else if (relationship == relationship3){return 2*basepoints;}
+        else if (relationship == relationship4){return (int) 1.5*basepoints;}
+        else if (relationship == relationship5){return basepoints;}
+        else{return 0;}
     }
 
 }

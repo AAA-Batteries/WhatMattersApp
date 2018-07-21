@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
@@ -20,7 +19,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactActivity extends AppCompatActivity implements ContactFragment.ContactFragmentListener {
+public abstract class ContactActivity extends AppCompatActivity implements ContactFragment.ContactFragmentListener {
     private static final String TAG = "1";
     ParseUser user;
     ArrayList<String> contacts;
@@ -108,20 +107,20 @@ public class ContactActivity extends AppCompatActivity implements ContactFragmen
         contactFragment.show(getSupportFragmentManager(), "contact fragment");
     }
 
-    @Override
-    public void applyTexts(String userName) {
-        testuser = userName;
-        Log.d("ContactActivity", testuser);
-        checkVerified(testuser);
-        if (!userExists(testuser)) {
-
-            myHandler.postDelayed(runnable, 1000);
-
-        } else {
-            Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
-        }
-
-    }
+//    @Override
+//    public void applyTexts(String userName) {
+//        testuser = userName;
+//        Log.d("ContactActivity", testuser);
+//        checkVerified(testuser);
+//        if (!userExists(testuser)) {
+//
+//            myHandler.postDelayed(runnable, 1000);
+//
+//        } else {
+//            Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
     public void checkVerified(String verified) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();

@@ -10,12 +10,15 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 
 public class ContactFragment extends DialogFragment {
 
     EditText newUsername;
+    Spinner relationshipSpinner;
     private ContactFragmentListener listener;
 
 
@@ -65,17 +68,23 @@ public class ContactFragment extends DialogFragment {
                     }
                 });
         newUsername = view.findViewById(R.id.newUsername);
+        relationshipSpinner = view.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.relationships, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        relationshipSpinner.setAdapter(adapter);
 
         return builder.create();
     }
 
     public interface  ContactFragmentListener{
-        void applyTexts(String userName);
+        void applyTexts(String userName, String relationship);
     }
 
     public void sendBackResult(){
         ContactFragmentListener listener = (ContactFragmentListener) getTargetFragment();
-        listener.applyTexts(newUsername.getText().toString());
+        //this will now pass in the relationship and the username
+        listener.applyTexts(newUsername.getText().toString(), relationshipSpinner.getSelectedItem().toString());
+
 
         dismiss();
     }

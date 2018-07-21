@@ -17,6 +17,18 @@
     <string name="my_profile">Profile</string>
     <string name="my_Camera">Camera</string>
     <string name="my_contacts">Contacts</string>
+
+    <string-array name = "relationships">
+        <item>Relationships…</item>
+        <item>Parents</item>
+        <item>Other Family</item>
+        <item>Friends</item>
+        <item>Classmates</item>
+        <item>Professors</item>
+
+
+
+    </string-array>
     />
     />
 </resources>
