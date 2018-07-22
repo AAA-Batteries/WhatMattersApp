@@ -81,8 +81,6 @@ public class LoginActivity extends AppCompatActivity {
               Log.d(TAG, "Login successful");
 
               ArrayList<String> contactsTest = (ArrayList<String>) user.get("contacts");
-             Log.d(TAG, contactsTest.toString());
-              //  Log.d(TAG, contactsTest.get(0) + "THIS IS THE ONE JERRY");
                 Intent intent = new Intent(LoginActivity.this, BottomNavigation.class);
                 intent.putExtra(TOAST_CODE, LOGIN_CODE);
                 intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));

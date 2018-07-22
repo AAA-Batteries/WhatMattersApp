@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,42 +95,17 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
 
-<<<<<<< HEAD
-    // get contacts for the user and populate the contacts list
-    public void mContacts(ParseUser user) {
-        user = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(ParseUser.class.getSimpleName()));
-        List<String> contactsTest = (List<String>) user.get("contacts");
-        if (contactsTest != null) {
-            contacts.addAll(contactsTest);
-            Log.d("Exist", contacts.toString());
-            adapter.notifyItemInserted(contacts.size() - 1);
-        }
-    }
 
-    // adds a contact to the users contacts
-    public List<String> addContacts(String contact, String relationship) {
-        //this will eventually be moved out
-        user.add("contacts", contact);
-        contacts.add(contact);
-=======
-    public List<Contacts> addContacts(String newUser) {
-        user.add("contacts", newUser);
-        // contactsList.add(newUser);
->>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
-        user.saveInBackground();
-        adapter.notifyItemInserted(contactsList.size() - 1);
-        Log.d("ContactzActivity", contactsList.toString());
-        return contactsList;
 
-<<<<<<< HEAD
-        // create a new contact item for the new contact where the current user is the owner
+    public List<Contacts> addContacts(String contact, String relationship) {
+
         Contacts contactCurr = new Contacts();
 
         String uname = user.getUsername();
         contactCurr.setOwner(uname);
         contactCurr.setContactName(contact);
-        // TODO implement relationship and ranking fields
         contactCurr.setRelationship(relationship);
+        //to implement, fix casting
         int rank = makeRanking(relationship, user);
        // contactCurr.setRanking(rank);
 
@@ -140,25 +117,23 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
                 Log.d("addContacts method", "posted");
             }
         });
-
+        contactsList.add(contactCurr);
         // also create a matching contact item for the newly added contact where they are the owner
         Contacts contactOther = new Contacts();
-
         contactOther.setOwner(contact);
         contactOther.setContactName(user.getUsername());
         // TODO implement relationship and ranking fields
         contactOther.setRelationship(relationship);
         //test as 0, need to query later
-        contactOther.setRanking(0);
+        //contactOther.setRanking(0);
 
         contactOther.saveInBackground();
 
 
-        adapter.notifyItemInserted(contacts.size() - 1);
-        Log.d("ContactActivity", contacts.toString());
-        return contacts;
-=======
->>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
+        adapter.notifyItemInserted(contactsList.size() - 1);
+        Log.d("ContactActivity", contactsList.toString());
+        return contactsList;
+
     }
 
 
@@ -175,6 +150,14 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
             case R.id.addContact:
 
                 openDialog();
+                return true;
+
+            case R.id.logOut:
+                Log.d(TAG, "Clicked on logout button");
+                user.logOut();
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+                getActivity().finish();
                 return true;
 
             default:
@@ -195,7 +178,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
         if (!userExists(testuser)) {
-            myHandler.postDelayed(runnable, 5000);
+            myHandler.postDelayed(runnable, 2000);
         } else {
             Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
         }
@@ -230,22 +213,21 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
 
     @Override
-<<<<<<< HEAD
     public void applyTexts(String userName, String relationship) {
         Log.d(TAG, userName.toString());
         Log.d(TAG, relationship);
-        testuser = userName;
-        testrelationship = relationship;
-        receiveText(testuser);
-        //See if this will post when i call the make contact method
-
-
-=======
-    public void applyTexts(String userName) {
-        Log.d("MyText", userName.toString());
-        testuser = userName;
->>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
+    if (!relationship.equalsIgnoreCase("Relationships…")) {
+      testuser = userName;
+      testrelationship = relationship;
+      receiveText(testuser);
+        }
+        else {
+        Log.d(TAG, "Failed to add contact. Select Relationship");
+        Toast.makeText(getContext(),"Failed to add contact. Select Relationship", Toast.LENGTH_SHORT).show();
     }
+            }
+
+
 
 
     public void myContacts() {

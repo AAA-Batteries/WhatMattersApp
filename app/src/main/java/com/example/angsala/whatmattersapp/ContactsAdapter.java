@@ -76,9 +76,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         public void onClick(View view) {
             int viewPosition = getAdapterPosition();
             if (viewPosition != RecyclerView.NO_POSITION) {
-                Contacts message = contacts.get(viewPosition);
+                Contacts contact = contacts.get(viewPosition);
+                String contactname = contact.getContactName();
                 Intent chatIntent = new Intent(context, ChatActivity.class);
-                chatIntent.putExtra("Recipient", message);
+                chatIntent.putExtra("Recipient", contactname);
                 context.startActivity(chatIntent);
             }
         }

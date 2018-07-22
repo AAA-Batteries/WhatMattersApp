@@ -17,7 +17,7 @@
     <string name="my_profile">Profile</string>
     <string name="my_Camera">Camera</string>
     <string name="my_contacts">Contacts</string>
-<<<<<<< HEAD
+
 
     <string-array name = "relationships">
         <item>Relationships…</item>
@@ -30,9 +30,8 @@
 
 
     </string-array>
-=======
+
     <string name="my_groups">Groups</string>
->>>>>>> 694acbb58d1dd1871ab3c87602c706ed72bc528a
     />
     />
 </resources>
