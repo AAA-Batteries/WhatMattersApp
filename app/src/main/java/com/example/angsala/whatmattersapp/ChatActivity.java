@@ -230,7 +230,8 @@ public class ChatActivity extends AppCompatActivity {
                                                         new GetCallback<Contacts>() {
                                                             public void done(Contacts object, ParseException e) {
                                                                 Contacts contact = (Contacts) object;
-                                                                contact.setRanking(contact.getRanking() + (int) ParseUser.getCurrentUser().get(contact.getRelationship()));
+                                                                int addPoints = Contacts.makeMessageRanking(ParseUser.getCurrentUser(), contact.getRelationship());
+                                                                contact.setRanking(contact.getRanking() + addPoints);
                                                             }
                                                         });
                                             } catch (ParseException e1) {
