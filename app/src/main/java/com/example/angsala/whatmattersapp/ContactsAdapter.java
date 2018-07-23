@@ -3,6 +3,7 @@ package com.example.angsala.whatmattersapp;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     Context context;
     List<Contacts> contacts;
+    MenuView.ItemView itemView;
 
     public ContactsAdapter(List<Contacts> contacts) {
         this.contacts = contacts;
@@ -45,6 +47,31 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Contacts contact = contacts.get(position);
 
+
+        String relationship = contact.getRelationship();
+        if (relationship.equals("Friends")){
+            int color = context.getResources().getColor(R.color.Friends);
+            viewHolder.contactColor.setColorFilter(color);
+            viewHolder.relationship.setText("Friend");
+        }
+        else if (relationship.equals("Parents")){
+            int color = context.getResources().getColor(R.color.Parents);
+            viewHolder.contactColor.setColorFilter(color);
+            viewHolder.relationship.setText("Parents");
+        } else if (relationship.equals("Classmates")){
+            int color = context.getResources().getColor(R.color.Classmates);
+            viewHolder.contactColor.setColorFilter(color);
+            viewHolder.relationship.setText("Classmates");
+        } else  if (relationship.equals("Family")){
+            int color = context.getResources().getColor(R.color.Family);
+            viewHolder.contactColor.setColorFilter(color);
+            viewHolder.relationship.setText("Family");
+        } else {
+            int color = context.getResources().getColor(R.color.colorAccent);
+            viewHolder.contactColor.setColorFilter(color);
+            viewHolder.relationship.setText("Professors");
+        }
+
         //  Log.d("ContactsAdapter", n);
         Log.d("adapter", contacts.toString());
 
@@ -64,11 +91,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView contactImage;
         TextView tvUserName;
+        ImageView contactColor;
+        TextView relationship;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             contactImage = itemView.findViewById(R.id.contactImage);
             tvUserName = itemView.findViewById(R.id.tvUserName);
+            contactColor = itemView.findViewById(R.id.contactColor);
+            relationship = itemView.findViewById(R.id.relationship);
+
             itemView.setOnClickListener(this);
         }
 

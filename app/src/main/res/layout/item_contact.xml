@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginEnd="2dp"
+
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="2dp"
+    android:background="@android:color/background_light"
+    android:fadingEdge="horizontal|vertical">
 
     <ImageView
         android:id="@+id/contactImage"
@@ -12,7 +19,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
         app:srcCompat="@android:color/background_dark"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="48dp" />
@@ -27,4 +35,22 @@
         android:layout_toRightOf="@id/contactImage"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="99dp" />
+
+    <ImageView
+        android:id="@+id/contactColor"
+        android:layout_width="47dp"
+        android:layout_height="43dp"
+        android:layout_alignEnd="@+id/tvUserName"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/shape_circle" />
+
+    <TextView
+        android:id="@+id/relationship"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvUserName"
+        android:layout_below="@+id/contactColor"
+        android:layout_marginTop="31dp"
+        android:gravity="bottom"
+        android:text="TextView" />
 </RelativeLayout>

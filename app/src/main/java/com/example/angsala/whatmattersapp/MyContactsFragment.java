@@ -80,13 +80,11 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_contacts);
-        // myToolbar.setTitle("Contacts");
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
         contactsList = new ArrayList<>();
         adapter = new ContactsAdapter(contactsList);
 
-        // contacts = user.getContacts();
         rvContacts = view.findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContacts.setAdapter(adapter);
@@ -231,7 +229,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         String username;
         user = ParseUser.getCurrentUser();
         username = user.getUsername();
-        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", username);
+        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", username).orderByDescending("Ranking");
         Log.d("Fragment", user.getUsername());
         query.findInBackground(new FindCallback<Contacts>() {
             @Override

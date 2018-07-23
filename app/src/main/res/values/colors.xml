@@ -2,5 +2,10 @@
 <resources>
     <color name="colorPrimary">#48c988</color>
     <color name="colorPrimaryDark">#000000</color>
+    <color name="Friends">#00ffff</color>
+    <color name="Parents">#0000ff</color>
+    <color name="Classmates">#ffff00</color>
+    <color name="Family">#ff0080</color>
     <color name="colorAccent">#b5ffc2</color>
+
 </resources>
