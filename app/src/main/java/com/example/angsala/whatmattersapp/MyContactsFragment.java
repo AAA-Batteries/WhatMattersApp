@@ -44,7 +44,6 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     String testrelationship;
     boolean isVerified;
     List<Contacts> contactsList;
-    public static boolean notfinished = true;
     Handler myHandler = new Handler();
 
     Runnable runnable = new Runnable() {
@@ -107,7 +106,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         contactCurr.setRelationship(relationship);
         //to implement, fix casting
         int rank = makeRanking(relationship, user);
-       // contactCurr.setRanking(rank);
+        contactCurr.setRanking(rank);
 
         Log.d("addContacts method", rank + " uname: "+ uname + " contact name: " + contact + " relationship: " + relationship);
 
@@ -118,15 +117,13 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
             }
         });
         contactsList.add(contactCurr);
-        // also create a matching contact item for the newly added contact where they are the owner
+
+
+        //TODO- determine how other contact will be posted
         Contacts contactOther = new Contacts();
         contactOther.setOwner(contact);
         contactOther.setContactName(user.getUsername());
-        // TODO implement relationship and ranking fields
         contactOther.setRelationship(relationship);
-        //test as 0, need to query later
-        //contactOther.setRanking(0);
-
         contactOther.saveInBackground();
 
 
@@ -263,11 +260,11 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         int basepoints = 10;
 
         //look at the relationship ranking from the current User
-        if(relationship == relationship1){return 3*basepoints;}
-        else if(relationship == relationship2){return (int)(2.5*basepoints);}
-        else if (relationship == relationship3){return 2*basepoints;}
-        else if (relationship == relationship4){return (int) 1.5*basepoints;}
-        else if (relationship == relationship5){return basepoints;}
+        if(relationship.equalsIgnoreCase(relationship1)){return 3*basepoints;}
+        else if(relationship.equalsIgnoreCase(relationship2)){return (int)(2.5*basepoints);}
+        else if (relationship.equalsIgnoreCase(relationship3)){return 2*basepoints;}
+        else if (relationship.equalsIgnoreCase(relationship4)){return (int) 1.5*basepoints;}
+        else if (relationship.equalsIgnoreCase(relationship5)){return basepoints;}
         else{return 0;}
     }
 
