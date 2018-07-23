@@ -28,11 +28,11 @@ public class SignUpActivity extends AppCompatActivity {
     Button btSignUp;
     EditText etUsername;
     EditText etPassword;
-    Spinner spinner1;
-    Spinner spinner2;
-    Spinner spinner3;
-    Spinner spinner4;
-    Spinner spinner5;
+    Spinner spinnerParents;
+    Spinner spinnerFamily;
+    Spinner spinnerFriends;
+    Spinner spinnerClassmates;
+    Spinner spinnerProfessors;
 
 
     @SuppressLint("WrongViewCast")
@@ -46,34 +46,34 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         //setting the different spinners
-        spinner1 = findViewById(R.id.spinnerRelationship1);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter1);
+        spinnerParents = findViewById(R.id.spinnerParents);
+        ArrayAdapter<CharSequence> adapterParents = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterParents.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerParents.setAdapter(adapterParents);
 
-        spinner2 = findViewById(R.id.spinnerRelationship2);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(adapter2);
+        spinnerFamily = findViewById(R.id.spinnerFamily);
+        ArrayAdapter<CharSequence> adapterFamily = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterFamily.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFamily.setAdapter(adapterFamily);
 
-        spinner3 = findViewById(R.id.spinnerRelationship3);
-        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner3.setAdapter(adapter3);
-
-
-
-        spinner4 = findViewById(R.id.spinnerRelationship4);
-        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
-        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner4.setAdapter(adapter4);
+        spinnerFriends = findViewById(R.id.spinnerFriends);
+        ArrayAdapter<CharSequence> adapterFriends = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterFriends.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFriends.setAdapter(adapterFriends);
 
 
 
-        spinner5 = findViewById(R.id.spinnerRelationship5);
-        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
-        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner5.setAdapter(adapter5);
+        spinnerClassmates = findViewById(R.id.spinnerClassmates);
+        ArrayAdapter<CharSequence> adapterClassmates = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterClassmates.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerClassmates.setAdapter(adapterClassmates);
+
+
+
+        spinnerProfessors = findViewById(R.id.spinnerProfessors);
+        ArrayAdapter<CharSequence> adapterProfessors = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterProfessors.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProfessors.setAdapter(adapterProfessors);
 
 
         btSignUp.setOnClickListener(
@@ -82,16 +82,19 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         final String newusername = etUsername.getText().toString();
                         final String newpassword = etPassword.getText().toString();
-                        createAccountHelper(newusername, newpassword);
+                        //should give you 1-5 ranking
+                        final int rankParents = Integer.parseInt(spinnerParents.getSelectedItem().toString());
+                        final int rankFamily = Integer.parseInt(spinnerFamily.getSelectedItem().toString());
+                        final int rankFriends = Integer.parseInt(spinnerFriends.getSelectedItem().toString());
+                        final int rankClassmates = Integer.parseInt(spinnerClassmates.getSelectedItem().toString());
+                        final int rankProfessors = Integer.parseInt(spinnerProfessors.getSelectedItem().toString());
+                        createAccountHelper(newusername, newpassword, rankParents, rankFamily, rankFriends, rankClassmates, rankProfessors);
                     }
                 });
     }
 
 
-
-
-
-    public void createAccountHelper(String mUsername, String mPassword) {
+    public void createAccountHelper(String mUsername, String mPassword, final int rankParent, final int rankFamily, final int rankFriends, final int rankClassmates, final int rankProfessors){
         // start of new code- determine if Username is taken
         final String u = mUsername;
         final String p = mPassword;
@@ -106,6 +109,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 final ParseUser newUser = new ParseUser();
                                 newUser.setUsername(u);
                                 newUser.setPassword(p);
+                                newUser.put("Parents", rankParent);
+                                newUser.put("Family", rankFamily);
+                                newUser.put("Friends", rankFriends);
+                                newUser.put("Classmates", rankClassmates);
+                                newUser.put("Professors", rankProfessors);
                                 newUser.signUpInBackground(
                                         new SignUpCallback() {
                                             @Override
