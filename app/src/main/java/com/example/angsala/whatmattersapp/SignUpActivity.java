@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.CountCallback;
@@ -26,6 +28,12 @@ public class SignUpActivity extends AppCompatActivity {
     Button btSignUp;
     EditText etUsername;
     EditText etPassword;
+    Spinner spinnerParents;
+    Spinner spinnerFamily;
+    Spinner spinnerFriends;
+    Spinner spinnerClassmates;
+    Spinner spinnerProfessors;
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -37,6 +45,35 @@ public class SignUpActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
 
 
+        //setting the different spinners
+        spinnerParents = findViewById(R.id.spinnerParents);
+        ArrayAdapter<CharSequence> adapterParents = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterParents.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerParents.setAdapter(adapterParents);
+
+        spinnerFamily = findViewById(R.id.spinnerFamily);
+        ArrayAdapter<CharSequence> adapterFamily = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterFamily.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFamily.setAdapter(adapterFamily);
+
+        spinnerFriends = findViewById(R.id.spinnerFriends);
+        ArrayAdapter<CharSequence> adapterFriends = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterFriends.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFriends.setAdapter(adapterFriends);
+
+
+
+        spinnerClassmates = findViewById(R.id.spinnerClassmates);
+        ArrayAdapter<CharSequence> adapterClassmates = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterClassmates.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerClassmates.setAdapter(adapterClassmates);
+
+
+
+        spinnerProfessors = findViewById(R.id.spinnerProfessors);
+        ArrayAdapter<CharSequence> adapterProfessors = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
+        adapterProfessors.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProfessors.setAdapter(adapterProfessors);
 
 
         btSignUp.setOnClickListener(
@@ -45,16 +82,19 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         final String newusername = etUsername.getText().toString();
                         final String newpassword = etPassword.getText().toString();
-                        createAccountHelper(newusername, newpassword);
+                        //should give you 1-5 ranking
+                        final int rankParents = Integer.parseInt(spinnerParents.getSelectedItem().toString());
+                        final int rankFamily = Integer.parseInt(spinnerFamily.getSelectedItem().toString());
+                        final int rankFriends = Integer.parseInt(spinnerFriends.getSelectedItem().toString());
+                        final int rankClassmates = Integer.parseInt(spinnerClassmates.getSelectedItem().toString());
+                        final int rankProfessors = Integer.parseInt(spinnerProfessors.getSelectedItem().toString());
+                        createAccountHelper(newusername, newpassword, rankParents, rankFamily, rankFriends, rankClassmates, rankProfessors);
                     }
                 });
     }
 
 
-
-
-
-    public void createAccountHelper(String mUsername, String mPassword) {
+    public void createAccountHelper(String mUsername, String mPassword, final int rankParent, final int rankFamily, final int rankFriends, final int rankClassmates, final int rankProfessors){
         // start of new code- determine if Username is taken
         final String u = mUsername;
         final String p = mPassword;
@@ -69,6 +109,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 final ParseUser newUser = new ParseUser();
                                 newUser.setUsername(u);
                                 newUser.setPassword(p);
+                                newUser.put("Parents", rankParent);
+                                newUser.put("Family", rankFamily);
+                                newUser.put("Friends", rankFriends);
+                                newUser.put("Classmates", rankClassmates);
+                                newUser.put("Professors", rankProfessors);
                                 newUser.signUpInBackground(
                                         new SignUpCallback() {
                                             @Override

@@ -31,8 +31,6 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.parse.Parse.getApplicationContext;
-
 
 public class MyContactsFragment extends Fragment implements ContactFragment.ContactFragmentListener {
 
@@ -43,6 +41,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     String testuser;
     String testrelationship;
     boolean isVerified;
+    boolean doesExist;
     List<Contacts> contactsList;
     Handler myHandler = new Handler();
 
@@ -50,7 +49,7 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         @Override
         public void run() {
 
-            if (isVerified) {
+            if (isVerified && !doesExist) {
                 Log.d("TestActivity", String.valueOf(isVerified));
                 addContacts(testuser, testrelationship);
             }
@@ -172,11 +171,12 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     public void receiveText(String userText) {
         Log.d("ContactActivity", testuser);
         checkVerified(testuser);
-        if (!userExists(testuser)) {
-            myHandler.postDelayed(runnable, 2000);
-        } else {
-            Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
-        }
+        userExists(testuser);
+        myHandler.postDelayed(runnable, 2000);
+
+//        else {
+//            Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
+//        }
 
     }
 
@@ -193,6 +193,8 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
                         Log.d("TestActivities", String.valueOf(isVerified));
                     } else if (count == 0) {
                         isVerified = false;
+                        Log.d(TAG, "This username is not verified");
+                        Toast.makeText(getContext(), "This username is not verified", Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
@@ -202,8 +204,32 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
         });
     }
 
-    public boolean userExists(String userExist) {
-        return contactsList.contains(userExist);
+    public void userExists(String userExist) {
+        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class);
+        //see if this exists in the contacts list
+        query.whereEqualTo("ContactName", userExist).whereEqualTo("Owner", user.getUsername());
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if (e==null){
+                    if (count ==0){
+                        Log.d(TAG, "User has not been added to contacts yet");
+                       doesExist = false;
+                       return;
+                    }
+
+                    else if (count >= 1){
+                        Log.d(TAG, "User has already been added");
+                        doesExist = true;
+                        Toast.makeText(getContext(),"User has already been added", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
+
+        // return contactsList.contains(userExist);
     }
 
 
@@ -249,20 +275,16 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
 
-    public int makeRanking(String relationship, ParseUser OwnerUser){
-        String relationship1 = user.getString("Relationship1");
-        String relationship2 = user.getString("Relationship2");
-        String relationship3 = user.getString("Relationship3");
-        String relationship4 = user.getString("Relationship4");
-        String relationship5 = user.getString("Relationship5");
+    public int makeRanking(String relationship, ParseUser ownerUser){
+       int rankRelationship = ownerUser.getInt(relationship);
         int basepoints = 10;
 
         //look at the relationship ranking from the current User
-        if(relationship.equalsIgnoreCase(relationship1)){return 3*basepoints;}
-        else if(relationship.equalsIgnoreCase(relationship2)){return (int)(2.5*basepoints);}
-        else if (relationship.equalsIgnoreCase(relationship3)){return 2*basepoints;}
-        else if (relationship.equalsIgnoreCase(relationship4)){return (int) 1.5*basepoints;}
-        else if (relationship.equalsIgnoreCase(relationship5)){return basepoints;}
+        if(rankRelationship == 1){return 3*basepoints;}
+        else if(rankRelationship == 2){return (int)(2.5*basepoints);}
+        else if (rankRelationship == 3){return 2*basepoints;}
+        else if (rankRelationship == 4){return (int) 1.5*basepoints;}
+        else if (rankRelationship == 5){return basepoints;}
         else{return 0;}
     }
 

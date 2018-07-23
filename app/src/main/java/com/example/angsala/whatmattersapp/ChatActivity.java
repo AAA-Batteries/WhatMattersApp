@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Chat;
+import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.FindCallback;
@@ -220,6 +221,23 @@ public class ChatActivity extends AppCompatActivity {
                                                                     .show();
                                                         }
                                                     });
+                                            // after user sends a message, update the recipient contact ranking based on priority category
+                                            try {
+                                                ParseQuery<Contacts> contactsQuery = new ParseQuery<Contacts>(Contacts.class)
+                                                        .whereEqualTo("Owner", ParseUser.getCurrentUser().getUsername())
+                                                        .whereEqualTo("ContactName", ParseUser.getQuery().get(recipientId).getUsername());
+                                                contactsQuery.getFirstInBackground(
+                                                        new GetCallback<Contacts>() {
+                                                            public void done(Contacts object, ParseException e) {
+                                                                Contacts contact = (Contacts) object;
+                                                                int addPoints = Contacts.makeMessageRanking(ParseUser.getCurrentUser(), contact.getRelationship());
+                                                                contact.setRanking(contact.getRanking() + addPoints);
+                                                                contact.saveInBackground();
+                                                            }
+                                                        });
+                                            } catch (ParseException e1) {
+                                                e1.printStackTrace();
+                                            }
                                         } else {
                                             Log.e(TAG, "Failed to save message", e);
                                         }
