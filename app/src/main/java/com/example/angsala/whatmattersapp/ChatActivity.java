@@ -232,6 +232,7 @@ public class ChatActivity extends AppCompatActivity {
                                                                 Contacts contact = (Contacts) object;
                                                                 int addPoints = Contacts.makeMessageRanking(ParseUser.getCurrentUser(), contact.getRelationship());
                                                                 contact.setRanking(contact.getRanking() + addPoints);
+                                                                contact.saveInBackground();
                                                             }
                                                         });
                                             } catch (ParseException e1) {
