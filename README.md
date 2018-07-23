@@ -1,6 +1,10 @@
 # WhatMattersApp
 Messaging app that specializes in prioritization
 
+## July 23 Update
+- [X] - Set up ranking fields determined by prioritized relationships
+- [X] - Updated chat activities to modify ranking with sent messages
+
 ## July 20 Update
 - [X] - Added notification and contact classes
 - [X] - Added relationship field to help determine prioritization
