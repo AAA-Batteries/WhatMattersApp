@@ -251,12 +251,12 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
     }
 
 
-    public int makeRanking(String relationship, ParseUser OwnerUser){
-        String relationship1 = user.getString("Relationship1");
-        String relationship2 = user.getString("Relationship2");
-        String relationship3 = user.getString("Relationship3");
-        String relationship4 = user.getString("Relationship4");
-        String relationship5 = user.getString("Relationship5");
+    public int makeRanking(String relationship, ParseUser ownerUser){
+        String relationship1 = ownerUser.getString("Relationship1");
+        String relationship2 = ownerUser.getString("Relationship2");
+        String relationship3 = ownerUser.getString("Relationship3");
+        String relationship4 = ownerUser.getString("Relationship4");
+        String relationship5 = ownerUser.getString("Relationship5");
         int basepoints = 10;
 
         //look at the relationship ranking from the current User
