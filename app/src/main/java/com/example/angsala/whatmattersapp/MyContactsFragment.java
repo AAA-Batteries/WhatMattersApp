@@ -252,19 +252,15 @@ public class MyContactsFragment extends Fragment implements ContactFragment.Cont
 
 
     public int makeRanking(String relationship, ParseUser ownerUser){
-        String relationship1 = ownerUser.getString("Relationship1");
-        String relationship2 = ownerUser.getString("Relationship2");
-        String relationship3 = ownerUser.getString("Relationship3");
-        String relationship4 = ownerUser.getString("Relationship4");
-        String relationship5 = ownerUser.getString("Relationship5");
+       int rankRelationship = ownerUser.getInt(relationship);
         int basepoints = 10;
 
         //look at the relationship ranking from the current User
-        if(relationship.equalsIgnoreCase(relationship1)){return 3*basepoints;}
-        else if(relationship.equalsIgnoreCase(relationship2)){return (int)(2.5*basepoints);}
-        else if (relationship.equalsIgnoreCase(relationship3)){return 2*basepoints;}
-        else if (relationship.equalsIgnoreCase(relationship4)){return (int) 1.5*basepoints;}
-        else if (relationship.equalsIgnoreCase(relationship5)){return basepoints;}
+        if(rankRelationship == 1){return 3*basepoints;}
+        else if(rankRelationship == 2){return (int)(2.5*basepoints);}
+        else if (rankRelationship == 3){return 2*basepoints;}
+        else if (rankRelationship == 4){return (int) 1.5*basepoints;}
+        else if (rankRelationship == 5){return basepoints;}
         else{return 0;}
     }
 

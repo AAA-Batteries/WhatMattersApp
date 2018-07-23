@@ -107,20 +107,7 @@ public abstract class ContactActivity extends AppCompatActivity implements Conta
         contactFragment.show(getSupportFragmentManager(), "contact fragment");
     }
 
-//    @Override
-//    public void applyTexts(String userName) {
-//        testuser = userName;
-//        Log.d("ContactActivity", testuser);
-//        checkVerified(testuser);
-//        if (!userExists(testuser)) {
-//
-//            myHandler.postDelayed(runnable, 1000);
-//
-//        } else {
-//            Toast.makeText(getApplicationContext(), "You already have this user in your contacts", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
+
 
     public void checkVerified(String verified) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -149,7 +136,6 @@ public abstract class ContactActivity extends AppCompatActivity implements Conta
 
     //this is to test if I can add anything I want into a parse array
     public void makeContact(String username, String relationship){
-
          Contacts newContact = new Contacts();
          newContact.setOwner(user.getUsername());
          newContact.setContactName(username);

@@ -40,7 +40,7 @@ public class Contacts extends ParseObject {
         return getInt(RANKING_KEY);
     }
 
-    public int makeRanking(String relationship, ParseUser ownerUser){
+    public static int makeMessageRanking(String relationship, ParseUser ownerUser){
         String relationship1 = ownerUser.getString("Relationship1");
         String relationship2 = ownerUser.getString("Relationship2");
         String relationship3 = ownerUser.getString("Relationship3");

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.CountCallback;
@@ -26,6 +28,12 @@ public class SignUpActivity extends AppCompatActivity {
     Button btSignUp;
     EditText etUsername;
     EditText etPassword;
+    Spinner spinner1;
+    Spinner spinner2;
+    Spinner spinner3;
+    Spinner spinner4;
+    Spinner spinner5;
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -37,6 +45,35 @@ public class SignUpActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
 
 
+        //setting the different spinners
+        spinner1 = findViewById(R.id.spinnerRelationship1);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter1);
+
+        spinner2 = findViewById(R.id.spinnerRelationship2);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter2);
+
+        spinner3 = findViewById(R.id.spinnerRelationship3);
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner3.setAdapter(adapter3);
+
+
+
+        spinner4 = findViewById(R.id.spinnerRelationship4);
+        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
+        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner4.setAdapter(adapter4);
+
+
+
+        spinner5 = findViewById(R.id.spinnerRelationship5);
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.relationships, android.R.layout.simple_spinner_item);
+        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner5.setAdapter(adapter5);
 
 
         btSignUp.setOnClickListener(
