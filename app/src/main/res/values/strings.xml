@@ -22,7 +22,7 @@
     <string-array name = "relationships">
         <item>Relationships…</item>
         <item>Parents</item>
-        <item>Other Family</item>
+        <item>Family</item>
         <item>Friends</item>
         <item>Classmates</item>
         <item>Professors</item>
