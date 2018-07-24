@@ -23,12 +23,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.angsala.whatmattersapp.LoginActivity.TOAST_CODE;
 
 
 public class GroupFragment extends Fragment {
@@ -139,8 +135,10 @@ public class GroupFragment extends Fragment {
     }
 
     public void openGroupContacts(String group) {
+        Fragment fragment = new Fragment();
         Bundle bundle = new Bundle();
         bundle.putString("relationship", group);
+        fragment.setArguments(bundle);
         
     }
 
