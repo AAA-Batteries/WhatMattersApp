@@ -67,6 +67,7 @@ public class PriorityActivity extends AppCompatActivity {
                         final int rankClassmates = Integer.parseInt(spinnerClassmates.getSelectedItem().toString());
                         final int rankProfessors = Integer.parseInt(spinnerProfessors.getSelectedItem().toString());
                         reset(rankParents, rankFamily, rankFriends, rankClassmates, rankProfessors);
+                        finish();
                     }
                 });
     }
