@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,8 +23,12 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.angsala.whatmattersapp.LoginActivity.TOAST_CODE;
 
 
 public class GroupFragment extends Fragment {
@@ -32,13 +38,27 @@ public class GroupFragment extends Fragment {
     ParseUser user;
     TextView groupName;
     ImageView groupImage;
+    Button reprioritize;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group, container, false);
+        View v =  inflater.inflate(R.layout.fragment_group, container, false);
+
+        reprioritize = v.findViewById(R.id.reprioritize);
+        // handles resetting priorities upon the reset button being clicked
+        reprioritize.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), PriorityActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        return v;
     }
 
 
@@ -46,14 +66,6 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        // That's all!
-
-        // First param is number of columns and second param is orientation i.e Vertical or Horizontal
-      //  StaggeredGridLayoutManager gridLayoutManager =
-
-        // Attach the layout manager to the recycler view
 
     }
 
@@ -127,6 +139,5 @@ public class GroupFragment extends Fragment {
     public void changeFragment(){
 
     }
-
 
 }
