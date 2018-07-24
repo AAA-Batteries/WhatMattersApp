@@ -26,17 +26,13 @@ public class ContactFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
-
     }
-
-
-
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        getIntent().getStringExtra("relationship");
     }
 
     @Override
@@ -47,8 +43,6 @@ public class ContactFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.addcontact, null);
 
 
-
-
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
@@ -56,8 +50,7 @@ public class ContactFragment extends DialogFragment {
                 .setPositiveButton(R.string.addUser, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                            sendBackResult();
-
+                        sendBackResult();
 
 
                     }
@@ -76,11 +69,11 @@ public class ContactFragment extends DialogFragment {
         return builder.create();
     }
 
-    public interface  ContactFragmentListener{
+    public interface ContactFragmentListener {
         void applyTexts(String userName, String relationship);
     }
 
-    public void sendBackResult(){
+    public void sendBackResult() {
         ContactFragmentListener listener = (ContactFragmentListener) getTargetFragment();
         //this will now pass in the relationship and the username
         listener.applyTexts(newUsername.getText().toString(), relationshipSpinner.getSelectedItem().toString());

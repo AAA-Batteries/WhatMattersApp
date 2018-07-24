@@ -139,9 +139,9 @@ public class GroupFragment extends Fragment {
     }
 
     public void openGroupContacts(String group) {
-        Intent intent = new Intent(getActivity(), ContactFragment.class);
-        intent.putExtra("relationship", group);
-        startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putString("relationship", group);
+        
     }
 
 }
