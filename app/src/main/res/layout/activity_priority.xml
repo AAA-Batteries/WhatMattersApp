@@ -7,41 +7,41 @@
     tools:context=".PriorityActivity">
 
     <Spinner
-        android:id="@+id/spinnerParents"
+        android:id="@+id/respinnerParents"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_above="@+id/spinnerFamily"
-        android:layout_alignStart="@+id/spinnerFamily" />
+        android:layout_above="@+id/respinnerFamily"
+        android:layout_alignStart="@+id/respinnerFamily" />
 
     <Spinner
-        android:id="@+id/spinnerFamily"
+        android:id="@+id/respinnerFamily"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_above="@+id/spinnerFriends"
-        android:layout_alignStart="@+id/spinnerFriends"
+        android:layout_above="@+id/respinnerFriends"
+        android:layout_alignStart="@+id/respinnerFriends"
         android:layout_marginTop="20dp" />
 
     <Spinner
-        android:id="@+id/spinnerFriends"
+        android:id="@+id/respinnerFriends"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_above="@+id/spinnerClassmates"
-        android:layout_alignStart="@+id/spinnerClassmates"
+        android:layout_above="@+id/respinnerClassmates"
+        android:layout_alignStart="@+id/respinnerClassmates"
         android:layout_marginTop="20dp" />
 
     <Spinner
-        android:id="@+id/spinnerClassmates"
+        android:id="@+id/respinnerClassmates"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_above="@+id/spinnerProfessors"
-        android:layout_alignStart="@+id/spinnerProfessors"
+        android:layout_above="@+id/respinnerProfessors"
+        android:layout_alignStart="@+id/respinnerProfessors"
         android:layout_marginTop="20dp" />
 
     <Spinner
-        android:id="@+id/spinnerProfessors"
+        android:id="@+id/respinnerProfessors"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_alignEnd="@+id/button"
+        android:layout_alignEnd="@+id/resetBtn"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="180dp"
         android:layout_marginTop="20dp" />
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/spinnerParents"
+        android:layout_alignTop="@+id/respinnerParents"
         android:layout_marginEnd="80dp"
         android:text="Parents" />
 
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtParents"
-        android:layout_alignTop="@+id/spinnerFamily"
+        android:layout_alignTop="@+id/respinnerFamily"
         android:text="Family" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtFamily"
-        android:layout_alignTop="@+id/spinnerFriends"
+        android:layout_alignTop="@+id/respinnerFriends"
         android:text="Friends" />
 
     <TextView
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtParents"
-        android:layout_alignTop="@+id/spinnerClassmates"
+        android:layout_alignTop="@+id/respinnerClassmates"
         android:text="Classmates" />
 
     <TextView
@@ -84,11 +84,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtParents"
-        android:layout_alignTop="@+id/spinnerProfessors"
+        android:layout_alignTop="@+id/respinnerProfessors"
         android:text="Professors" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/resetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -97,7 +97,7 @@
         android:text="Set" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/resetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
