@@ -5,7 +5,10 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +72,7 @@ public class ChatActivity extends AppCompatActivity {
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
 
+
         // Make sure the Parse server is setup to configured for live queries
         // URL for server is determined by Parse.initialize() call.
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
@@ -108,6 +112,9 @@ public class ChatActivity extends AppCompatActivity {
                 });
 
         setContentView(R.layout.activity_chat);
+        Toolbar mytoolbar = findViewById(R.id.toolbarChat);
+        setSupportActionBar(mytoolbar);
+        getSupportActionBar().setTitle("");
         // User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
             startWithCurrentUser();
@@ -115,6 +122,30 @@ public class ChatActivity extends AppCompatActivity {
             login();
         }
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_exit, menu);
+
+        return true;
+
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.contact_exit:
+
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Create an anonymous user using ParseAnonymousUtils and set sUserId

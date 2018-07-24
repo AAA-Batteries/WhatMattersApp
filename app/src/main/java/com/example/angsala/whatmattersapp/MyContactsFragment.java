@@ -250,7 +250,7 @@ public class MyContactsFragment extends Fragment
             .orderByDescending("Ranking");
     Log.d("Fragment", user.getUsername());
     query.findInBackground(
-        new FindCallback<Contacts>() {
+         new FindCallback<Contacts>() {
           @Override
           public void done(List<Contacts> objects, ParseException e) {
             if (e == null) {

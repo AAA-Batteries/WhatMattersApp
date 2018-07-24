@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:title="@string/my_groups" />
+    <item
+        android:id="@+id/contact_exit"
+        android:enabled="true"
+        android:icon="?attr/actionModeCloseDrawable"
+        android:title="@string/my_contacts"
+        app:showAsAction="always"
+        android:orderInCategory="1"/>
+</menu>

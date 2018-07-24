@@ -8,13 +8,14 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvChat"
-        android:transcriptMode="alwaysScroll"
-        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="448dp"
+        android:layout_above="@+id/rlSend"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/rlSend"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="56dp"
+        android:transcriptMode="alwaysScroll" />
     <RelativeLayout
         android:id="@+id/rlSend"
         android:layout_alignParentBottom="true"
@@ -43,4 +44,14 @@
             android:text="@string/send"
             android:textSize="18sp" />
     </RelativeLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
 </RelativeLayout>

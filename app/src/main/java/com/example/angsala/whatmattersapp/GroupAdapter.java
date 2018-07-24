@@ -104,7 +104,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             if (position != RecyclerView.NO_POSITION){
                 String myPosition = relationship.get(position);
                 Toast.makeText(context, "it clicks", Toast.LENGTH_SHORT).show();
-                
+
             }
         }
     }
