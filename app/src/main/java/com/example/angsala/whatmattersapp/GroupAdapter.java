@@ -4,24 +4,25 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.angsala.whatmattersapp.model.Contacts;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     Context context;
-    List<Contacts> contacts;
+    List<String> relationship;
     MenuView.ItemView itemView;
+    GroupFragment fragment;
 
 
-    public GroupAdapter(List<Contacts> contacts) {
-        this.contacts = contacts;
+    public GroupAdapter(List<String> relationship) {
+        this.relationship = relationship;
 
     }
 
@@ -35,29 +36,35 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
 
 
-
         return new ViewHolder(postView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Contacts contacts1 = contacts.get(position);
+        String myPosition = relationship.get(position);
 
-        String relationship = contacts1.getRelationship();
-        if (relationship.equals("Friends")){
+
+
+        Log.d("MyAdapter", relationship.toString());
+
+
+
+
+
+        if (myPosition.equals("Friends")){
             int color = context.getResources().getColor(R.color.Friends);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Friend");
         }
-        else if (relationship.equals("Parents")){
+        else if (myPosition.equals("Parents")){
             int color = context.getResources().getColor(R.color.Parents);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Parents");
-        } else if (relationship.equals("Classmates")){
+        } else if (myPosition.equals("Classmates")){
             int color = context.getResources().getColor(R.color.Classmates);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Classmates");
-        } else  if (relationship.equals("Family")){
+        } else  if (myPosition.equals("Family")){
             int color = context.getResources().getColor(R.color.Family);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Family");
@@ -73,10 +80,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return relationship.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView groupName;
         ImageView groupImage;
 
@@ -85,6 +92,20 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             super(itemView);
             groupImage = itemView.findViewById(R.id.groupImage);
             groupName = itemView.findViewById(R.id.groupName);
+            itemView.setOnClickListener(this);
+
+
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION){
+                String myPosition = relationship.get(position);
+                Toast.makeText(context, "it clicks", Toast.LENGTH_SHORT).show();
+                
+            }
         }
     }
 }
