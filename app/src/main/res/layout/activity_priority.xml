@@ -8,43 +8,42 @@
 
     <Spinner
         android:id="@+id/spinnerParents"
-        android:layout_width="143dp"
-        android:layout_height="27dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="100dp" />
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/spinnerFamily"
+        android:layout_alignStart="@+id/spinnerFamily" />
 
     <Spinner
         android:id="@+id/spinnerFamily"
-        android:layout_width="143dp"
-        android:layout_height="27dp"
-        android:layout_alignStart="@+id/spinnerParents"
-        android:layout_below="@+id/spinnerParents"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/spinnerFriends"
+        android:layout_alignStart="@+id/spinnerFriends"
         android:layout_marginTop="20dp" />
 
     <Spinner
         android:id="@+id/spinnerFriends"
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinnerParents"
-        android:layout_below="@+id/spinnerFamily"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/spinnerClassmates"
+        android:layout_alignStart="@+id/spinnerClassmates"
         android:layout_marginTop="20dp" />
 
     <Spinner
         android:id="@+id/spinnerClassmates"
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinnerParents"
-        android:layout_below="@+id/spinnerFriends"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/spinnerProfessors"
+        android:layout_alignStart="@+id/spinnerProfessors"
         android:layout_marginTop="20dp" />
 
     <Spinner
         android:id="@+id/spinnerProfessors"
-        android:layout_width="142dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinnerParents"
-        android:layout_below="@+id/spinnerClassmates"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="180dp"
         android:layout_marginTop="20dp" />
 
     <TextView
@@ -87,4 +86,23 @@
         android:layout_alignStart="@+id/txtParents"
         android:layout_alignTop="@+id/spinnerProfessors"
         android:text="Professors" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="85dp"
+        android:text="Set" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Group Priorities"
+        android:textSize="24sp" />
 </RelativeLayout>
