@@ -45,7 +45,7 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_group, container, false);
+        View v = inflater.inflate(R.layout.fragment_group, container, false);
 
         reprioritize = v.findViewById(R.id.reprioritize);
         // handles resetting priorities upon the reset button being clicked
@@ -58,9 +58,19 @@ public class GroupFragment extends Fragment {
                     }
                 });
 
+        groupImage = v.findViewById(R.id.groupImage);
+        groupName = v.findViewById(R.id.groupName);
+
+        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
+        groupImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGroupContacts(groupName.getText().toString());
+            }
+        });
+
         return v;
     }
-
 
 
     @Override
@@ -74,16 +84,12 @@ public class GroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvContacts = view.findViewById(R.id.rvContacts);
 
-
-
-
         groups = new ArrayList<>();
         groups.add("Friends");
         groups.add("Parents");
         groups.add("Classmates");
         groups.add("Family");
         groups.add("Professors");
-
 
         // Initialize contacts
         // Create adapter passing in the sample user data
@@ -98,10 +104,7 @@ public class GroupFragment extends Fragment {
         groupName = view.findViewById(R.id.groupName);
 
 
-
     }
-
-
 
 
     public void myContacts() {
@@ -114,10 +117,10 @@ public class GroupFragment extends Fragment {
             @Override
             public void done(List<Contacts> objects, ParseException e) {
                 if (e == null) {
-                   // contacts.addAll(objects);
+                    // contacts.addAll(objects);
 
-                   // adapter.notifyItemInserted(contacts.size() - 1);
-                  //  Log.d("Fragmentcontact", contacts.toString());
+                    // adapter.notifyItemInserted(contacts.size() - 1);
+                    //  Log.d("Fragmentcontact", contacts.toString());
                 } else {
                     e.printStackTrace();
                 }
@@ -127,17 +130,18 @@ public class GroupFragment extends Fragment {
 
     }
 
-    public void changeToContacts(Fragment someFragment){
+    public void changeToContacts(Fragment someFragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.my_placeholder, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
-    public void changeFragment(){
-
+    public void openGroupContacts(String group) {
+        Intent intent = new Intent(getActivity(), ContactFragment.class);
+        intent.putExtra("relationship", group);
+        startActivity(intent);
     }
 
 }
