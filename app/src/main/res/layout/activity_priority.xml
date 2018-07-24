@@ -1,5 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PriorityActivity">
 
+    <Spinner
+        android:id="@+id/spinnerParents"
+        android:layout_width="143dp"
+        android:layout_height="27dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="100dp" />
+
+    <Spinner
+        android:id="@+id/spinnerFamily"
+        android:layout_width="143dp"
+        android:layout_height="27dp"
+        android:layout_alignStart="@+id/spinnerParents"
+        android:layout_below="@+id/spinnerParents"
+        android:layout_marginTop="20dp" />
+
+    <Spinner
+        android:id="@+id/spinnerFriends"
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spinnerParents"
+        android:layout_below="@+id/spinnerFamily"
+        android:layout_marginTop="20dp" />
+
+    <Spinner
+        android:id="@+id/spinnerClassmates"
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spinnerParents"
+        android:layout_below="@+id/spinnerFriends"
+        android:layout_marginTop="20dp" />
+
+    <Spinner
+        android:id="@+id/spinnerProfessors"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spinnerParents"
+        android:layout_below="@+id/spinnerClassmates"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/txtParents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/spinnerParents"
+        android:layout_marginEnd="80dp"
+        android:text="Parents" />
+
+    <TextView
+        android:id="@+id/txtFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtParents"
+        android:layout_alignTop="@+id/spinnerFamily"
+        android:text="Family" />
+
+    <TextView
+        android:id="@+id/txtFriends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtFamily"
+        android:layout_alignTop="@+id/spinnerFriends"
+        android:text="Friends" />
+
+    <TextView
+        android:id="@+id/txtClassmates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtParents"
+        android:layout_alignTop="@+id/spinnerClassmates"
+        android:text="Classmates" />
+
+    <TextView
+        android:id="@+id/txtProfessors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtParents"
+        android:layout_alignTop="@+id/spinnerProfessors"
+        android:text="Professors" />
 </RelativeLayout>
