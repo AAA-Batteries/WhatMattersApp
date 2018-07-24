@@ -71,6 +71,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Professors");
         }
+        Boolean flag = contact.getFlag();
+        if (flag){
+            viewHolder.flag.setVisibility(View.VISIBLE);
+        }
+        else{
+            viewHolder.flag.setVisibility(View.INVISIBLE);
+        }
 
         //  Log.d("ContactsAdapter", n);
         Log.d("adapter", contacts.toString());
@@ -94,6 +101,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         TextView tvUserName;
         ImageView contactColor;
         TextView relationship;
+        ImageView flag;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,6 +109,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             tvUserName = itemView.findViewById(R.id.tvUserName);
             contactColor = itemView.findViewById(R.id.contactColor);
             relationship = itemView.findViewById(R.id.relationship);
+            flag = itemView.findViewById(R.id.imvFlag);
 
             itemView.setOnClickListener(this);
         }

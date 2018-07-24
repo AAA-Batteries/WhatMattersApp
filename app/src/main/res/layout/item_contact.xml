@@ -53,4 +53,12 @@
         android:layout_marginTop="31dp"
         android:gravity="bottom"
         android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/imvFlag"
+        android:layout_width="83dp"
+        android:layout_height="13dp"
+        android:layout_alignBottom="@+id/relationship"
+        android:layout_alignStart="@+id/tvUserName"
+        app:srcCompat="@android:color/holo_red_dark" />
 </RelativeLayout>
