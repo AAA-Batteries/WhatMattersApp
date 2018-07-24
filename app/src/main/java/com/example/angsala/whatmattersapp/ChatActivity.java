@@ -230,7 +230,8 @@ public class ChatActivity extends AppCompatActivity {
                                                         new GetCallback<Contacts>() {
                                                             public void done(Contacts object, ParseException e) {
                                                                 Contacts contact = (Contacts) object;
-                                                                int addPoints = Contacts.makeMessageRanking(ParseUser.getCurrentUser(), contact.getRelationship());
+                                                                ParseUser user = ParseUser.getCurrentUser();
+                                                                int addPoints = Contacts.makeMessageRanking(user, contact.getRelationship());
                                                                 contact.setRanking(contact.getRanking() + addPoints);
                                                                 contact.saveInBackground();
                                                             }

@@ -10,6 +10,7 @@ public class Contacts extends ParseObject {
     private static final String RELATIONSHIP_KEY = "Relationship";
     private static final String OWNER_KEY = "Owner";
     private static final String CONTACT_NAME_KEY = "ContactName";
+    private static final String FLAG_KEY = "Flag";
 
     public void setOwner(String ownerName) {
         put(OWNER_KEY, ownerName);
@@ -27,6 +28,8 @@ public class Contacts extends ParseObject {
         put(CONTACT_NAME_KEY, contactName);
     }
 
+    public void setFlag(boolean alert){put(FLAG_KEY, alert);}
+
     //when we want to display a particular contact
     public String getRelationship() {
         return getString(RELATIONSHIP_KEY);
@@ -40,8 +43,12 @@ public class Contacts extends ParseObject {
         return getInt(RANKING_KEY);
     }
 
+    public Boolean getFlag(){
+        return getBoolean(FLAG_KEY);
+    }
+
     public static int makeMessageRanking(ParseUser user, String relationship) {
-        int priority = (int) user.get(relationship);
+        int priority = user.getInt(relationship);
         switch (priority) {
             case 1:
                 return 16;
