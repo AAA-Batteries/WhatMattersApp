@@ -29,6 +29,7 @@
             android:name=".BottomNavigation"
             android:label="@string/title_activity_fragments_controller" />
         <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".PriorityActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,8 +23,12 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.angsala.whatmattersapp.LoginActivity.TOAST_CODE;
 
 
 public class GroupFragment extends Fragment {
@@ -32,28 +38,44 @@ public class GroupFragment extends Fragment {
     ParseUser user;
     TextView groupName;
     ImageView groupImage;
+    Button reprioritize;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group, container, false);
-    }
+        View v = inflater.inflate(R.layout.fragment_group, container, false);
 
+        reprioritize = v.findViewById(R.id.reprioritize);
+        // handles resetting priorities upon the reset button being clicked
+        reprioritize.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), PriorityActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        groupImage = v.findViewById(R.id.groupImage);
+        groupName = v.findViewById(R.id.groupName);
+
+        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
+        groupImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGroupContacts(groupName.getText().toString());
+            }
+        });
+
+        return v;
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        // That's all!
-
-        // First param is number of columns and second param is orientation i.e Vertical or Horizontal
-      //  StaggeredGridLayoutManager gridLayoutManager =
-
-        // Attach the layout manager to the recycler view
 
     }
 
@@ -62,16 +84,12 @@ public class GroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvContacts = view.findViewById(R.id.rvContacts);
 
-
-
-
         groups = new ArrayList<>();
         groups.add("Friends");
         groups.add("Parents");
         groups.add("Classmates");
         groups.add("Family");
         groups.add("Professors");
-
 
         // Initialize contacts
         // Create adapter passing in the sample user data
@@ -86,10 +104,7 @@ public class GroupFragment extends Fragment {
         groupName = view.findViewById(R.id.groupName);
 
 
-
     }
-
-
 
 
     public void myContacts() {
@@ -102,10 +117,10 @@ public class GroupFragment extends Fragment {
             @Override
             public void done(List<Contacts> objects, ParseException e) {
                 if (e == null) {
-                   // contacts.addAll(objects);
+                    // contacts.addAll(objects);
 
-                   // adapter.notifyItemInserted(contacts.size() - 1);
-                  //  Log.d("Fragmentcontact", contacts.toString());
+                    // adapter.notifyItemInserted(contacts.size() - 1);
+                    //  Log.d("Fragmentcontact", contacts.toString());
                 } else {
                     e.printStackTrace();
                 }
@@ -115,18 +130,18 @@ public class GroupFragment extends Fragment {
 
     }
 
-    public void changeToContacts(Fragment someFragment){
+    public void changeToContacts(Fragment someFragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.my_placeholder, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
-    public void changeFragment(){
-
+    public void openGroupContacts(String group) {
+        Bundle bundle = new Bundle();
+        bundle.putString("relationship", group);
+        
     }
-
 
 }

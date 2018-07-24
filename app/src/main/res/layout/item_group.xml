@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/groupImage"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:text="TextView"
         tools:layout_editor_absoluteX="81dp"
         tools:layout_editor_absoluteY="160dp" />
@@ -21,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:layout_editor_absoluteX="51dp"
         tools:layout_editor_absoluteY="52dp" />
