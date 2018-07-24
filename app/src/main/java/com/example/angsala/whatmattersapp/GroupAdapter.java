@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.Contacts;
 
@@ -26,10 +28,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public GroupAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View postView = inflater.inflate(R.layout.fragment_group, parent, false);
+        View postView = inflater.inflate(R.layout.item_group, parent, false);
 
 
 
@@ -38,7 +40,34 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        Contacts contacts1 = contacts.get(position);
+
+        String relationship = contacts1.getRelationship();
+        if (relationship.equals("Friends")){
+            int color = context.getResources().getColor(R.color.Friends);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupName.setText("Friend");
+        }
+        else if (relationship.equals("Parents")){
+            int color = context.getResources().getColor(R.color.Parents);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupName.setText("Parents");
+        } else if (relationship.equals("Classmates")){
+            int color = context.getResources().getColor(R.color.Classmates);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupName.setText("Classmates");
+        } else  if (relationship.equals("Family")){
+            int color = context.getResources().getColor(R.color.Family);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupName.setText("Family");
+        } else {
+            int color = context.getResources().getColor(R.color.colorAccent);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupName.setText("Professors");
+        }
+
+
 
     }
 
@@ -48,8 +77,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView groupName;
+        ImageView groupImage;
+
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            groupImage = itemView.findViewById(R.id.groupImage);
+            groupName = itemView.findViewById(R.id.groupName);
         }
     }
 }
