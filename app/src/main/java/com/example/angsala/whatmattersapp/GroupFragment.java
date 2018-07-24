@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +14,11 @@ import android.view.ViewGroup;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
+
+import static com.example.angsala.whatmattersapp.LoginActivity.TOAST_CODE;
 
 
 public class GroupFragment extends Fragment {
@@ -47,8 +52,6 @@ public class GroupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvContacts = view.findViewById(R.id.rvContacts);
-        // Initialize contacts
-        contacts = (ArrayList) ParseUser.getCurrentUser().get("contacts");
         // Create adapter passing in the sample user data
         GroupAdapter adapter = new GroupAdapter(contacts);
         // Attach the adapter to the recyclerview to populate items
@@ -58,4 +61,10 @@ public class GroupFragment extends Fragment {
         rvContacts.setAdapter(adapter);
 
     }
+
+    public void launchPriorityActivity(View view) {
+        Intent intent = new Intent(getActivity(), PriorityActivity.class);
+        startActivity(intent);
+    }
+
 }
