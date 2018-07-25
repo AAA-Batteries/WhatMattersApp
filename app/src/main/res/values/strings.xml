@@ -19,7 +19,7 @@
     <string name="my_contacts">Contacts</string>
 
 
-    <string-array name = "relationships">
+    <string-array name="relationships">
         <item>Relationships…</item>
         <item>Parents</item>
         <item>Family</item>
@@ -28,7 +28,7 @@
         <item>Professors</item>
     </string-array>
 
-    <string-array name = "rankings">
+    <string-array name="rankings">
         <item>Ranking…</item>
         <item>1</item>
         <item>2</item>

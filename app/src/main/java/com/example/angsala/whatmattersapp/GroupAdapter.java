@@ -1,9 +1,8 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +22,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     MenuView.ItemView itemView;
     GroupFragment fragment;
 
+    // creates an on-click listener for when the user clicks on a group image
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -30,9 +30,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             int itemPosition = rv.getChildLayoutPosition(view);
             String item = relationship.get(itemPosition);
 
-            openGroupContacts(item);
-
             Toast.makeText(view.getContext(), item, Toast.LENGTH_LONG).show();
+            Log.d("Relationship", item);
+
+            openGroupContacts(item);
         }
     };
 
@@ -110,8 +111,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                String myPosition = relationship.get(position);
-                Toast.makeText(context, "it clicks", Toast.LENGTH_SHORT).show();
+                String group = relationship.get(position);
+
+                Toast.makeText(view.getContext(), "Showing contacts from " + group, Toast.LENGTH_SHORT).show();
+
+                openGroupContacts(group);
 
             }
         }
@@ -127,9 +131,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     public void openGroupContacts(String group) {
-        Fragment fragment = new AddUserFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("relationship", group);
-        fragment.setArguments(bundle);
+        Intent intent = new Intent(context, ListGroupContactsActivity.class);
+        intent.putExtra("relationship", group);
+        context.startActivity(intent);
     }
 }
