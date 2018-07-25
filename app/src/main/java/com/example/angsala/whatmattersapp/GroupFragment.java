@@ -81,12 +81,15 @@ public class GroupFragment extends Fragment {
         rvContacts = view.findViewById(R.id.rvContacts);
 
         groups = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            groups.add("");
+        }
 
-        groups.set((int) ParseUser.getCurrentUser().get("Parents"), "Parents");
-        groups.set((int) ParseUser.getCurrentUser().get("Family"), "Family");
-        groups.set((int) ParseUser.getCurrentUser().get("Friends"), "Friends");
-        groups.set((int) ParseUser.getCurrentUser().get("Classmates"), "Classmates");
-        groups.set((int) ParseUser.getCurrentUser().get("Professors"), "Professors");
+        groups.set((int) ParseUser.getCurrentUser().get("Parents") - 1, "Parents");
+        groups.set((int) ParseUser.getCurrentUser().get("Family") - 1, "Family");
+        groups.set((int) ParseUser.getCurrentUser().get("Friends") - 1, "Friends");
+        groups.set((int) ParseUser.getCurrentUser().get("Classmates") - 1, "Classmates");
+        groups.set((int) ParseUser.getCurrentUser().get("Professors") - 1, "Professors");
 
         // Initialize contacts
         // Create adapter passing in the sample user data
