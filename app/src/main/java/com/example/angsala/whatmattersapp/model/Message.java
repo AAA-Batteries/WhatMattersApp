@@ -1,6 +1,5 @@
 package com.example.angsala.whatmattersapp.model;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -56,5 +55,17 @@ public class Message extends ParseObject {
 
     public void setBody(String body) {
         put(BODY_KEY, body);
+    }
+
+    public ParseUser getParseUserSender(){
+        try {
+            this.fetchIfNeeded();
+            ParseUser userSent = (ParseUser) get (USER_SENT_KEY);
+            return userSent;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }
