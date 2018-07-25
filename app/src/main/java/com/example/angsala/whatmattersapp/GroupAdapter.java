@@ -22,6 +22,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     MenuView.ItemView itemView;
     GroupFragment fragment;
 
+    // creates an on-click listener for when the user clicks on a group image
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -110,8 +111,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                String myPosition = relationship.get(position);
-                Toast.makeText(context, "it clicks", Toast.LENGTH_SHORT).show();
+                String group = relationship.get(position);
+
+                Toast.makeText(view.getContext(), "Showing contacts from " + group, Toast.LENGTH_SHORT).show();
+
+                openGroupContacts(group);
 
             }
         }
