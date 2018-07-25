@@ -12,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
@@ -129,7 +127,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     public void openGroupContacts(String group) {
-        Fragment fragment = new ContactFragment();
+        Fragment fragment = new AddUserFragment();
         Bundle bundle = new Bundle();
         bundle.putString("relationship", group);
         fragment.setArguments(bundle);

@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 
-public class ContactFragment extends DialogFragment {
+public class AddUserFragment extends DialogFragment {
 
     EditText newUsername;
     Spinner relationshipSpinner;
@@ -56,7 +56,7 @@ public class ContactFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ContactFragment.this.getDialog().cancel();
+                        AddUserFragment.this.getDialog().cancel();
                     }
                 });
         newUsername = view.findViewById(R.id.newUsername);
