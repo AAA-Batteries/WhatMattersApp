@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,14 +24,23 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     List<String> relationship;
     MenuView.ItemView itemView;
     GroupFragment fragment;
-    List<ImageView> groupImages;
-    AdapterView.OnItemClickListener listener;
+
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            RecyclerView rv = view.findViewById(R.id.rvContacts);
+            int itemPosition = rv.getChildLayoutPosition(view);
+            String item = relationship.get(itemPosition);
+
+            openGroupContacts(item);
+
+            Toast.makeText(view.getContext(), item, Toast.LENGTH_LONG).show();
+        }
+    };
 
 
-    public GroupAdapter(List<String> relationship, List<ImageView> groupImages, AdapterView.OnItemClickListener listener) {
+    public GroupAdapter(List<String> relationship) {
         this.relationship = relationship;
-        this.groupImages = groupImages;
-        this.listener = listener;
     }
 
 
@@ -41,6 +51,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_group, parent, false);
 
+        postView.setOnClickListener(mOnClickListener);
 
         return new ViewHolder(postView);
     }
@@ -48,8 +59,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         String myPosition = relationship.get(position);
-
-        viewHolder.bind(groupImages.get(position), listener);
 
         Log.d("MyAdapter", relationship.toString());
 
@@ -118,7 +127,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             });
         }
     }
-
 
     public void openGroupContacts(String group) {
         Fragment fragment = new ContactFragment();
