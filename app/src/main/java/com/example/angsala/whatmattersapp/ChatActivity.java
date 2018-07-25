@@ -118,6 +118,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "I clicked the exit button");
             }
         });
 
