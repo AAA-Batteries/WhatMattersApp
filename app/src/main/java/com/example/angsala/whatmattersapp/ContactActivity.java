@@ -19,7 +19,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ContactActivity extends AppCompatActivity implements ContactFragment.ContactFragmentListener {
+public abstract class ContactActivity extends AppCompatActivity implements AddUserFragment.ContactFragmentListener {
     private static final String TAG = "1";
     ParseUser user;
     ArrayList<String> contacts;
@@ -103,8 +103,8 @@ public abstract class ContactActivity extends AppCompatActivity implements Conta
     }
 
     public void openDialog() {
-        ContactFragment contactFragment = new ContactFragment();
-        contactFragment.show(getSupportFragmentManager(), "contact fragment");
+        AddUserFragment addUserFragment = new AddUserFragment();
+        addUserFragment.show(getSupportFragmentManager(), "contact fragment");
     }
 
 

@@ -28,8 +28,9 @@
         <activity
             android:name=".BottomNavigation"
             android:label="@string/title_activity_fragments_controller" />
-        <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".PriorityActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".PriorityActivity" />
+        <activity android:name=".ListGroupContacts"></activity>
     </application>
 
 </manifest>
