@@ -84,7 +84,7 @@ public class MyContactsFragment extends Fragment
     rvContacts = view.findViewById(R.id.rvContacts);
     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
     rvContacts.setAdapter(adapter);
-    myContacts();
+   // myContacts();
 
   }
 
@@ -169,10 +169,6 @@ public class MyContactsFragment extends Fragment
     userExists(testuser);
     myHandler.postDelayed(runnable, 2000);
 
-    //        else {
-    //            Toast.makeText(getApplicationContext(), "You already have this user in your
-    // contacts", Toast.LENGTH_SHORT).show();
-    //        }
 
   }
 
@@ -257,18 +253,24 @@ public class MyContactsFragment extends Fragment
             if (e == null) {
 
               int halfway = (objects.size() / 2);
-
+              String halfwayRelationship = objects.get(halfway).getRelationship();
               //cancel the corrected flags --> will get more difficult on time with bigger contacts list
-              for(int i = 0; i < halfway; i++){
-                if (objects.get(i).getFlag() == true){
+              for(int i = 0; i < objects.size()-1; i++){
+                String obRelationship = objects.get(i).getRelationship();
+                String nextRelationship = objects.get(i+1).getRelationship();
+                if (objects.get(i).getFlag() == true && user.getInt(obRelationship) <= user.getInt(nextRelationship)){
                   objects.get(i).setFlag(false);
+                  objects.get(i).saveInBackground();
                 }
               }
 
               for (int i = halfway; i < objects.size(); i++) {
                 String rel = objects.get(i).getRelationship();
+                String prevRel = objects.get(i - 1).getRelationship();
+
+
                 // we found a low ranking user that should be put on top
-                if (user.getInt(rel) == 1 || user.getInt(rel) == 2) {
+                if ((user.getInt(rel) <= user.getInt(prevRel))|| (user.getInt(rel) <= user.getInt(halfwayRelationship))) {
                   // might be a problem because we have to basically make a bunch of network calls
                   // and async delays
                   objects.get(i).setFlag(true);
@@ -293,6 +295,15 @@ public class MyContactsFragment extends Fragment
             }
           }
         });
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    Log.d(TAG, "automatic refresh");
+    contactsList.clear();
+    adapter.notifyDataSetChanged();
+    myContacts();
   }
 
   public int makeRanking(String relationship, ParseUser ownerUser) {

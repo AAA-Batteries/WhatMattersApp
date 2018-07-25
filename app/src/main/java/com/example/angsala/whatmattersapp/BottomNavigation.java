@@ -19,7 +19,6 @@ public class BottomNavigation extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments_controller);
 
-
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define your fragments here
@@ -27,6 +26,18 @@ public class BottomNavigation extends AppCompatActivity{
         final Fragment fragment2 = new ProfileFragment();
         final Fragment fragment3 = new MyContactsFragment();
         final Fragment fragment4 = new GroupFragment();
+
+        boolean openContacts = false;
+
+        Bundle goBackContacts = getIntent().getExtras();
+        if(goBackContacts != null && goBackContacts.containsKey("ContactsFragment")){
+            openContacts = goBackContacts.getBoolean("ContactsFragment");
+        }
+
+        if(openContacts){
+          FragmentTransaction  fragmentTransaction = fragmentManager.beginTransaction();
+          fragmentTransaction.replace(R.id.my_placeholder, fragment3).commit();
+        }
 
         // handle navigation selection
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
