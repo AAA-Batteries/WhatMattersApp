@@ -2,6 +2,7 @@ package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -119,6 +120,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "I clicked the exit button");
+                onBackPressed();
             }
         });
 
@@ -359,4 +361,14 @@ public class ChatActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        if(fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        }
+        else{
+            super.onBackPressed();
+        }
+        }
 }
