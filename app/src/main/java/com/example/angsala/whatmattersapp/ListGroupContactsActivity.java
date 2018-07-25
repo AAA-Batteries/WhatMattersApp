@@ -3,7 +3,7 @@ package com.example.angsala.whatmattersapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ListGroupContacts extends AppCompatActivity {
+public class ListGroupContactsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

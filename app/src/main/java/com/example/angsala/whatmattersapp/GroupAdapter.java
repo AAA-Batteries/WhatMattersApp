@@ -2,9 +2,7 @@ package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,9 +29,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             int itemPosition = rv.getChildLayoutPosition(view);
             String item = relationship.get(itemPosition);
 
-            openGroupContacts(item);
-
             Toast.makeText(view.getContext(), item, Toast.LENGTH_LONG).show();
+            Log.d("Relationship", item);
+
+            openGroupContacts(item);
         }
     };
 
@@ -128,7 +127,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     public void openGroupContacts(String group) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(context, ListGroupContactsActivity.class);
         intent.putExtra("relationship", group);
+        context.startActivity(intent);
     }
 }

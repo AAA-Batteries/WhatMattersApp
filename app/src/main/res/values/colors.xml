@@ -7,5 +7,6 @@
     <color name="Classmates">#ffff00</color>
     <color name="Family">#ff0080</color>
     <color name="colorAccent">#b5ffc2</color>
+    <color name="light_background">#effaf4</color>
 
 </resources>
