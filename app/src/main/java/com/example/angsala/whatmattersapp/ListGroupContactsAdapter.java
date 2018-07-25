@@ -58,6 +58,8 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             viewHolder.groupRelationship.setText("Professors");
         }
 
+
+
         Log.d("adapter", contacts.toString());
         viewHolder.contactGroupImage.setImageResource(R.drawable.ic_launcher_background);
         viewHolder.myContactName.setText(contacts.getContactName());
@@ -75,12 +77,14 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         ImageView contactGroupRelationship;
         TextView groupRelationship;
         TextView myContactName;
+        TextView alertMessage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             contactGroupImage = itemView.findViewById(R.id.contactGroupImage);
             contactGroupRelationship = itemView.findViewById(R.id.ivContactGroupRelationship);
             groupRelationship = itemView.findViewById(R.id.tvGroupRelationship);
             myContactName = itemView.findViewById(R.id.myContactName);
+            alertMessage = itemView.findViewById(R.id.alertMessage);
 
             itemView.setOnClickListener(this);
         }

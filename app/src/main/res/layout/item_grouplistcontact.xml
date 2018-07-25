@@ -49,4 +49,11 @@
         android:layout_toEndOf="@+id/contactGroupImage"
         android:text="TextView" />
 
+    <TextView
+        android:id="@+id/alertMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivContactGroupRelationship"
+        android:layout_toEndOf="@+id/myContactName" />
+
 </RelativeLayout>
