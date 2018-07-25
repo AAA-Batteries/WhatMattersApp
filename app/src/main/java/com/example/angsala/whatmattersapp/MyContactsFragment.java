@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyContactsFragment extends Fragment
-    implements ContactFragment.ContactFragmentListener {
+    implements AddUserFragment.ContactFragmentListener {
 
   private static final String TAG = "MyContactsFragment";
   ParseUser user;
@@ -158,9 +158,9 @@ public class MyContactsFragment extends Fragment
 
   public void openDialog() {
     FragmentManager fm = getFragmentManager();
-    ContactFragment contactFragment = new ContactFragment();
-    contactFragment.setTargetFragment(MyContactsFragment.this, 1);
-    contactFragment.show(fm, "contact fragment");
+    AddUserFragment addUserFragment = new AddUserFragment();
+    addUserFragment.setTargetFragment(MyContactsFragment.this, 1);
+    addUserFragment.show(fm, "contact fragment");
   }
 
   public void receiveText(String userText) {
