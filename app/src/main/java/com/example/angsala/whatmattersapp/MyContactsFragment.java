@@ -102,13 +102,6 @@ public class MyContactsFragment extends Fragment
             }
     );
 
-      //myContacts
-      if (getActivity() != null) {
-          String test;
-          test = getArguments().getString("relationship");
-          Log.d("myBundle", test);
-      }
-
   }
 
   public List<Contacts> addContacts(String contact, String relationship) {
