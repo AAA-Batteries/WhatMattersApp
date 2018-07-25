@@ -3,7 +3,6 @@ package com.example.angsala.whatmattersapp;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,17 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.Contacts;
-import com.example.angsala.whatmattersapp.model.User;
 
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
 
-    User user;
 
     Context context;
     List<Contacts> contacts;
-    MenuView.ItemView itemView;
 
     public ContactsAdapter(List<Contacts> contacts) {
         this.contacts = contacts;
@@ -35,10 +31,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_contact, parent, false);
-
-
-
-
         return new ViewHolder(postView);
 
     }
@@ -49,20 +41,19 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
 
         String relationship = contact.getRelationship();
-        if (relationship.equals("Friends")){
+        if (relationship.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Friend");
-        }
-        else if (relationship.equals("Parents")){
+        } else if (relationship.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Parents");
-        } else if (relationship.equals("Classmates")){
+        } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Classmates");
-        } else  if (relationship.equals("Family")){
+        } else if (relationship.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Family");
@@ -72,20 +63,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.relationship.setText("Professors");
         }
         Boolean flag = contact.getFlag();
-        if (flag){
+        if (flag) {
             viewHolder.flag.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             viewHolder.flag.setVisibility(View.INVISIBLE);
         }
 
-        //  Log.d("ContactsAdapter", n);
         Log.d("adapter", contacts.toString());
 
         viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
 
-        //viewHolder.tvUserName.setText(n);
         viewHolder.tvUserName.setText(contact.getContactName());
         Log.d("adapter", viewHolder.tvUserName.toString());
 
