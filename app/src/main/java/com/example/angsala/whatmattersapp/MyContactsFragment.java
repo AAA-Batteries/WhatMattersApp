@@ -85,6 +85,7 @@ public class MyContactsFragment extends Fragment
     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
     rvContacts.setAdapter(adapter);
     myContacts();
+
   }
 
   public List<Contacts> addContacts(String contact, String relationship) {

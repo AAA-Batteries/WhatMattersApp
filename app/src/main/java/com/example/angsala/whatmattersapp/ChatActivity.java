@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,6 +113,15 @@ public class ChatActivity extends AppCompatActivity {
         Toolbar mytoolbar = findViewById(R.id.toolbarChat);
         setSupportActionBar(mytoolbar);
         getSupportActionBar().setTitle("");
+        mytoolbar.setNavigationIcon(R.drawable.baseline_arrow_back_black_18dp);
+        mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "I clicked the exit button");
+            }
+        });
+
         // User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
             startWithCurrentUser();
@@ -124,29 +131,7 @@ public class ChatActivity extends AppCompatActivity {
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.my_exit, menu);
 
-        return true;
-
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.contact_exit:
-
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     // Create an anonymous user using ParseAnonymousUtils and set sUserId
     void login() {
