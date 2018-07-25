@@ -57,13 +57,13 @@ public class GroupFragment extends Fragment {
         groupImage = v.findViewById(R.id.groupImage);
         groupName = v.findViewById(R.id.groupName);
 
-        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
-        groupImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openGroupContacts(groupName.getText().toString());
-            }
-        });
+//        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
+//        groupImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openGroupContacts(groupName.getText().toString());
+//            }
+//        });
 
         return v;
     }
@@ -81,11 +81,12 @@ public class GroupFragment extends Fragment {
         rvContacts = view.findViewById(R.id.rvContacts);
 
         groups = new ArrayList<>();
-        groups.add("Friends");
-        groups.add("Parents");
-        groups.add("Classmates");
-        groups.add("Family");
-        groups.add("Professors");
+
+        groups.set((int) ParseUser.getCurrentUser().get("Parents"), "Parents");
+        groups.set((int) ParseUser.getCurrentUser().get("Family"), "Family");
+        groups.set((int) ParseUser.getCurrentUser().get("Friends"), "Friends");
+        groups.set((int) ParseUser.getCurrentUser().get("Classmates"), "Classmates");
+        groups.set((int) ParseUser.getCurrentUser().get("Professors"), "Professors");
 
         // Initialize contacts
         // Create adapter passing in the sample user data
@@ -98,7 +99,6 @@ public class GroupFragment extends Fragment {
         Log.d("Groups", groups.toString());
         groupImage = view.findViewById(R.id.groupImage);
         groupName = view.findViewById(R.id.groupName);
-
 
     }
 
@@ -126,7 +126,7 @@ public class GroupFragment extends Fragment {
 
     }
 
-    public void changeToContacts(Fragment someFragment) {
+    public void changeFragments(Fragment someFragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.my_placeholder, someFragment);
