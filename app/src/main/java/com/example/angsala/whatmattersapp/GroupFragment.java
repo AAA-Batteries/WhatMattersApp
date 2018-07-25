@@ -61,13 +61,13 @@ public class GroupFragment extends Fragment {
         groupImage = v.findViewById(R.id.groupImage);
         groupName = v.findViewById(R.id.groupName);
 
-        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
-        groupImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openGroupContacts(groupName.getText().toString());
-            }
-        });
+//        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
+//        groupImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openGroupContacts(groupName.getText().toString());
+//            }
+//        });
 
         return v;
     }
@@ -103,7 +103,6 @@ public class GroupFragment extends Fragment {
         groupImage = view.findViewById(R.id.groupImage);
         groupName = view.findViewById(R.id.groupName);
 
-
     }
 
 
@@ -130,18 +129,12 @@ public class GroupFragment extends Fragment {
 
     }
 
-    public void changeToContacts(Fragment someFragment) {
+    public void changeFragments(Fragment someFragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.my_placeholder, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    public void openGroupContacts(String group) {
-        Bundle bundle = new Bundle();
-        bundle.putString("relationship", group);
-        
     }
 
 }

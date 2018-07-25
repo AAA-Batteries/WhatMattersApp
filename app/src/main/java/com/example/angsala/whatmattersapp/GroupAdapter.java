@@ -1,17 +1,21 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
@@ -19,11 +23,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     List<String> relationship;
     MenuView.ItemView itemView;
     GroupFragment fragment;
+    List<ImageView> groupImages;
+    AdapterView.OnItemClickListener listener;
 
 
-    public GroupAdapter(List<String> relationship) {
+    public GroupAdapter(List<String> relationship, List<ImageView> groupImages, AdapterView.OnItemClickListener listener) {
         this.relationship = relationship;
-
+        this.groupImages = groupImages;
+        this.listener = listener;
     }
 
 
@@ -35,7 +42,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         View postView = inflater.inflate(R.layout.item_group, parent, false);
 
 
-
         return new ViewHolder(postView);
     }
 
@@ -43,28 +49,24 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         String myPosition = relationship.get(position);
 
-
+        viewHolder.bind(groupImages.get(position), listener);
 
         Log.d("MyAdapter", relationship.toString());
 
 
-
-
-
-        if (myPosition.equals("Friends")){
+        if (myPosition.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Friend");
-        }
-        else if (myPosition.equals("Parents")){
+        } else if (myPosition.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Parents");
-        } else if (myPosition.equals("Classmates")){
+        } else if (myPosition.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Classmates");
-        } else  if (myPosition.equals("Family")){
+        } else if (myPosition.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Family");
@@ -73,7 +75,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Professors");
         }
-
 
 
     }
@@ -101,11 +102,28 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION){
+            if (position != RecyclerView.NO_POSITION) {
                 String myPosition = relationship.get(position);
                 Toast.makeText(context, "it clicks", Toast.LENGTH_SHORT).show();
 
             }
         }
+
+        public void bind(final ImageView item, final AdapterView.OnItemClickListener listener) {
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    String group = (String) item.getTag();
+                    openGroupContacts(group);
+                }
+            });
+        }
+    }
+
+
+    public void openGroupContacts(String group) {
+        Fragment fragment = new ContactFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("relationship", group);
+        fragment.setArguments(bundle);
     }
 }
