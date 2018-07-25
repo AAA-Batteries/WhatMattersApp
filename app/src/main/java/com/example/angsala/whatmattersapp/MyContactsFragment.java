@@ -85,6 +85,12 @@ public class MyContactsFragment extends Fragment
     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
     rvContacts.setAdapter(adapter);
    // myContacts();
+      if (getArguments() != null){
+          String test;
+          test = getArguments().getString("relationship");
+          Log.d("myBundle", test);
+      }
+
 
   }
 
