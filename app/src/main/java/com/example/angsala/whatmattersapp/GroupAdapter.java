@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -129,7 +130,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     public void openGroupContacts(String group) {
-        Fragment fragment = new ContactFragment();
+        Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("relationship", group);
         fragment.setArguments(bundle);
