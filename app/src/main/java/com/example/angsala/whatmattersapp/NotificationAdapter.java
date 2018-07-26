@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return notificationMessages.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txtvName;
         TextView txtvBody;
         ImageView imvPicture;
@@ -60,6 +61,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             txtvName = (TextView) itemView.findViewById(R.id.tvNotificationUsername);
             txtvBody = (TextView) itemView.findViewById(R.id.tvNotificationBody);
             imvPicture = (ImageView) itemView.findViewById(R.id.ivNotification);
+
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            int viewPosition = getAdapterPosition();
+            if (viewPosition != RecyclerView.NO_POSITION){
+                Message message = notificationMessages.get(viewPosition);
+                String recipient = message.getParseUserSender().getUsername();
+                Intent chatIntent = new Intent(context, ChatActivity.class);
+                chatIntent.putExtra("Recipient", recipient);
+                context.startActivity(chatIntent);
+            }
         }
     }
 }

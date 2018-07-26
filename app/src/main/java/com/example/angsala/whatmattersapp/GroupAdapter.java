@@ -113,7 +113,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             if (position != RecyclerView.NO_POSITION) {
                 String group = relationship.get(position);
 
-                Toast.makeText(view.getContext(), "Showing contacts from " + group, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(view.getContext(), "Showing contacts from " + group, Toast.LENGTH_SHORT).show();
 
                 openGroupContacts(group);
 

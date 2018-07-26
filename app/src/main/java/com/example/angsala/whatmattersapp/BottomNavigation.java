@@ -27,17 +27,13 @@ public class BottomNavigation extends AppCompatActivity{
         final Fragment fragment3 = new MyContactsFragment();
         final Fragment fragment4 = new GroupFragment();
 
-        boolean openContacts = false;
 
-        Bundle goBackContacts = getIntent().getExtras();
-        if(goBackContacts != null && goBackContacts.containsKey("ContactsFragment")){
-            openContacts = goBackContacts.getBoolean("ContactsFragment");
-        }
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.my_placeholder, fragment1).commit();
 
-        if(openContacts){
-          FragmentTransaction  fragmentTransaction = fragmentManager.beginTransaction();
-          fragmentTransaction.replace(R.id.my_placeholder, fragment3).commit();
-        }
+
+
+
 
         // handle navigation selection
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);

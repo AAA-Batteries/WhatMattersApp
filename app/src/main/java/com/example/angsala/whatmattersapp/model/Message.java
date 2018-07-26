@@ -10,6 +10,7 @@ public class Message extends ParseObject {
     private static final String USER_SENT_KEY = "UserSent";
     private static final String USER_RECEIVED_KEY = "UserReceived";
     private static final String BODY_KEY = "body";
+    private static final String MESSAGE_RANKING_KEY = "MessageRanking";
 
     public String getUserSent() {
         try {
@@ -66,6 +67,14 @@ public class Message extends ParseObject {
             e.printStackTrace();
             return null;
         }
+        }
 
-    }
+        public Integer getMessageRanking(){
+        return getInt(MESSAGE_RANKING_KEY);}
+
+        public void setMessageRanking(){
+
+        }
+
+
 }
