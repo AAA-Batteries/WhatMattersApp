@@ -116,6 +116,7 @@ public class MyContactsFragment extends Fragment
     int rank = makeRanking(relationship, user);
     contactCurr.setRanking(rank);
 
+
     Log.d(
         "addContacts method",
         rank + " uname: " + uname + " contact name: " + contact + " relationship: " + relationship);

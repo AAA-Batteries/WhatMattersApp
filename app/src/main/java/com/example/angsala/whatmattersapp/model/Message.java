@@ -35,7 +35,14 @@ public class Message extends ParseObject {
     }
 
     public String getBody() {
-        return getString(BODY_KEY);
+        try {
+            this.fetchIfNeeded();
+            return getString(BODY_KEY);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public void setUserSent(String userId) {

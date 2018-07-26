@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,20 @@ public class NotificationFragment extends Fragment {
     public final String TAG = "NotificationFragment";
     NotificationAdapter adapter;
     RecyclerView rvNotifications;
+    // Create a handler which can run code periodically
+    static final int POLL_INTERVAL = 2000;
+
+    Handler myHandler = new Handler();
+    Runnable mRefreshNotifsRunnable =
+            new Runnable() {
+                @Override
+                public void run() {
+
+                    fetchNotifications();
+
+
+                }
+            };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,12 +71,16 @@ public class NotificationFragment extends Fragment {
         rvNotifications.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNotifications.setAdapter(adapter);
 
+       // fetchNotifications();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        fetchNotifications();
+        notificationList.clear();
+        adapter.notifyDataSetChanged();;
+    myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
     }
 
 
@@ -79,14 +98,6 @@ public class NotificationFragment extends Fragment {
                         notificationList.addAll(mnotifciation.getReceived());
                         //hopefully returns a size not null
                         Log.d(TAG, Integer.toString(notificationList.size()));
-<<<<<<< HEAD
-//                        try {
-//                            Log.d(TAG, notificationList.get(0).fetchIfNeeded().getString("body"));
-//                        } catch (ParseException e1) {
-//                            e1.printStackTrace();
-//                        }
-=======
->>>>>>> a348a90ccfcd8015f194d1e7b351054c42fddd16
                         adapter.notifyItemInserted(notificationList.size() - 1);
 
 
