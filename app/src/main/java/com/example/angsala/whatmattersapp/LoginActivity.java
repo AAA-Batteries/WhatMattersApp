@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
   EditText loginPassword;
   Button loginButton;
   Button createButton;
-  String currId;
+  ParseUser currUser;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -79,24 +79,20 @@ public class LoginActivity extends AppCompatActivity {
       getCurrId(mUsername);
       // check that a notification object exists for the current user
       // if doesn't exist, create one
-      try {
-          ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
-                  .whereEqualTo("UserReceived", ParseUser.getQuery().get(currId));
-          query.getFirstInBackground(new GetCallback<Notification>() {
-              @Override
-              public void done(Notification notif, ParseException e) {
-                  if (notif == null) {
-                      Notification chatNotif = new Notification();
-                      chatNotif.setReceived(new ArrayList<Message>());
-                      chatNotif.setUserReceived(ParseUser.getCurrentUser().getObjectId());
+      ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+              .whereEqualTo("UserReceived", currUser);
+      query.getFirstInBackground(new GetCallback<Notification>() {
+          @Override
+          public void done(Notification notif, ParseException e) {
+              if (notif == null) {
+                  Notification chatNotif = new Notification();
+                  chatNotif.setReceived(new ArrayList<Message>());
+                  chatNotif.setUserReceived(currUser.getObjectId());
 
-                      chatNotif.saveInBackground();
-                  }
+                  chatNotif.saveInBackground();
               }
-          });
-      } catch (ParseException e) {
-          e.printStackTrace();
-      }
+          }
+      });
 
     ParseUser.logInInBackground(
         mUsername,
@@ -129,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
           public void done(ParseUser object, ParseException e) {
               ParseUser user = object;
               if (e == null && object != null) {
-                  currId = user.getObjectId();
+                  currUser = user;
               } else {
                   e.printStackTrace();
               }
