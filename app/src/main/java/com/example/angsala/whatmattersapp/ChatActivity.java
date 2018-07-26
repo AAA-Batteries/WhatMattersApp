@@ -59,6 +59,7 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     refreshMessages();
+                    myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                 }
             };
 
@@ -105,7 +106,6 @@ public class ChatActivity extends AppCompatActivity {
                                     public void run() {
                                         mAdapter.notifyDataSetChanged();
                                         rvChat.scrollToPosition(0);
-                                        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                                     }
                                 });
                     }
