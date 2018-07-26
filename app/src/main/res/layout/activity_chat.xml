@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white"
     android:layout_width="match_parent"
@@ -8,42 +9,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvChat"
-        android:layout_width="wrap_content"
-        android:layout_height="448dp"
-        android:layout_above="@+id/rlSend"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="56dp"
-        android:transcriptMode="alwaysScroll" />
-    <RelativeLayout
-        android:id="@+id/rlSend"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:paddingTop="5dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:layout_height="wrap_content" >
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_toLeftOf="@+id/btSend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/btSend"
-            android:gravity="top"
-            android:hint="@string/message_hint"
-            android:imeOptions="actionSend"/>
-        <Button
-            android:id="@+id/btSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingRight="10dp"
-            android:layout_alignParentRight="true"
-            android:text="@string/send"
-            android:textSize="18sp" />
-    </RelativeLayout>
+        android:layout_height="456dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="@color/light_background"
+
+        android:transcriptMode="alwaysScroll" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarChat"
@@ -54,4 +26,39 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
+
+    <RelativeLayout
+        android:id="@+id/rlSend"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="10dp"
+        android:background="@color/light_background"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="5dp">
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="320dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="11dp"
+            android:background="@drawable/textinputborder"
+            android:gravity="top"
+            android:imeOptions="actionSend"
+            android:selectAllOnFocus="false"
+            android:layout_above="@id/rvChat"
+            android:singleLine="false" />
+
+        <ImageView
+            android:id="@+id/btSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/etMessage"
+            app:srcCompat="@drawable/baseline_send_black_18dp" />
+    </RelativeLayout>
 </RelativeLayout>
