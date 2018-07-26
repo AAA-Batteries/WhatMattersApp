@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -91,6 +92,14 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
 
         @Override
         public void onClick(View view) {
+            int viewPosition = getAdapterPosition();
+            if (viewPosition != RecyclerView.NO_POSITION) {
+                Contacts contact = contactsList.get(viewPosition);
+                String contactname = contact.getContactName();
+                Intent chatIntent = new Intent(context, ChatActivity.class);
+                chatIntent.putExtra("Recipient", contactname);
+                context.startActivity(chatIntent);
+            }
 
 
         }
