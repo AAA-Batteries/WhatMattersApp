@@ -56,13 +56,15 @@ public class ChatActivity extends AppCompatActivity {
     int chatMessageLength;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 500; // milliseconds
+    static final int POLL_INTERVAL = 2000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
                 @Override
                 public void run() {
                     refreshMessages();
+
+
                 }
             };
 
@@ -141,6 +143,8 @@ public class ChatActivity extends AppCompatActivity {
         mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "I clicked the exit button");
                 onBackPressed();
             }
         });
@@ -258,6 +262,10 @@ public class ChatActivity extends AppCompatActivity {
                                                                     "Successfully sent message!",
                                                                     Toast.LENGTH_SHORT)
                                                                     .show();
+
+                                                            //try to make put this in user received's notifications
+                                                           // setNotif(tempMessage);
+
                                                         }
                                                     });
                                             // after user sends a message, update the recipient contact ranking based on priority category
