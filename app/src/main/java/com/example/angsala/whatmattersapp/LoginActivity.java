@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText loginPassword;
     Button loginButton;
     Button createButton;
-    ParseUser currUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +73,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void loginHelper(String mUsername, String mPassword) {
-        createNotif(mUsername);
-
         ParseUser.logInInBackground(
                 mUsername,
                 mPassword,
@@ -98,37 +95,5 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-
-    // check that a notification object exists for the current user
-    // if doesn't exist, create one
-    public void createNotif(String username) {
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", username);
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
-            public void done(ParseUser object, ParseException e) {
-                ParseUser user = object;
-                if (e == null && object != null) {
-                    currUser = user;
-
-                    ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
-                            .whereEqualTo("UserReceived", currUser);
-                    query.getFirstInBackground(new GetCallback<Notification>() {
-                        @Override
-                        public void done(Notification notif, ParseException e) {
-                            if (notif == null) {
-                                Notification chatNotif = new Notification();
-                                chatNotif.setReceived(new ArrayList<Message>());
-                                chatNotif.setUserReceived(currUser.getObjectId());
-
-                                chatNotif.saveInBackground();
-                            }
-                        }
-                    });
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }

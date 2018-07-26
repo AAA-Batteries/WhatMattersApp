@@ -12,13 +12,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.CountCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
 
 import static com.example.angsala.whatmattersapp.LoginActivity.TOAST_CODE;
 
@@ -34,6 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     Spinner spinnerClassmates;
     Spinner spinnerProfessors;
 
+    ParseUser currUser;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -94,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    public void createAccountHelper(String mUsername, String mPassword, final int rankParent, final int rankFamily, final int rankFriends, final int rankClassmates, final int rankProfessors){
+    public void createAccountHelper(final String mUsername, String mPassword, final int rankParent, final int rankFamily, final int rankFriends, final int rankClassmates, final int rankProfessors){
         // start of new code- determine if Username is taken
         final String u = mUsername;
         final String p = mPassword;
@@ -131,6 +137,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
+                                createNotif(mUsername);
                             } else {
                                 Log.d(TAG, "Username has already been taken");
                                 Toast.makeText(SignUpActivity.this, "Username taken", Toast.LENGTH_LONG).show();
@@ -138,5 +145,36 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    // check that a notification object exists for the current user
+    // if doesn't exist, create one
+    public void createNotif(String username) {
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", username);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+                ParseUser user = object;
+                if (e == null && object != null) {
+                    currUser = user;
+
+                    ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+                            .whereEqualTo("UserReceived", currUser);
+                    query.getFirstInBackground(new GetCallback<Notification>() {
+                        @Override
+                        public void done(Notification notif, ParseException e) {
+                            if (notif == null) {
+                                Notification chatNotif = new Notification();
+                                chatNotif.setReceived(new ArrayList<Message>());
+                                chatNotif.setUserReceived(currUser.getObjectId());
+
+                                chatNotif.saveInBackground();
+                            }
+                        }
+                    });
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
