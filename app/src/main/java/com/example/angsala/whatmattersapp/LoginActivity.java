@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
   EditText loginPassword;
   Button loginButton;
   Button createButton;
+  String currId;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -75,22 +76,27 @@ public class LoginActivity extends AppCompatActivity {
 
   public void loginHelper(String mUsername, String mPassword) {
 
+      getCurrId(mUsername);
       // check that a notification object exists for the current user
       // if doesn't exist, create one
-      ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
-              .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
-      query.getFirstInBackground(new GetCallback<Notification>() {
-          @Override
-          public void done(Notification notif, ParseException e) {
-              if (notif == null) {
-                  Notification chatNotif = new Notification();
-                  chatNotif.setReceived(new ArrayList<Message>());
-                  chatNotif.setUserReceived(ParseUser.getCurrentUser().getObjectId());
+      try {
+          ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+                  .whereEqualTo("UserReceived", ParseUser.getQuery().get(currId));
+          query.getFirstInBackground(new GetCallback<Notification>() {
+              @Override
+              public void done(Notification notif, ParseException e) {
+                  if (notif == null) {
+                      Notification chatNotif = new Notification();
+                      chatNotif.setReceived(new ArrayList<Message>());
+                      chatNotif.setUserReceived(ParseUser.getCurrentUser().getObjectId());
 
-                  chatNotif.saveInBackground();
+                      chatNotif.saveInBackground();
+                  }
               }
-          }
-      });
+          });
+      } catch (ParseException e) {
+          e.printStackTrace();
+      }
 
     ParseUser.logInInBackground(
         mUsername,
@@ -117,4 +123,17 @@ public class LoginActivity extends AppCompatActivity {
   }
 
 
+  public void getCurrId(String username) {
+      ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", username);
+      query.getFirstInBackground(new GetCallback<ParseUser>() {
+          public void done(ParseUser object, ParseException e) {
+              ParseUser user = object;
+              if (e == null && object != null) {
+                  currId = user.getObjectId();
+              } else {
+                  e.printStackTrace();
+              }
+          }
+      });
+  }
 }

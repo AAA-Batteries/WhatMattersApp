@@ -79,11 +79,14 @@ public class NotificationFragment extends Fragment {
                         notificationList.addAll(mnotifciation.getReceived());
                         //hopefully returns a size not null
                         Log.d(TAG, Integer.toString(notificationList.size()));
+<<<<<<< HEAD
 //                        try {
 //                            Log.d(TAG, notificationList.get(0).fetchIfNeeded().getString("body"));
 //                        } catch (ParseException e1) {
 //                            e1.printStackTrace();
 //                        }
+=======
+>>>>>>> a348a90ccfcd8015f194d1e7b351054c42fddd16
                         adapter.notifyItemInserted(notificationList.size() - 1);
 
 
