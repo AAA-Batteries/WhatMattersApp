@@ -17,6 +17,7 @@ import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
+import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -52,6 +53,8 @@ public class ChatActivity extends AppCompatActivity {
     String recipientId;
     String currentId;
 
+    Notification currChatNotif;
+
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 2000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
@@ -74,6 +77,25 @@ public class ChatActivity extends AppCompatActivity {
         setRecipient(getIntent().getStringExtra("Recipient"));
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
+
+        // check that a notification object exists for the current user and chat
+        // if doesn't exist, create one
+        ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+                .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
+        query.getFirstInBackground(new GetCallback<Notification>() {
+            @Override
+            public void done(Notification notif, ParseException e) {
+                if (notif == null) {
+                    currChatNotif = new Notification();
+                    currChatNotif.setReceived(new ArrayList<Message>());
+                    currChatNotif.setUserReceived(currentId);
+
+                    currChatNotif.saveInBackground();
+                } else {
+                    currChatNotif = notif;
+                }
+            }
+        });
 
 
         // Make sure the Parse server is setup to configured for live queries
@@ -107,6 +129,26 @@ public class ChatActivity extends AppCompatActivity {
                                 new Runnable() {
                                     @Override
                                     public void run() {
+                                        // delete the current user's notifications of messages received from the current chat's "recipient"
+                                        ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+                                                .whereEqualTo("UserReceived", currentId);
+                                        query.getFirstInBackground(new GetCallback<Notification>() {
+                                            @Override
+                                            public void done(Notification object, ParseException e) {
+                                                ArrayList<Message> messages = (ArrayList) object.get("ReceivedMessages");
+                                                for (int i = 0; i < messages.size(); i++) {
+                                                    Message m = messages.get(i);
+                                                    String sender = m.getUserSent();
+                                                    if (sender.equals(recipientId)) {
+                                                        messages.remove(i);
+                                                        i--;
+                                                    }
+                                                }
+                                                object.saveInBackground();
+                                            }
+                                        });
+
+                                        // refresh the chat screen
                                         mAdapter.notifyDataSetChanged();
                                         rvChat.scrollToPosition(0);
                                     }
@@ -265,6 +307,8 @@ public class ChatActivity extends AppCompatActivity {
                                             } catch (ParseException e1) {
                                                 e1.printStackTrace();
                                             }
+                                            // add the message to notifications
+                                            setNotif(tempMessage);
                                         } else {
                                             Log.e(TAG, "Failed to save message", e);
                                         }
@@ -287,12 +331,16 @@ public class ChatActivity extends AppCompatActivity {
                         if (e == null && object != null) {
                             Chat chat = (Chat) object;
                             mMessages.clear();
-                            mMessages.addAll(chat.getMessages());
-                            Collections.reverse(mMessages);
+                            for (Message m: chat.getMessages()) {
+                                mMessages.add(0, m);
+                            }
                             mAdapter.notifyDataSetChanged(); // update adapter
                             myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                             // Scroll to the bottom of the list on initial load
-                            rvChat.scrollToPosition(0);
+                            if (mFirstLoad) {
+                                rvChat.scrollToPosition(0);
+                                mFirstLoad = false;
+                            }
                         } else if (e != null) {
                             Log.e("message", "Error Loading Messages" + e);
                         }
