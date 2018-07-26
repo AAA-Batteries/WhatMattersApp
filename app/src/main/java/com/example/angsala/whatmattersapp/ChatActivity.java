@@ -190,7 +190,7 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
-        // associate the LayoutManager with the RecylcerView
+        // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
@@ -375,21 +375,25 @@ public class ChatActivity extends AppCompatActivity {
 
     // update the notification object with newly received messages
     public void setNotif(final Message message) {
-        ParseQuery<Notification> notifQuery = new ParseQuery<Notification>(Notification.class)
-                .whereEqualTo("UserReceived", message.getUserReceived());
-        notifQuery.getFirstInBackground(
-                new GetCallback<Notification>() {
-                    public void done(Notification object1, ParseException e) {
-                        Notification notif = object1;
-                        if (e == null && notif != null) {
-                            notif.addReceived(message);
-                            notif.saveInBackground();
-                        } else {
-                            e.printStackTrace();
+        try {
+            ParseQuery<Notification> notifQuery = new ParseQuery<Notification>(Notification.class)
+                    .whereEqualTo("UserReceived", ParseUser.getQuery().get(currentId));
+            notifQuery.getFirstInBackground(
+                    new GetCallback<Notification>() {
+                        public void done(Notification object1, ParseException e) {
+                            Notification notif = object1;
+                            if (e == null && notif != null) {
+                                notif.addReceived(message);
+                                notif.saveInBackground();
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
                     }
-                }
-        );
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
