@@ -52,7 +52,7 @@ public class ChatActivity extends AppCompatActivity {
     String currentId;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 1000; // milliseconds
+    static final int POLL_INTERVAL = 500; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
@@ -60,7 +60,10 @@ public class ChatActivity extends AppCompatActivity {
                 public void run() {
 
                     refreshMessages();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 649b27deaeeedf6c22ae9945fb6a552e8c748565
                 }
             };
 
