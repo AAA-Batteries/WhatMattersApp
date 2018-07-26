@@ -237,6 +237,8 @@ public class ChatActivity extends AppCompatActivity {
                                                                     "Successfully sent message!",
                                                                     Toast.LENGTH_SHORT)
                                                                     .show();
+
+
                                                         }
                                                     });
                                             // after user sends a message, update the recipient contact ranking based on priority category
