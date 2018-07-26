@@ -42,7 +42,8 @@ public class Notification extends ParseObject {
     }
 
     public void addReceived(Message message) {
-        getReceived().add(message);
+        ArrayList<Message> messages = getReceived();
+        messages.add(message);
         this.saveInBackground();
     }
 
