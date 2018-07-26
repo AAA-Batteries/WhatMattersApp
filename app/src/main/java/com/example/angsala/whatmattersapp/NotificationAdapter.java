@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Message;
 import com.parse.ParseException;
@@ -52,7 +51,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return notificationMessages.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txtvName;
         TextView txtvBody;
         ImageView imvPicture;
@@ -64,7 +63,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             imvPicture = (ImageView) itemView.findViewById(R.id.ivNotification);
 
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
         @Override
         public void onClick(View view) {
@@ -76,14 +74,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 chatIntent.putExtra("Recipient", recipient);
                 context.startActivity(chatIntent);
             }
-        }
-
-
-        @Override
-        public boolean onLongClick(View view) {
-            Toast.makeText(context, "LongClicked", Toast.LENGTH_SHORT).show();
-            //TODO - enable user to delete notifications
-            return true;
         }
     }
 }
