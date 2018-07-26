@@ -53,8 +53,6 @@ public class ChatActivity extends AppCompatActivity {
     String recipientId;
     String currentId;
 
-    Notification currChatNotif;
-
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 500; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
@@ -75,26 +73,6 @@ public class ChatActivity extends AppCompatActivity {
         setRecipient(getIntent().getStringExtra("Recipient"));
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
-
-        // check that a notification object exists for the current user and chat
-        // if doesn't exist, create one
-        ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
-                .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
-        query.getFirstInBackground(new GetCallback<Notification>() {
-            @Override
-            public void done(Notification notif, ParseException e) {
-                if (notif == null) {
-                    currChatNotif = new Notification();
-                    currChatNotif.setReceived(new ArrayList<Message>());
-                    currChatNotif.setUserReceived(currentId);
-
-                    currChatNotif.saveInBackground();
-                } else {
-                    currChatNotif = notif;
-                }
-            }
-        });
-
 
         // Make sure the Parse server is setup to configured for live queries
         // URL for server is determined by Parse.initialize() call.
@@ -200,7 +178,7 @@ public class ChatActivity extends AppCompatActivity {
     void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend =  findViewById(R.id.btSend);
+        btSend = findViewById(R.id.btSend);
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
@@ -323,7 +301,7 @@ public class ChatActivity extends AppCompatActivity {
                         if (e == null && object != null) {
                             Chat chat = (Chat) object;
                             mMessages.clear();
-                            for (Message m: chat.getMessages()) {
+                            for (Message m : chat.getMessages()) {
                                 mMessages.add(0, m);
                             }
                             mAdapter.notifyDataSetChanged(); // update adapter
