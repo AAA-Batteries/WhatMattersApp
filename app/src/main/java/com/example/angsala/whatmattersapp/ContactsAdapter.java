@@ -31,6 +31,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.item_contact, parent, false);
+
         return new ViewHolder(postView);
 
     }
@@ -113,5 +114,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 context.startActivity(chatIntent);
             }
         }
+        }
+
+    public void clear() {
+        contacts.clear();
+        notifyDataSetChanged();
     }
+
+    public void addAll(List<Contacts> mcontacts){
+        contacts.addAll(mcontacts);
+        notifyDataSetChanged();
+    }
+
 }

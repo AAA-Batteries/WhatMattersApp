@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,8 @@ public class MyContactsFragment extends Fragment
   boolean isVerified;
   boolean doesExist;
   List<Contacts> contactsList;
+
+  SwipeRefreshLayout swipeRefreshLayout;
   Handler myHandler = new Handler();
 
   Runnable runnable =
@@ -81,16 +84,23 @@ public class MyContactsFragment extends Fragment
     contactsList = new ArrayList<>();
     adapter = new ContactsAdapter(contactsList);
 
+
     rvContacts = view.findViewById(R.id.rvContacts);
     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
     rvContacts.setAdapter(adapter);
-   // myContacts();
-      if (getArguments() != null){
-          String test;
-          test = getArguments().getString("relationship");
-          Log.d("myBundle", test);
-      }
 
+    //
+
+    swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
+    swipeRefreshLayout.setOnRefreshListener(
+            new SwipeRefreshLayout.OnRefreshListener() {
+              @Override
+              public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                refreshContacts();
+              }
+            }
+    );
 
   }
 
@@ -164,9 +174,9 @@ public class MyContactsFragment extends Fragment
 
   public void openDialog() {
     FragmentManager fm = getFragmentManager();
-    AddUserFragment addUserFragment = new AddUserFragment();
-    addUserFragment.setTargetFragment(MyContactsFragment.this, 1);
-    addUserFragment.show(fm, "contact fragment");
+    AddUserFragment contactFragment = new AddUserFragment();
+    contactFragment.setTargetFragment(MyContactsFragment.this, 1);
+    contactFragment.show(fm, "contact fragment");
   }
 
   public void receiveText(String userText) {
@@ -258,34 +268,37 @@ public class MyContactsFragment extends Fragment
           public void done(List<Contacts> objects, ParseException e) {
             if (e == null) {
 
-              int halfway = (objects.size() / 2);
-              String halfwayRelationship = objects.get(halfway).getRelationship();
-              //cancel the corrected flags --> will get more difficult on time with bigger contacts list
-              for(int i = 0; i < objects.size()-1; i++){
-                String obRelationship = objects.get(i).getRelationship();
-                String nextRelationship = objects.get(i+1).getRelationship();
-                if (objects.get(i).getFlag() == true && user.getInt(obRelationship) <= user.getInt(nextRelationship)){
-                  objects.get(i).setFlag(false);
-                  objects.get(i).saveInBackground();
+              if(objects.size() > 0) {
+                int halfway = (objects.size() / 2);
+                String halfwayRelationship = objects.get(halfway).getRelationship();
+                //cancel the corrected flags --> will get more difficult on time with bigger contacts list
+                for (int i = 0; i < objects.size() - 1; i++) {
+                  String obRelationship = objects.get(i).getRelationship();
+                  String nextRelationship = objects.get(i + 1).getRelationship();
+                  if (objects.get(i).getFlag() == true && user.getInt(obRelationship) <= user.getInt(nextRelationship)) {
+                    objects.get(i).setFlag(false);
+                    objects.get(i).saveInBackground();
+                  }
+                }
+
+                //set flags
+                if (objects.size() > 1) {
+                  for (int i = halfway; i < objects.size(); i++) {
+                    String rel = objects.get(i).getRelationship();
+                    String prevRel = objects.get(i - 1).getRelationship();
+                    String firstRel = objects.get(0).getRelationship();
+                    // we found a low ranking user that should be put on top
+                    if ((user.getInt(rel) < user.getInt(prevRel)) || (user.getInt(rel) < user.getInt(halfwayRelationship)) || user.getInt(rel) < user.getInt(firstRel)) {
+                      // might be a problem because we have to basically make a bunch of network calls
+                      // and async delays
+                      objects.get(i).setFlag(true);
+                      // hopefully will save
+                      objects.get(i).saveInBackground();
+                      adapter.notifyDataSetChanged();
+                    }
+                  }
                 }
               }
-
-              for (int i = halfway; i < objects.size(); i++) {
-                String rel = objects.get(i).getRelationship();
-                String prevRel = objects.get(i - 1).getRelationship();
-
-
-                // we found a low ranking user that should be put on top
-                if ((user.getInt(rel) <= user.getInt(prevRel))|| (user.getInt(rel) <= user.getInt(halfwayRelationship))) {
-                  // might be a problem because we have to basically make a bunch of network calls
-                  // and async delays
-                  objects.get(i).setFlag(true);
-                  // hopefully will save
-                  objects.get(i).saveInBackground();
-                  adapter.notifyDataSetChanged();
-                }
-              }
-
               for (int i = 0; i < objects.size(); i++) {
                 if (objects.get(i).getFlag() == true) {
                   // will add it to the front
@@ -310,6 +323,14 @@ public class MyContactsFragment extends Fragment
     contactsList.clear();
     adapter.notifyDataSetChanged();
     myContacts();
+  }
+
+  public void refreshContacts(){
+    adapter.clear();
+    myContacts();
+    adapter.addAll(contactsList);
+    swipeRefreshLayout.setRefreshing(false);
+
   }
 
   public int makeRanking(String relationship, ParseUser ownerUser) {
