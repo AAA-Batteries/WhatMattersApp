@@ -30,6 +30,7 @@ import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class ChatActivity extends AppCompatActivity {
     String currentId;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 1000; // milliseconds
+    static final int POLL_INTERVAL = 500; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
@@ -118,8 +119,6 @@ public class ChatActivity extends AppCompatActivity {
         mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "I clicked the exit button");
                 onBackPressed();
             }
         });
@@ -132,7 +131,6 @@ public class ChatActivity extends AppCompatActivity {
         }
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
-
 
 
     // Create an anonymous user using ParseAnonymousUtils and set sUserId
@@ -232,6 +230,7 @@ public class ChatActivity extends AppCompatActivity {
                                                             // reload the screen and notify user of successful new message creation
                                                             refreshMessages();
                                                             mAdapter.notifyDataSetChanged();
+                                                            rvChat.scrollToPosition(0);
                                                             Toast.makeText(
                                                                     ChatActivity.this,
                                                                     "Successfully sent message!",
@@ -273,21 +272,18 @@ public class ChatActivity extends AppCompatActivity {
 
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
-        query.findInBackground(
-                new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> chats, ParseException e) {
-                        if (e == null && !chats.isEmpty()) {
-                            Chat chat = (Chat) chats.get(0);
+        query.getFirstInBackground(
+                new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null && object != null) {
+                            Chat chat = (Chat) object;
                             mMessages.clear();
-                            for (int index = chat.getMessages().size() - 1; index >= 0; index--) {
-                                mMessages.add(chat.getMessages().get(index));
-                            }
+                            mMessages.addAll(chat.getMessages());
+                            Collections.reverse(mMessages);
                             mAdapter.notifyDataSetChanged(); // update adapter
+                            myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                             // Scroll to the bottom of the list on initial load
-                            if (mFirstLoad) {
-                                rvChat.scrollToPosition(0);
-                                mFirstLoad = false;
-                            }
+                            rvChat.scrollToPosition(0);
                         } else if (e != null) {
                             Log.e("message", "Error Loading Messages" + e);
                         }
@@ -364,11 +360,10 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if(fm.getBackStackEntryCount() > 0) {
+        if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
-        }
+    }
 }

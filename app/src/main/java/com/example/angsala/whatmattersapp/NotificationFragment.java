@@ -74,18 +74,20 @@ public class NotificationFragment extends Fragment {
             @Override
             public void done(List<Notification> objects, ParseException e) {
                 if(e == null) {
-                    Notification mnotifciation = objects.get(0);
-                    notificationList.addAll(mnotifciation.getReceived());
-                    //hopefully returns a size not null
-                    Log.d(TAG, Integer.toString(notificationList.size()));
-                    try {
-                        Log.d(TAG, notificationList.get(0).fetchIfNeeded().getString("body"));
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
+                    if (objects.size() > 0) {
+                        Notification mnotifciation = objects.get(0);
+                        notificationList.addAll(mnotifciation.getReceived());
+                        //hopefully returns a size not null
+                        Log.d(TAG, Integer.toString(notificationList.size()));
+                        try {
+                            Log.d(TAG, notificationList.get(0).fetchIfNeeded().getString("body"));
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
                         }
-                        adapter.notifyItemInserted(notificationList.size()-1);
+                        adapter.notifyItemInserted(notificationList.size() - 1);
 
 
+                    }
                 }
                 else{
                     e.printStackTrace();
