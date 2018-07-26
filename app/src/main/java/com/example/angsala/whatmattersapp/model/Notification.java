@@ -44,11 +44,12 @@ public class Notification extends ParseObject {
     public void addReceived(Message message) {
         ArrayList<Message> messages = getReceived();
         messages.add(message);
-        this.saveInBackground();
+        this.setReceived(messages);
     }
 
     public void removeReceived(Message message) {
-        getReceived().remove(message);
-        this.saveInBackground();
+        ArrayList<Message> messages = getReceived();
+        messages.remove(message);
+        this.setReceived(messages);
     }
 }
