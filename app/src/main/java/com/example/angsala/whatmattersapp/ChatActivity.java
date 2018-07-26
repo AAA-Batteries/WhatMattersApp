@@ -142,6 +142,7 @@ public class ChatActivity extends AppCompatActivity {
                                                         i--;
                                                     }
                                                 }
+                                                object.saveInBackground();
                                             }
                                         });
 
