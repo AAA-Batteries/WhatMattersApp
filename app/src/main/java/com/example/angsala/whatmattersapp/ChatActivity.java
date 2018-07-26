@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Chat;
@@ -41,7 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     static final String BODY_KEY = "body";
 
     EditText etMessage;
-    Button btSend;
+    ImageView btSend;
 
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
@@ -162,7 +162,7 @@ public class ChatActivity extends AppCompatActivity {
     void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend = (Button) findViewById(R.id.btSend);
+        btSend =  findViewById(R.id.btSend);
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
