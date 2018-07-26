@@ -105,6 +105,7 @@ public class ChatActivity extends AppCompatActivity {
                                     public void run() {
                                         mAdapter.notifyDataSetChanged();
                                         rvChat.scrollToPosition(0);
+                                        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                                     }
                                 });
                     }
@@ -118,8 +119,6 @@ public class ChatActivity extends AppCompatActivity {
         mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "I clicked the exit button");
                 onBackPressed();
             }
         });
