@@ -30,6 +30,7 @@ public class Notification extends ParseObject {
     public void setUserReceived(String userId) {
         try {
             put(USER_RECEIVED_KEY, ParseUser.getQuery().get(userId));
+            this.saveInBackground();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -37,13 +38,16 @@ public class Notification extends ParseObject {
 
     public void setReceived(ArrayList<Message> list) {
         put(RECEIVED_MESSAGES_KEY, list);
+        this.saveInBackground();
     }
 
     public void addReceived(Message message) {
         getReceived().add(message);
+        this.saveInBackground();
     }
 
     public void removeReceived(Message message) {
         getReceived().remove(message);
+        this.saveInBackground();
     }
 }

@@ -9,8 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.Notification;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -70,6 +74,23 @@ public class LoginActivity extends AppCompatActivity {
 
 
   public void loginHelper(String mUsername, String mPassword) {
+
+      // check that a notification object exists for the current user
+      // if doesn't exist, create one
+      ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+              .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
+      query.getFirstInBackground(new GetCallback<Notification>() {
+          @Override
+          public void done(Notification notif, ParseException e) {
+              if (notif == null) {
+                  Notification chatNotif = new Notification();
+                  chatNotif.setReceived(new ArrayList<Message>());
+                  chatNotif.setUserReceived(ParseUser.getCurrentUser().getObjectId());
+
+                  chatNotif.saveInBackground();
+              }
+          }
+      });
 
     ParseUser.logInInBackground(
         mUsername,
