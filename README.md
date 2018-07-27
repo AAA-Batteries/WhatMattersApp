@@ -1,6 +1,13 @@
 # WhatMattersApp
 Messaging app that specializes in prioritization
 
+## July 27 Update
+- [X] - Set up profile page 
+- [X] - Implemented notifications and notifications display page
+- [X] - Groups now displayed in order of user's chosen priorities
+- [X] - Created option to reorder group priorities 
+- [X] - Signup and login now separate activities
+
 ## July 23 Update
 - [X] - Set up ranking fields determined by prioritized relationships
 - [X] - Updated chat activities to modify ranking with sent messages

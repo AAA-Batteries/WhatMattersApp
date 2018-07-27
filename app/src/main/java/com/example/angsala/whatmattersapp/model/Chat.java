@@ -55,7 +55,7 @@ public class Chat extends ParseObject {
         if (curr == null) {
             curr = new ArrayList<>();
         }
-        curr.add(message);
+        curr.add(0, message);
         this.put(MESSAGE_KEY, curr);
         this.saveInBackground();
     }

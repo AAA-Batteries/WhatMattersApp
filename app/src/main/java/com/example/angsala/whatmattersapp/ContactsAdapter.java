@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.Contacts;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         Contacts contact = contacts.get(position);
 
 
@@ -76,7 +80,19 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
 
         viewHolder.tvUserName.setText(contact.getContactName());
-        Log.d("adapter", viewHolder.tvUserName.toString());
+        Log.d("adapter user ranking", viewHolder.tvUserName.toString());
+
+        //try to fetch UserRanking, this will be difficult when contact list is large
+        String uname = contact.getContactName();
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", uname);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+                double uRanking = object.getDouble("UserRanking");
+                String stringuRanking = Double.toString(uRanking) + "%";
+                Log.d("adapter", stringuRanking);
+                viewHolder.userPercentage.setText(stringuRanking);
+            }
+            });
 
     }
 
@@ -91,6 +107,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView contactColor;
         TextView relationship;
         ImageView flag;
+        TextView userPercentage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +116,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             contactColor = itemView.findViewById(R.id.contactColor);
             relationship = itemView.findViewById(R.id.relationship);
             flag = itemView.findViewById(R.id.imvFlag);
+            userPercentage = itemView.findViewById(R.id.userPercentage);
 
             itemView.setOnClickListener(this);
         }
