@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,12 +57,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView txtvName;
         TextView txtvBody;
         ImageView imvPicture;
+        public RelativeLayout viewBackground, foreBackground;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtvName = (TextView) itemView.findViewById(R.id.tvNotificationUsername);
             txtvBody = (TextView) itemView.findViewById(R.id.tvNotificationBody);
             imvPicture = (ImageView) itemView.findViewById(R.id.ivNotification);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            foreBackground = itemView.findViewById(R.id.view_foreground);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -83,5 +88,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             Toast.makeText(context, "Long clicked", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    public void removeItem(int position){
+        notificationMessages.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Message messages, int position){
+        notificationMessages.add(position, messages);
+        notifyItemInserted(position);
     }
 }
