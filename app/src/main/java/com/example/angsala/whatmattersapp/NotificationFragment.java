@@ -27,6 +27,7 @@ import java.util.List;
 public class NotificationFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     ParseUser user;
+    BuzzWords buzzWords;
     List<Message> notificationList;
     public final String TAG = "NotificationFragment";
     NotificationAdapter adapter;
@@ -65,6 +66,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         notificationList = new ArrayList<>();
+        buzzWords = new BuzzWords(getContext());
 
         adapter = new NotificationAdapter(notificationList);
 
@@ -76,6 +78,8 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
         fetchNotifications();
+        buzzWords.tester();
+
 
     }
 

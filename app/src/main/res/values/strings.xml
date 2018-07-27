@@ -37,6 +37,20 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="buzz_words">
+        <item>DIE</item>
+        <item>DEADLINE</item>
+        <item>DUE</item>
+        <item>EXAM</item>
+        <item>SUBMIT</item>
+        <item>POSTPONED</item>
+        <item>DEMISE</item>
+        <item>KILL</item>
+        <item>SHOOTING</item>
+        <item>LEAVE</item>
+
+    </string-array>
+
     <string name="my_groups">Groups</string>
     />
     />
