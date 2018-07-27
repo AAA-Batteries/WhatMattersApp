@@ -75,44 +75,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // receive recipient user reference from the contact activity
+        // also, checks for existing chat with recipient user and creates one if one is not found
         setRecipient(getIntent().getStringExtra("Recipient"));
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
-
-        // find or create the chat object for current and recipient users
-        ParseQuery<ParseObject> chatQuery = ParseQuery.or(orQuery());
-
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        chatQuery.getFirstInBackground(
-                new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (e == null && object != null) {
-                            chat = (Chat) object;
-                        } else {
-                            // query object between the two users did not exist on the
-                            // parse backend, create new chat object
-                            chat = new Chat();
-                            chat.setUser1(currentId);
-                            chat.setUser2(recipientId);
-                            chat.setMessages(new ArrayList<Message>());
-                            chat.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Toast.makeText(
-                                                ChatActivity.this,
-                                                "Successfully started a new chat!",
-                                                Toast.LENGTH_SHORT)
-                                                .show();
-                                    } else {
-                                        Log.e(TAG, "Failed to start chat", e);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
 
         // delete the current user's notifications of messages received from the current chat's "recipient"
         ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
@@ -263,11 +229,6 @@ public class ChatActivity extends AppCompatActivity {
                                             refreshMessages();
                                             mAdapter.notifyDataSetChanged();
                                             rvChat.scrollToPosition(0);
-                                            Toast.makeText(
-                                                    ChatActivity.this,
-                                                    "Successfully sent message!",
-                                                    Toast.LENGTH_SHORT)
-                                                    .show();
 
                                             // after user sends a message, update the recipient contact ranking based on priority category
                                             try {
@@ -329,6 +290,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     // using the name of the given recipient, find that user's object id and assign it to recipientId variable
+    // checks that there is a chat with said user, otherwise create one
     public void setRecipient(final String recipientName) {
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", recipientName);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
@@ -336,6 +298,41 @@ public class ChatActivity extends AppCompatActivity {
                 ParseUser recipient = object;
                 if (e == null && object != null) {
                     recipientId = recipient.getObjectId();
+
+                    // find or create the chat object for current and recipient users
+                    ParseQuery<ParseObject> chatQuery = ParseQuery.or(orQuery());
+
+                    // Execute query to fetch all messages from Parse asynchronously
+                    // This is equivalent to a SELECT query with SQL
+                    chatQuery.getFirstInBackground(
+                            new GetCallback<ParseObject>() {
+                                public void done(ParseObject object, ParseException e) {
+                                    if (e == null && object != null) {
+                                        chat = (Chat) object;
+                                    } else {
+                                        // query object between the two users did not exist on the
+                                        // parse backend, create new chat object
+                                        chat = new Chat();
+                                        chat.setUser1(currentId);
+                                        chat.setUser2(recipientId);
+                                        chat.setMessages(new ArrayList<Message>());
+                                        chat.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    Toast.makeText(
+                                                            ChatActivity.this,
+                                                            "Successfully started a new chat!",
+                                                            Toast.LENGTH_SHORT)
+                                                            .show();
+                                                } else {
+                                                    Log.e(TAG, "Failed to start chat", e);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                 } else {
                     Log.d("User cannot be found ", recipientName);
                     e.printStackTrace();
@@ -351,24 +348,26 @@ public class ChatActivity extends AppCompatActivity {
         // current and recipient
         // query1 and query2 accounts for the possible user configurations between
         // user1 and user2, current and recipient users
-        ParseQuery<ParseObject> query1 =
-                new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
-        ParseQuery<ParseObject> query2 =
-                new ParseQuery<ParseObject>("Chat").whereDoesNotExist("User1");
+        ParseUser current;
+        ParseUser recipient;
         try {
-            query1 =
-                    ParseQuery.getQuery("Chat")
-                            .whereEqualTo("User1", ParseUser.getQuery().get(currentId))
-                            .whereEqualTo("User2", ParseUser.getQuery().get(recipientId));
-            query2 =
-                    ParseQuery.getQuery("Chat")
-                            .whereEqualTo("User1", ParseUser.getQuery().get(recipientId))
-                            .whereEqualTo("User2", ParseUser.getQuery().get(currentId));
-        } catch (ParseException e1) {
-            e1.printStackTrace();
+            current = ParseUser.getQuery().get(currentId);
+            recipient = ParseUser.getQuery().get(recipientId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            current = ParseUser.getCurrentUser();
+            recipient = null;
         }
+        ParseQuery<ParseObject> query1 =
+                ParseQuery.getQuery("Chat")
+                        .whereEqualTo("User1", current)
+                        .whereEqualTo("User2", recipient);
+        ParseQuery<ParseObject> query2 =
+                ParseQuery.getQuery("Chat")
+                        .whereEqualTo("User1", recipient)
+                        .whereEqualTo("User2", current);
 
-        Log.d("ChatActivity", "current: " + currentId + " recipientId" + recipientId);
+        Log.d("ChatActivity", "current: " + currentId + " recipientId: " + recipientId);
         ArrayList<ParseQuery<ParseObject>> queries = new ArrayList<>();
         queries.add(query1);
         queries.add(query2);
