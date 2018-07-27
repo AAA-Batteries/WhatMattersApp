@@ -1,5 +1,7 @@
 package com.example.angsala.whatmattersapp.model;
 
+import android.text.format.DateUtils;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -82,6 +84,11 @@ public class Message extends ParseObject {
         public void setMessageRanking(){
 
         }
+
+    public String getRelativeTimeAgo(){
+        long dateMillis = getCreatedAt().getTime();
+        return DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+    }
 
 
 }
