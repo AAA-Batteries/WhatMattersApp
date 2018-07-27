@@ -125,6 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             @Override
                                             public void done(ParseException e) {
                                                 if (e == null) {
+                                                    createNotif(mUsername);
                                                     Intent intent = new Intent(SignUpActivity.this, BottomNavigation.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
                                                     intent.putExtra(TOAST_CODE, CREATE_CODE);
@@ -137,7 +138,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                createNotif(mUsername);
                             } else {
                                 Log.d(TAG, "Username has already been taken");
                                 Toast.makeText(SignUpActivity.this, "Username taken", Toast.LENGTH_LONG).show();

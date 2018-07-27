@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.parse.ParseQuery.getQuery;
+
 public class ChatActivity extends AppCompatActivity {
     static final String TAG = ChatActivity.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
@@ -64,7 +66,8 @@ public class ChatActivity extends AppCompatActivity {
                 public void run() {
                     if (chat != null && !chat.getMessages().isEmpty()) {
                         if (mMessages.size() < chat.getMessages().size()) {
-                            refreshMessages();
+                            mAdapter.notifyDataSetChanged();
+                            myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                         }
                     }
                 }
@@ -74,6 +77,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mFirstLoad = true;
+
         // receive recipient user reference from the contact activity
         // also, checks for existing chat with recipient user and creates one if one is not found
         setRecipient(getIntent().getStringExtra("Recipient"));
@@ -81,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
         currentId = ParseUser.getCurrentUser().getObjectId();
 
         // delete the current user's notifications of messages received from the current chat's "recipient"
-        ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+        ParseQuery<Notification> query = getQuery(Notification.class)
                 .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
         query.getFirstInBackground(new GetCallback<Notification>() {
             @Override
@@ -105,8 +110,8 @@ public class ChatActivity extends AppCompatActivity {
 
         // This query can even be more granular (i.e. only refresh if message was
         // sent/received by current user)
-        ParseQuery<Message> query1 = ParseQuery.getQuery(Message.class).whereEqualTo("UserSent", currentId);
-        ParseQuery<Message> query2 = ParseQuery.getQuery(Message.class).whereEqualTo("UserReceived", currentId);
+        ParseQuery<Message> query1 = getQuery(Message.class).whereEqualTo("UserSent", currentId);
+        ParseQuery<Message> query2 = getQuery(Message.class).whereEqualTo("UserReceived", currentId);
 
         ArrayList<ParseQuery<Message>> queries = new ArrayList<>();
         queries.add(query1);
@@ -123,7 +128,7 @@ public class ChatActivity extends AppCompatActivity {
                 new SubscriptionHandling.HandleEventCallback<Message>() {
                     @Override
                     public void onEvent(ParseQuery<Message> query, Message object) {
-                        mMessages.add(0, object);
+                        refreshMessages();
 
                         // RecyclerView updates need to be run on the UI thread
                         runOnUiThread(
@@ -158,7 +163,7 @@ public class ChatActivity extends AppCompatActivity {
         } else { // If not logged in, login as a new anonymous user
             login();
         }
-        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+
     }
 
 
@@ -189,7 +194,6 @@ public class ChatActivity extends AppCompatActivity {
         btSend = findViewById(R.id.btSend);
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
-        mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
@@ -227,8 +231,6 @@ public class ChatActivity extends AppCompatActivity {
                                             }
                                             // reload the screen and notify user of successful new message creation
                                             refreshMessages();
-                                            mAdapter.notifyDataSetChanged();
-                                            rvChat.scrollToPosition(0);
 
                                             // after user sends a message, update the recipient contact ranking based on priority category
                                             try {
@@ -262,37 +264,26 @@ public class ChatActivity extends AppCompatActivity {
 
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
-        ParseQuery<ParseObject> query = ParseQuery.or(orQuery());
-
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        query.getFirstInBackground(
-                new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (e == null && object != null) {
-                            Chat chat = (Chat) object;
-                            mMessages.clear();
-                            for (int i = 0; i < chat.getMessages().size(); i++) {
-                                mMessages.add(0, chat.getMessages().get(i));
-                            }
-                            mAdapter.notifyDataSetChanged(); // update adapter
-                            myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
-                            // Scroll to the bottom of the list on initial load
-                            if (mFirstLoad) {
-                                rvChat.scrollToPosition(0);
-                                mFirstLoad = false;
-                            }
-                        } else if (e != null) {
-                            Log.e("message", "Error Loading Messages" + e);
-                        }
-                    }
-                });
+        if (chat != null) {
+            mMessages.clear();
+            for (int i = 0; i < chat.getMessages().size(); i++) {
+                mMessages.add(0, chat.getMessages().get(i));
+            }
+            mAdapter.notifyDataSetChanged(); // update adapter
+            // Scroll to the bottom of the list on initial load
+            if (mFirstLoad) {
+                rvChat.scrollToPosition(0);
+                mFirstLoad = false;
+            }
+        } else {
+            Log.d("Initializing: ", "chat is null");
+        }
     }
 
     // using the name of the given recipient, find that user's object id and assign it to recipientId variable
     // checks that there is a chat with said user, otherwise create one
     public void setRecipient(final String recipientName) {
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", recipientName);
+        ParseQuery<ParseUser> query = getQuery(ParseUser.class).whereEqualTo("username", recipientName);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser object, ParseException e) {
                 ParseUser recipient = object;
@@ -300,15 +291,17 @@ public class ChatActivity extends AppCompatActivity {
                     recipientId = recipient.getObjectId();
 
                     // find or create the chat object for current and recipient users
-                    ParseQuery<ParseObject> chatQuery = ParseQuery.or(orQuery());
+                    ParseQuery<Chat> chatQuery = ParseQuery.or(orQuery());
 
                     // Execute query to fetch all messages from Parse asynchronously
                     // This is equivalent to a SELECT query with SQL
                     chatQuery.getFirstInBackground(
-                            new GetCallback<ParseObject>() {
-                                public void done(ParseObject object, ParseException e) {
+                            new GetCallback<Chat>() {
+                                public void done(Chat object, ParseException e) {
                                     if (e == null && object != null) {
                                         chat = (Chat) object;
+                                        // populate screen with messages
+                                        refreshMessages();
                                     } else {
                                         // query object between the two users did not exist on the
                                         // parse backend, create new chat object
@@ -343,7 +336,7 @@ public class ChatActivity extends AppCompatActivity {
 
     // create compound query, the or result of two queries, that is used to determine the chat corresponding
     // to current user and recipient user
-    public ArrayList<ParseQuery<ParseObject>> orQuery() {
+    public ArrayList<ParseQuery<Chat>> orQuery() {
         // create queries to check for existing chat between the two specified users,
         // current and recipient
         // query1 and query2 accounts for the possible user configurations between
@@ -358,17 +351,17 @@ public class ChatActivity extends AppCompatActivity {
             current = ParseUser.getCurrentUser();
             recipient = null;
         }
-        ParseQuery<ParseObject> query1 =
-                ParseQuery.getQuery("Chat")
+        ParseQuery<Chat> query1 =
+                getQuery(Chat.class)
                         .whereEqualTo("User1", current)
                         .whereEqualTo("User2", recipient);
-        ParseQuery<ParseObject> query2 =
-                ParseQuery.getQuery("Chat")
+        ParseQuery<Chat> query2 =
+                getQuery(Chat.class)
                         .whereEqualTo("User1", recipient)
                         .whereEqualTo("User2", current);
 
         Log.d("ChatActivity", "current: " + currentId + " recipientId: " + recipientId);
-        ArrayList<ParseQuery<ParseObject>> queries = new ArrayList<>();
+        ArrayList<ParseQuery<Chat>> queries = new ArrayList<>();
         queries.add(query1);
         queries.add(query2);
         return queries;
