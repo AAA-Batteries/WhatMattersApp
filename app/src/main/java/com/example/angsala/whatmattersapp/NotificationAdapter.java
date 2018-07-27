@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.Message;
@@ -55,12 +56,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView txtvName;
         TextView txtvBody;
         ImageView imvPicture;
+        public RelativeLayout viewBackground, foreBackground;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtvName = (TextView) itemView.findViewById(R.id.tvNotificationUsername);
             txtvBody = (TextView) itemView.findViewById(R.id.tvNotificationBody);
             imvPicture = (ImageView) itemView.findViewById(R.id.ivNotification);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            foreBackground = itemView.findViewById(R.id.view_foreground);
 
             itemView.setOnClickListener(this);
         }
@@ -75,5 +80,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 context.startActivity(chatIntent);
             }
         }
+    }
+
+    public void removeItem(int position){
+        notificationMessages.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Message messages, int position){
+        notificationMessages.add(position, messages);
+        notifyItemInserted(position);
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NotificationFragment extends Fragment {
+public class NotificationFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     ParseUser user;
     List<Message> notificationList;
@@ -56,6 +57,11 @@ public class NotificationFragment extends Fragment {
         rvNotifications.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNotifications.setAdapter(adapter);
 
+        //adding the item touch helperI
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
+        fetchNotifications();
+
     }
 
     @Override
@@ -79,11 +85,7 @@ public class NotificationFragment extends Fragment {
                         notificationList.addAll(mnotifciation.getReceived());
                         //hopefully returns a size not null
                         Log.d(TAG, Integer.toString(notificationList.size()));
-                        try {
-                            Log.d(TAG, notificationList.get(0).fetchIfNeeded().getString("body"));
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
+
                         adapter.notifyItemInserted(notificationList.size() - 1);
 
 
@@ -95,5 +97,13 @@ public class NotificationFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof NotificationAdapter.ViewHolder){
+            String name = notificationList.get(viewHolder.getAdapterPosition()).getUserReceived();
+        }
+        adapter.removeItem(viewHolder.getAdapterPosition());
     }
 }
