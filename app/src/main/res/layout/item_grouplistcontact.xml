@@ -56,4 +56,12 @@
         android:layout_alignBottom="@+id/ivContactGroupRelationship"
         android:layout_toEndOf="@+id/myContactName" />
 
+    <TextView
+        android:id="@+id/groupuserPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/ivContactGroupRelationship"
+        android:layout_marginEnd="90dp" />
+
 </RelativeLayout>

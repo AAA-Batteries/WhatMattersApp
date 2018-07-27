@@ -17,8 +17,6 @@ import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
-import com.example.angsala.whatmattersapp.model.User;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
@@ -31,8 +29,6 @@ import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static com.parse.ParseQuery.getQuery;
 

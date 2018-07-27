@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -35,6 +37,8 @@ String currentUsername;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         profileUsername = (TextView) getActivity().findViewById(R.id.profileuserName);
+        currentUsername = ParseUser.getCurrentUser().getUsername();
+        profileUsername.setText(currentUsername);
 
     }
 }
