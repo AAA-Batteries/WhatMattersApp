@@ -30,6 +30,7 @@ public class Chat extends ParseObject {
     public void setUser1(String userId) {
         try {
             put(USER_1_KEY, ParseUser.getQuery().get(userId));
+            this.saveInBackground();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -38,9 +39,15 @@ public class Chat extends ParseObject {
     public void setUser2(String userId) {
         try {
             put(USER_2_KEY, ParseUser.getQuery().get(userId));
+            this.saveInBackground();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setMessages(ArrayList list) {
+        put(MESSAGE_KEY, list);
+        this.saveInBackground();
     }
 
     public void addMessage(Message message) {
@@ -50,5 +57,6 @@ public class Chat extends ParseObject {
         }
         curr.add(message);
         this.put(MESSAGE_KEY, curr);
+        this.saveInBackground();
     }
 }

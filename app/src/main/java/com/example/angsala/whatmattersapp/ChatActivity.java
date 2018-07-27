@@ -53,18 +53,20 @@ public class ChatActivity extends AppCompatActivity {
     String recipientId;
     String currentId;
 
-    int chatMessageLength;
+    Chat chat;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 2000; // milliseconds
+    static final int POLL_INTERVAL = 500; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
                 @Override
                 public void run() {
-                    refreshMessages();
-
-
+                    if (chat != null && !chat.getMessages().isEmpty()) {
+                        if (mMessages.size() < chat.getMessages().size()) {
+                            refreshMessages();
+                        }
+                    }
                 }
             };
 
@@ -76,6 +78,41 @@ public class ChatActivity extends AppCompatActivity {
         setRecipient(getIntent().getStringExtra("Recipient"));
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
+
+        // find or create the chat object for current and recipient users
+        ParseQuery<ParseObject> chatQuery = ParseQuery.or(orQuery());
+
+        // Execute query to fetch all messages from Parse asynchronously
+        // This is equivalent to a SELECT query with SQL
+        chatQuery.getFirstInBackground(
+                new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null && object != null) {
+                            chat = (Chat) object;
+                        } else {
+                            // query object between the two users did not exist on the
+                            // parse backend, create new chat object
+                            chat = new Chat();
+                            chat.setUser1(currentId);
+                            chat.setUser2(recipientId);
+                            chat.setMessages(new ArrayList<Message>());
+                            chat.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Toast.makeText(
+                                                ChatActivity.this,
+                                                "Successfully started a new chat!",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    } else {
+                                        Log.e(TAG, "Failed to start chat", e);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
 
         // delete the current user's notifications of messages received from the current chat's "recipient"
         ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
@@ -217,57 +254,21 @@ public class ChatActivity extends AppCompatActivity {
                                         if (e == null) {
                                             // check Parse server for existing chat object, else create a new chat object
                                             // between current and recipient users
-                                            final ParseQuery<ParseObject> finalQuery = ParseQuery.or(orQuery());
-                                            finalQuery.findInBackground(
-                                                    new FindCallback<ParseObject>() {
-                                                        public void done(List<ParseObject> object, ParseException e) {
-                                                            // query object exists with current user as user1, recipient user as
-                                                            // user2
-                                                            if (!object.isEmpty()) {
-                                                                // query object exists
-                                                                // add new message to the chat log
-                                                                Chat chat = (Chat) object.get(0);
-                                                                chat.addMessage(tempMessage);
-                                                                chat.saveInBackground();
-                                                            } else if (recipientId != null) {
-                                                                // query object between the two users did not exist on the
-                                                                // parse backend, create new chat object
-                                                                Chat chat = new Chat();
-                                                                chat.setUser1(currentId);
-                                                                chat.setUser2(recipientId);
-                                                                chat.addMessage(tempMessage);
+                                            if (chat != null) {
+                                                // chat object exists
+                                                // add new message to the chat log
+                                                chat.addMessage(tempMessage);
+                                            }
+                                            // reload the screen and notify user of successful new message creation
+                                            refreshMessages();
+                                            mAdapter.notifyDataSetChanged();
+                                            rvChat.scrollToPosition(0);
+                                            Toast.makeText(
+                                                    ChatActivity.this,
+                                                    "Successfully sent message!",
+                                                    Toast.LENGTH_SHORT)
+                                                    .show();
 
-                                                                chat.saveInBackground(
-                                                                        new SaveCallback() {
-                                                                            @Override
-                                                                            public void done(ParseException e) {
-                                                                                if (e == null) {
-                                                                                    Toast.makeText(
-                                                                                            ChatActivity.this,
-                                                                                            "Successfully started a new chat!",
-                                                                                            Toast.LENGTH_SHORT)
-                                                                                            .show();
-                                                                                } else {
-                                                                                    Log.e(TAG, "Failed to send", e);
-                                                                                }
-                                                                            }
-                                                                        });
-                                                            }
-                                                            // reload the screen and notify user of successful new message creation
-                                                            refreshMessages();
-                                                            mAdapter.notifyDataSetChanged();
-                                                            rvChat.scrollToPosition(0);
-                                                            Toast.makeText(
-                                                                    ChatActivity.this,
-                                                                    "Successfully sent message!",
-                                                                    Toast.LENGTH_SHORT)
-                                                                    .show();
-
-                                                            //try to make put this in user received's notifications
-                                                           // setNotif(tempMessage);
-
-                                                        }
-                                                    });
                                             // after user sends a message, update the recipient contact ranking based on priority category
                                             try {
                                                 ParseQuery<Contacts> contactsQuery = new ParseQuery<Contacts>(Contacts.class)
@@ -310,8 +311,8 @@ public class ChatActivity extends AppCompatActivity {
                         if (e == null && object != null) {
                             Chat chat = (Chat) object;
                             mMessages.clear();
-                            for (Message m : chat.getMessages()) {
-                                mMessages.add(0, m);
+                            for (int i = 0; i < chat.getMessages().size(); i++) {
+                                mMessages.add(0, chat.getMessages().get(i));
                             }
                             mAdapter.notifyDataSetChanged(); // update adapter
                             myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
