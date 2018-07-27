@@ -88,25 +88,6 @@ public class ChatActivity extends AppCompatActivity {
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
 
-        // delete the current user's notifications of messages received from the current chat's "recipient"
-        ParseQuery<Notification> query = getQuery(Notification.class)
-                .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
-        query.getFirstInBackground(new GetCallback<Notification>() {
-            @Override
-            public void done(Notification object, ParseException e) {
-                ArrayList<Message> messages = (ArrayList) object.get("ReceivedMessages");
-                for (int i = 0; i < messages.size(); i++) {
-                    Message m = messages.get(i);
-                    String sender = m.getUserSent();
-                    if (sender.equals(recipientId)) {
-                        messages.remove(i);
-                        i--;
-                    }
-                }
-                object.setReceived(messages);
-            }
-        });
-
         // Make sure the Parse server is setup to configured for live queries
         // URL for server is determined by Parse.initialize() call.
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
@@ -284,7 +265,7 @@ public class ChatActivity extends AppCompatActivity {
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser object, ParseException e) {
                 ParseUser recipient = object;
-                if (e == null && object != null) {
+                if (e == null) {
                     recipientId = recipient.getObjectId();
 
                     // find or create the chat object for current and recipient users
@@ -323,6 +304,17 @@ public class ChatActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
+                    // delete the current user's notifications of messages received from the current chat's "recipient"
+                    ParseQuery<Notification> query = getQuery(Notification.class)
+                            .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
+                    query.getFirstInBackground(new GetCallback<Notification>() {
+                        @Override
+                        public void done(Notification object, ParseException e) {
+                            object.removeReceived(recipientId);
+                            object.saveInBackground();
+                        }
+                    });
                 } else {
                     Log.d("User cannot be found ", recipientName);
                     e.printStackTrace();

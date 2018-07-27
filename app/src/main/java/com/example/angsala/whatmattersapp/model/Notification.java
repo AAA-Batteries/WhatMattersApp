@@ -49,11 +49,17 @@ public class Notification extends ParseObject {
         this.setReceived(messages);
     }
 
-    public void removeReceived(Message message) {
+    public void removeReceived(String senderId) {
         ArrayList<Message> messages = getReceived();
-        messages.remove(message);
-        this.setReceived(messages);
+        for (int i = 0; i < messages.size(); i++) {
+            Message m = messages.get(i);
+            String sender = m.getUserSent();
+            if (sender.equals(senderId)) {
+                messages.remove(i);
+                i--;
+            }
+        }
+        setReceived(messages);
     }
-
 
 }
