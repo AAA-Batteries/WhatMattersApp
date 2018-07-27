@@ -17,6 +17,7 @@ import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
+import com.example.angsala.whatmattersapp.model.User;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -52,14 +53,18 @@ public class ChatActivity extends AppCompatActivity {
     String recipientId;
     String currentId;
 
+    int chatMessageLength;
+
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 500; // milliseconds
+    static final int POLL_INTERVAL = 2000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
                 @Override
                 public void run() {
                     refreshMessages();
+
+
                 }
             };
 
@@ -72,6 +77,24 @@ public class ChatActivity extends AppCompatActivity {
         // set current user reference for future use
         currentId = ParseUser.getCurrentUser().getObjectId();
 
+        // delete the current user's notifications of messages received from the current chat's "recipient"
+        ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class)
+                .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
+        query.getFirstInBackground(new GetCallback<Notification>() {
+            @Override
+            public void done(Notification object, ParseException e) {
+                ArrayList<Message> messages = (ArrayList) object.get("ReceivedMessages");
+                for (int i = 0; i < messages.size(); i++) {
+                    Message m = messages.get(i);
+                    String sender = m.getUserSent();
+                    if (sender.equals(recipientId)) {
+                        messages.remove(i);
+                        i--;
+                    }
+                }
+                object.setReceived(messages);
+            }
+        });
 
         // Make sure the Parse server is setup to configured for live queries
         // URL for server is determined by Parse.initialize() call.
@@ -104,6 +127,7 @@ public class ChatActivity extends AppCompatActivity {
                                 new Runnable() {
                                     @Override
                                     public void run() {
+                                        // refresh the chat screen
                                         mAdapter.notifyDataSetChanged();
                                         rvChat.scrollToPosition(0);
                                     }
@@ -119,6 +143,8 @@ public class ChatActivity extends AppCompatActivity {
         mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "I clicked the exit button");
                 onBackPressed();
             }
         });
@@ -157,7 +183,7 @@ public class ChatActivity extends AppCompatActivity {
     void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend =  findViewById(R.id.btSend);
+        btSend = findViewById(R.id.btSend);
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
@@ -165,7 +191,7 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
-        // associate the LayoutManager with the RecylcerView
+        // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
@@ -236,6 +262,10 @@ public class ChatActivity extends AppCompatActivity {
                                                                     "Successfully sent message!",
                                                                     Toast.LENGTH_SHORT)
                                                                     .show();
+
+                                                            //try to make put this in user received's notifications
+                                                           // setNotif(tempMessage);
+
                                                         }
                                                     });
                                             // after user sends a message, update the recipient contact ranking based on priority category
@@ -256,6 +286,8 @@ public class ChatActivity extends AppCompatActivity {
                                             } catch (ParseException e1) {
                                                 e1.printStackTrace();
                                             }
+                                            // add the message to notifications
+                                            setNotif(tempMessage);
                                         } else {
                                             Log.e(TAG, "Failed to save message", e);
                                         }
@@ -278,12 +310,16 @@ public class ChatActivity extends AppCompatActivity {
                         if (e == null && object != null) {
                             Chat chat = (Chat) object;
                             mMessages.clear();
-                            mMessages.addAll(chat.getMessages());
-                            Collections.reverse(mMessages);
+                            for (Message m : chat.getMessages()) {
+                                mMessages.add(0, m);
+                            }
                             mAdapter.notifyDataSetChanged(); // update adapter
                             myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
                             // Scroll to the bottom of the list on initial load
-                            rvChat.scrollToPosition(0);
+                            if (mFirstLoad) {
+                                rvChat.scrollToPosition(0);
+                                mFirstLoad = false;
+                            }
                         } else if (e != null) {
                             Log.e("message", "Error Loading Messages" + e);
                         }
@@ -340,21 +376,25 @@ public class ChatActivity extends AppCompatActivity {
 
     // update the notification object with newly received messages
     public void setNotif(final Message message) {
-        ParseQuery<Notification> notifQuery = new ParseQuery<Notification>(Notification.class)
-                .whereEqualTo("UserReceived", message.getUserReceived());
-        notifQuery.getFirstInBackground(
-                new GetCallback<Notification>() {
-                    public void done(Notification object1, ParseException e) {
-                        Notification notif = object1;
-                        if (e == null && notif != null) {
-                            notif.addReceived(message);
-                            notif.saveInBackground();
-                        } else {
-                            e.printStackTrace();
+        try {
+            ParseQuery<Notification> notifQuery = new ParseQuery<>(Notification.class)
+                    .whereEqualTo("UserReceived", ParseUser.getQuery().get(recipientId));
+            notifQuery.getFirstInBackground(
+                    new GetCallback<Notification>() {
+                        public void done(Notification object1, ParseException e) {
+                            Notification notif = object1;
+                            if (e == null && notif != null) {
+                                notif.addReceived(message);
+                                notif.saveInBackground();
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
                     }
-                }
-        );
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
