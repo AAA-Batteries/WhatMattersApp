@@ -16,11 +16,14 @@ import android.view.ViewGroup;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -75,7 +78,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         //adding the item touch helperI
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
-        fetchNotifications();
+      //  fetchNotifications();
 
     }
 
@@ -84,7 +87,11 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         super.onResume();
         notificationList.clear();
         adapter.notifyDataSetChanged();;
-        myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
+        fetchNotifications();
+        //makeTestMessages();
+Log.d(TAG, "hello");
+
+
     }
 
 
@@ -111,6 +118,10 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
                 else{
                     e.printStackTrace();
                 }
+                Collections.sort(notificationList);
+                for(int i = 0; i < notificationList.size(); i++){
+                    Log.d(TAG , Integer.toString(notificationList.get(i).getMessageRanking()));
+                }
             }
         });
 
@@ -122,5 +133,53 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
             String name = notificationList.get(viewHolder.getAdapterPosition()).getUserReceived();
         }
         adapter.removeItem(viewHolder.getAdapterPosition());
+    }
+
+
+
+    //ANGELA S TESTING MESSAGE CLASSIFICATION:
+    public void makeTestMessages(){
+        final Message mMessage1 = new Message();
+
+
+            mMessage1.setBody("hello3");
+            mMessage1.setUserSent(user.getObjectId());
+            mMessage1.setUserReceived("soDouscmAG");
+            mMessage1.setMessageRanking(500);
+
+            mMessage1.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Log.d(TAG, "sent message 3");
+                    setNotif(mMessage1);
+
+                }
+            });
+
+
+
+    }
+
+    // update the notification object with newly received messages
+    public void setNotif(final Message message) {
+        try {
+            ParseQuery<Notification> notifQuery = new ParseQuery<>(Notification.class)
+                    .whereEqualTo("UserReceived", ParseUser.getQuery().get("soDouscmAG"));
+            notifQuery.getFirstInBackground(
+                    new GetCallback<Notification>() {
+                        public void done(Notification object1, ParseException e) {
+                            Notification notif = object1;
+                            if (e == null && notif != null) {
+                                notif.addReceived(message);
+                                notif.saveInBackground();
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

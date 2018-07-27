@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.Contacts;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListGroupContactsAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ListGroupContactsAdapter.ViewHolder viewHolder, int position) {
         Contacts contacts = contactsList.get(position);
         String relationship = contacts.getRelationship();
         if (relationship.equals("Friends")){
@@ -65,6 +69,18 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         viewHolder.contactGroupImage.setImageResource(R.drawable.ic_launcher_background);
         viewHolder.myContactName.setText(contacts.getContactName());
         Log.d("adapter", viewHolder.myContactName.toString());
+
+        //try to fetch UserRanking, this will be difficult when contact list is large
+        String uname = contacts.getContactName();
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", uname);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+                double uRanking = object.getDouble("UserRanking");
+                String stringuRanking = Double.toString(uRanking) + "%";
+                Log.d("adapter", stringuRanking);
+                viewHolder.groupuserPercentage.setText(stringuRanking);
+            }
+        });
     }
 
     @Override
@@ -79,6 +95,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         TextView groupRelationship;
         TextView myContactName;
         TextView alertMessage;
+        TextView groupuserPercentage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             contactGroupImage = itemView.findViewById(R.id.contactGroupImage);
@@ -86,6 +103,8 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             groupRelationship = itemView.findViewById(R.id.tvGroupRelationship);
             myContactName = itemView.findViewById(R.id.myContactName);
             alertMessage = itemView.findViewById(R.id.alertMessage);
+            groupuserPercentage = itemView.findViewById(R.id.groupuserPercentage);
+
 
             itemView.setOnClickListener(this);
         }

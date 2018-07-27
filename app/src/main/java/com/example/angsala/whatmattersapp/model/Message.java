@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp.model;
 
+import android.support.annotation.NonNull;
 import android.text.format.DateUtils;
 
 import com.parse.ParseClassName;
@@ -8,7 +9,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 @ParseClassName("Message")
-public class Message extends ParseObject {
+public class Message extends ParseObject implements Comparable<Message> {
     private static final String USER_SENT_KEY = "UserSent";
     private static final String USER_RECEIVED_KEY = "UserReceived";
     private static final String BODY_KEY = "body";
@@ -67,28 +68,44 @@ public class Message extends ParseObject {
         put(BODY_KEY, body);
     }
 
-    public ParseUser getParseUserSender(){
+    public ParseUser getParseUserSender() {
         try {
             this.fetchIfNeeded();
-            ParseUser userSent = (ParseUser) get (USER_SENT_KEY);
+            ParseUser userSent = (ParseUser) get(USER_SENT_KEY);
             return userSent;
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Integer getMessageRanking() {
+        try {
+            this.fetchIfNeeded();
+            return getInt(MESSAGE_RANKING_KEY);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
 
-        public Integer getMessageRanking(){
-        return getInt(MESSAGE_RANKING_KEY);}
+    }
 
-        public void setMessageRanking(){
+    public void setMessageRanking(int messageRankPoints) {
+        put(MESSAGE_RANKING_KEY, messageRankPoints);
+    }
 
-        }
 
-    public String getRelativeTimeAgo(){
+    public String getRelativeTimeAgo() {
         long dateMillis = getCreatedAt().getTime();
         return DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
     }
 
+
+    @Override
+    public int compareTo(@NonNull Message mMessage) {
+        int compareRanking = mMessage.getMessageRanking();
+        //for ascending order-
+        return compareRanking - this.getMessageRanking();
+    }
 
 }

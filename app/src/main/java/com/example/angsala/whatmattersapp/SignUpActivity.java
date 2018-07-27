@@ -68,12 +68,10 @@ public class SignUpActivity extends AppCompatActivity {
         spinnerFriends.setAdapter(adapterFriends);
 
 
-
         spinnerClassmates = findViewById(R.id.spinnerClassmates);
         ArrayAdapter<CharSequence> adapterClassmates = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
         adapterClassmates.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerClassmates.setAdapter(adapterClassmates);
-
 
 
         spinnerProfessors = findViewById(R.id.spinnerProfessors);
@@ -89,18 +87,31 @@ public class SignUpActivity extends AppCompatActivity {
                         final String newusername = etUsername.getText().toString();
                         final String newpassword = etPassword.getText().toString();
                         //should give you 1-5 ranking
-                        final int rankParents = Integer.parseInt(spinnerParents.getSelectedItem().toString());
-                        final int rankFamily = Integer.parseInt(spinnerFamily.getSelectedItem().toString());
-                        final int rankFriends = Integer.parseInt(spinnerFriends.getSelectedItem().toString());
-                        final int rankClassmates = Integer.parseInt(spinnerClassmates.getSelectedItem().toString());
-                        final int rankProfessors = Integer.parseInt(spinnerProfessors.getSelectedItem().toString());
-                        createAccountHelper(newusername, newpassword, rankParents, rankFamily, rankFriends, rankClassmates, rankProfessors);
+                        final String rankParents = (spinnerParents.getSelectedItem().toString());
+                        final String rankFamily = (spinnerFamily.getSelectedItem().toString());
+                        final String rankFriends = (spinnerFriends.getSelectedItem().toString());
+                        final String rankClassmates = (spinnerClassmates.getSelectedItem().toString());
+                        final String rankProfessors = (spinnerProfessors.getSelectedItem().toString());
+                        if ((!rankParents.equalsIgnoreCase("Ranking…")) && (!rankFamily.equalsIgnoreCase("Ranking…"))
+                                && (!rankFriends.equalsIgnoreCase("Ranking…")) && (!rankClassmates.equalsIgnoreCase("Ranking…")) &&
+                                (!rankProfessors.equalsIgnoreCase("Ranking…"))) {
+                            final int intParents = Integer.parseInt(rankParents);
+                            final int intFamily = Integer.parseInt(rankFamily);
+                            final int intFriends = Integer.parseInt(rankFriends);
+                            final int intClassmates = Integer.parseInt(rankClassmates);
+                            final int intProfessors = Integer.parseInt(rankProfessors);
+                            createAccountHelper(newusername, newpassword, intParents, intFamily, intFriends, intClassmates, intProfessors);
+                        }
+
+                        else{
+                            Toast.makeText(SignUpActivity.this, "Select ranking for all relationships", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }
 
 
-    public void createAccountHelper(final String mUsername, String mPassword, final int rankParent, final int rankFamily, final int rankFriends, final int rankClassmates, final int rankProfessors){
+    public void createAccountHelper(final String mUsername, String mPassword, final int rankParent, final int rankFamily, final int rankFriends, final int rankClassmates, final int rankProfessors) {
         // start of new code- determine if Username is taken
         final String u = mUsername;
         final String p = mPassword;
@@ -128,6 +139,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                     Intent intent = new Intent(SignUpActivity.this, BottomNavigation.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
                                                     intent.putExtra(TOAST_CODE, CREATE_CODE);
+                                                    createNotif(mUsername);
                                                     startActivity(intent);
                                                 } else {
                                                     Log.e(TAG, "Failed to create Account");
@@ -137,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                createNotif(mUsername);
+
                             } else {
                                 Log.d(TAG, "Username has already been taken");
                                 Toast.makeText(SignUpActivity.this, "Username taken", Toast.LENGTH_LONG).show();
@@ -166,7 +178,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 Notification chatNotif = new Notification();
                                 chatNotif.setReceived(new ArrayList<Message>());
                                 chatNotif.setUserReceived(currUser.getObjectId());
-
                                 chatNotif.saveInBackground();
                             }
                         }
