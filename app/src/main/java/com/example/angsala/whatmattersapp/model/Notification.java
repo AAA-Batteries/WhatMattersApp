@@ -1,5 +1,7 @@
 package com.example.angsala.whatmattersapp.model;
 
+import android.text.format.DateUtils;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -52,4 +54,6 @@ public class Notification extends ParseObject {
         messages.remove(message);
         this.setReceived(messages);
     }
+
+
 }

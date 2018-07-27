@@ -76,7 +76,6 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
         fetchNotifications();
-       // fetchNotifications();
 
     }
 
@@ -85,7 +84,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         super.onResume();
         notificationList.clear();
         adapter.notifyDataSetChanged();;
-    myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
+        myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
     }
 
 
