@@ -58,18 +58,18 @@ public class ChatActivity extends AppCompatActivity {
     Chat chat;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 500; // milliseconds
+    static final int POLL_INTERVAL = 10000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
                 @Override
                 public void run() {
-                    if (chat != null && !chat.getMessages().isEmpty()) {
+                    if(chat != null && !chat.getMessages().isEmpty()) {
                         if (mMessages.size() < chat.getMessages().size()) {
-                            mAdapter.notifyDataSetChanged();
-                            myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+                            refreshMessages();
                         }
                     }
+                    myHandler.postDelayed(this, POLL_INTERVAL);
                 }
             };
 
@@ -128,14 +128,13 @@ public class ChatActivity extends AppCompatActivity {
                 new SubscriptionHandling.HandleEventCallback<Message>() {
                     @Override
                     public void onEvent(ParseQuery<Message> query, Message object) {
-                        refreshMessages();
-
                         // RecyclerView updates need to be run on the UI thread
                         runOnUiThread(
                                 new Runnable() {
                                     @Override
                                     public void run() {
                                         // refresh the chat screen
+                                        refreshMessages();
                                         mAdapter.notifyDataSetChanged();
                                         rvChat.scrollToPosition(0);
                                     }
@@ -151,7 +150,6 @@ public class ChatActivity extends AppCompatActivity {
         mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "It works", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "I clicked the exit button");
                 onBackPressed();
             }
@@ -222,13 +220,10 @@ public class ChatActivity extends AppCompatActivity {
                                     @Override
                                     public void done(ParseException e) {
                                         if (e == null) {
-                                            // check Parse server for existing chat object, else create a new chat object
-                                            // between current and recipient users
-                                            if (chat != null) {
-                                                // chat object exists
-                                                // add new message to the chat log
-                                                chat.addMessage(tempMessage);
-                                            }
+                                            // add new message to chat object between current and recipient users
+                                            chat.addMessage(tempMessage);
+                                            chat.saveInBackground();
+
                                             // reload the screen and notify user of successful new message creation
                                             refreshMessages();
 
@@ -266,9 +261,7 @@ public class ChatActivity extends AppCompatActivity {
     void refreshMessages() {
         if (chat != null) {
             mMessages.clear();
-            for (int i = 0; i < chat.getMessages().size(); i++) {
-                mMessages.add(0, chat.getMessages().get(i));
-            }
+            mMessages.addAll(chat.getMessages());
             mAdapter.notifyDataSetChanged(); // update adapter
             // Scroll to the bottom of the list on initial load
             if (mFirstLoad) {
