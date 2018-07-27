@@ -54,17 +54,24 @@ public class ChatActivity extends AppCompatActivity {
     Chat chat;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 10000; // milliseconds
+    static final int POLL_INTERVAL = 1000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
     Runnable mRefreshMessagesRunnable =
             new Runnable() {
                 @Override
                 public void run() {
-                    if(chat != null && !chat.getMessages().isEmpty()) {
-                        if (mMessages.size() < chat.getMessages().size()) {
-                            refreshMessages();
+                    ParseQuery<Chat> chatQuery = ParseQuery.or(orQuery());
+                    chatQuery.getFirstInBackground(new GetCallback<Chat>() {
+                        @Override
+                        public void done(Chat object, ParseException e) {
+                            if (e == null) {
+                                chat = object;
+                                if (mMessages.size() < chat.getMessages().size()) {
+                                    refreshMessages();
+                                }
+                            }
                         }
-                    }
+                    });
                     myHandler.postDelayed(this, POLL_INTERVAL);
                 }
             };
@@ -158,6 +165,7 @@ public class ChatActivity extends AppCompatActivity {
             login();
         }
 
+        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
 
