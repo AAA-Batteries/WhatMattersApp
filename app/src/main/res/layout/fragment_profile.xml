@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".ProfileFragment"
+    android:background="@color/light_background">
 
 
     <android.support.design.widget.FloatingActionButton
@@ -18,49 +19,58 @@
         android:layout_marginEnd="47dp"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="44dp"
+        android:layout_toLeftOf="@id/linearLayout1"
+        android:paddingLeft="5dp"
         android:src="@drawable/instagram_user_filled_24" />
 
     <TextView
         android:id="@+id/profileuserName"
-        android:layout_width="wrap_content"
+        android:layout_width="124dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="60dp"
-        android:layout_toEndOf="@+id/imageView2"
-        android:layout_toRightOf="@id/imageView2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginEnd="58dp"
+        android:layout_marginRight="58dp"
+        android:layout_toRightOf="@id/linearLayout1"
+
         android:fontFamily="@font/amiko"
-        android:text="TextView"
-        android:textSize="18sp" />
+        android:text="-"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/numberOfContacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView2"
-        android:layout_toEndOf="@+id/imageView2"
-        android:layout_toRightOf="@id/imageView2"
+        android:layout_alignLeft="@id/profileuserName"
         android:layout_alignStart="@id/profileuserName"
-        android:layout_alignLeft="@id/profileuserName"/>
+        android:layout_toRightOf="@id/linearLayout1"
+        android:fontFamily="@font/amiko"
+        android:text="-" />
 
     <ProgressBar
         android:id="@+id/circleprogressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="141dp"
-        android:layout_height="137dp"
+        android:layout_width="245dp"
+        android:layout_height="237dp"
 
-        android:layout_alignEnd="@+id/profileuserName"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true"
         android:layout_marginTop="188dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
@@ -69,14 +79,12 @@
 
     <TextView
         android:id="@+id/txtvPercentage"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="95dp"
-        android:layout_marginTop="243dp"
+        android:layout_centerInParent="true"
         android:fontFamily="@font/amiko"
-        android:text="Text"
+        android:text="-"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
 </RelativeLayout>
