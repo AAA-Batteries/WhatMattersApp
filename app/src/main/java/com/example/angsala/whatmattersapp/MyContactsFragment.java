@@ -60,6 +60,13 @@ public class MyContactsFragment extends Fragment
         }
       };
 
+
+
+
+  //TODO- use subscription handling to allow user to choose relationship when they are added by another persone
+
+
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
