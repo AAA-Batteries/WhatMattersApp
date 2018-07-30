@@ -25,12 +25,16 @@ import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.parse.ParseQuery.getQuery;
 
 public class MyContactsFragment extends Fragment
     implements AddUserFragment.ContactFragmentListener {
@@ -61,6 +65,26 @@ public class MyContactsFragment extends Fragment
       };
 
 
+  Handler checkContacts = new Handler();
+  Runnable runnable2 =
+          new Runnable() {
+            @Override
+            public void run() {
+              Log.d(TAG, "running");
+              ParseQuery<Contacts> contactQuery = getQuery(Contacts.class).whereEqualTo("ContactName", user.getUsername());
+              contactQuery.findInBackground(new FindCallback<Contacts>() {
+                @Override
+                public void done(List<Contacts> objects, ParseException e) {
+                  if(e == null && (contactsList.size()<objects.size())){
+                    Log.d(TAG, "You have been added by another contact");
+                  }
+                }
+              });
+              checkContacts.postDelayed(this, 1000);
+            }
+          };
+
+
 
 
   //TODO- use subscription handling to allow user to choose relationship when they are added by another persone
@@ -70,7 +94,8 @@ public class MyContactsFragment extends Fragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    //this should be able to check if has been added by other usef
+    checkContacts.postDelayed(runnable2, 1000);
     setHasOptionsMenu(true);
   }
 
@@ -92,6 +117,45 @@ public class MyContactsFragment extends Fragment
     adapter = new ContactsAdapter(contactsList);
 
 
+     //new code for subscription handling
+    // Make sure the Parse server is setup to configured for live queries
+    // URL for server is determined by Parse.initialize() call.
+    ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+
+    // This query can even be more granular (i.e. only refresh if message was
+    // sent/received by current user)
+    ParseQuery<Contacts> contact_query1 = getQuery(Contacts.class).whereEqualTo("ContactName", user.getUsername());
+
+    ArrayList<ParseQuery<Contacts>> contact_queries = new ArrayList<>();
+    contact_queries.add(contact_query1);
+
+    ParseQuery<Contacts> parseQuery = ParseQuery.or(contact_queries);
+
+    // Connect to Parse server
+    SubscriptionHandling<Contacts> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+
+
+    // Listen for CREATE events
+
+    subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Contacts>() {
+      @Override
+      public void onEvent(ParseQuery<Contacts> query, Contacts object) {
+        getActivity().runOnUiThread(
+                new Runnable(){
+                  @Override
+                  public void run(){
+                    Toast.makeText(getContext(), "You have been added by another person", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "added by other contact");
+                  }
+                }
+        );
+      }
+    });
+
+
+    //end of new code for subscription handling
+
+
     rvContacts = view.findViewById(R.id.rvContacts);
     rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
     rvContacts.setAdapter(adapter);
@@ -108,6 +172,7 @@ public class MyContactsFragment extends Fragment
               }
             }
     );
+
 
   }
 
@@ -141,12 +206,12 @@ public class MyContactsFragment extends Fragment
 
     contactsList.add(contactCurr);
 
-    // TODO- determine how other contact will be posted
-    Contacts contactOther = new Contacts();
-    contactOther.setOwner(contact);
-    contactOther.setContactName(user.getUsername());
-    contactOther.setRelationship(relationship);
-    contactOther.saveInBackground();
+    // TODO- determine how other contact will be posted- should now show up with subscription handling
+//    Contacts contactOther = new Contacts();
+//    contactOther.setOwner(contact);
+//    contactOther.setContactName(user.getUsername());
+//    contactOther.setRelationship(relationship);
+//    contactOther.saveInBackground();
 
     adapter.notifyItemInserted(contactsList.size() - 1);
     Log.d("ContactActivity", contactsList.toString());
