@@ -6,15 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="130dp"
+        android:layout_height="101dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="47dp"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
         android:layout_marginTop="43dp"
         android:src="@drawable/instagram_user_filled_24" />
 
@@ -25,7 +38,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="60dp"
         android:layout_toEndOf="@+id/imageView2"
-        android:text="TextView" />
+        android:layout_toRightOf="@id/imageView2"
+        android:fontFamily="@font/amiko"
+        android:text="TextView"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/numberOfContacts"
@@ -33,22 +49,34 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView2"
         android:layout_toEndOf="@+id/imageView2"
-        android:text="TextView" />
+        android:layout_toRightOf="@id/imageView2"
+        android:layout_alignStart="@id/profileuserName"
+        android:layout_alignLeft="@id/profileuserName"/>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/circleprogressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="208dp"
-        android:layout_height="44dp"
-        android:layout_alignStart="@+id/imageView2"
-        android:layout_below="@+id/imageView2" />
+        android:layout_width="141dp"
+        android:layout_height="137dp"
+
+        android:layout_alignEnd="@+id/profileuserName"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="188dp"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:max="100"
+        android:progressDrawable="@drawable/circular_progress_bar" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txtvPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="127dp"
-        android:layout_toEndOf="@+id/progressBar"
-        android:text="TextView" />
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="243dp"
+        android:fontFamily="@font/amiko"
+        android:text="Text"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
 </RelativeLayout>

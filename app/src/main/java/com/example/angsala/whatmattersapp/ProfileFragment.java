@@ -7,16 +7,28 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.angsala.whatmattersapp.model.Contacts;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 
 public class ProfileFragment extends Fragment {
 
 TextView profileUsername;
+TextView numberOfContacts;
+ProgressBar circleBar;
+TextView txtvPercentage;
 String currentUsername;
-
+int contactAmount;
+ParseUser user;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +48,35 @@ String currentUsername;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        user = ParseUser.getCurrentUser();
         profileUsername = (TextView) getActivity().findViewById(R.id.profileuserName);
-        currentUsername = ParseUser.getCurrentUser().getUsername();
+        circleBar = (ProgressBar) getActivity().findViewById(R.id.circleprogressBar);
+        txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);
+        numberOfContacts = (TextView) getActivity().findViewById(R.id.numberOfContacts);
+
+        currentUsername = user.getUsername();
         profileUsername.setText(currentUsername);
+
+        //consider making this a local field in user class
+        ParseQuery<Contacts> contactQuery = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", currentUsername);
+        contactQuery.findInBackground(new FindCallback<Contacts>() {
+            @Override
+            public void done(List<Contacts> objects, ParseException e) {
+                contactAmount = objects.size();
+                numberOfContacts.setText(Integer.toString(contactAmount) + " contacts");
+
+            }
+        });
+        int x = user.getInt("Friends");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", currentUsername);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+                double uRanking = object.getDouble("UserRanking");
+                circleBar.setProgress((int) uRanking);
+                txtvPercentage.setText(Double.toString(uRanking) + "%");
+            }
+        });
+
 
     }
 }
