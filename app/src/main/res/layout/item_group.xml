@@ -28,4 +28,11 @@
         app:srcCompat="@drawable/ic_launcher_background"
         tools:layout_editor_absoluteX="51dp"
         tools:layout_editor_absoluteY="52dp" />
+
+    <ImageView
+        android:id="@+id/myGroupImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/ic_options" />
 </RelativeLayout>

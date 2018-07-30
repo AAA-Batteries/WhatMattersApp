@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mafstech.mafsimageshape.Shaper;
+
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
@@ -68,7 +70,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             viewHolder.groupName.setText("Friend");
         } else if (myPosition.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
-            viewHolder.groupImage.setColorFilter(color);
+            Shaper.shape(context, R.drawable.family, R.drawable.anotherlogo, viewHolder.groupImage, 30, 40);
             viewHolder.groupName.setText("Parents");
         } else if (myPosition.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
