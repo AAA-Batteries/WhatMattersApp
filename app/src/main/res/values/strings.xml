@@ -18,6 +18,10 @@
     <string name="my_Camera">Camera</string>
     <string name="my_contacts">Contacts</string>
 
+    <!--hoisting tags-->
+    <string name="priority_hoist">is a priority!</string>
+    <string name="buzzword_hoist">BUZZ!</string>
+
 
     <string-array name="relationships">
         <item>Relationships…</item>
