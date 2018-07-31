@@ -144,13 +144,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        // User login
-        if (ParseUser.getCurrentUser() != null) { // start with existing user
-            startWithCurrentUser();
-        } else { // If not logged in, login as a new anonymous user
-            login();
-        }
-
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
@@ -325,6 +318,13 @@ public class ChatActivity extends AppCompatActivity {
                             object.saveInBackground();
                         }
                     });
+
+                    // User login
+                    if (ParseUser.getCurrentUser() != null) { // start with existing user
+                        startWithCurrentUser();
+                    } else { // If not logged in, login as a new anonymous user
+                        login();
+                    }
                 } else {
                     Log.d("User cannot be found ", recipientName);
                     e.printStackTrace();
