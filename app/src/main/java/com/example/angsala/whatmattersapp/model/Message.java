@@ -8,8 +8,10 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
+
 @ParseClassName("Message")
-public class Message extends ParseObject implements Comparable<Message> {
+public class Message extends ParseObject implements Comparable<Message>, Serializable {
     private static final String USER_SENT_KEY = "UserSent";
     private static final String USER_RECEIVED_KEY = "UserReceived";
     private static final String BODY_KEY = "body";
