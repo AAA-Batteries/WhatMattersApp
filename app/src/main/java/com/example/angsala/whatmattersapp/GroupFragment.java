@@ -23,6 +23,11 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,9 +95,14 @@ public class GroupFragment extends Fragment {
         groups.set((int) ParseUser.getCurrentUser().get("Friends") - 1, "Friends");
         groups.set((int) ParseUser.getCurrentUser().get("Classmates") - 1, "Classmates");
         groups.set((int) ParseUser.getCurrentUser().get("Professors") - 1, "Professors");
+    //where we will write the groups?
+        writeItems();
 
         // Initialize contacts
         // Create adapter passing in the sample user data
+
+        //where we will read the groups?
+    readItems();
         adapter = new GroupAdapter(groups);
         // Attach the adapter to the recyclerview to populate items
 
@@ -145,4 +155,38 @@ public class GroupFragment extends Fragment {
         
     }
 
-}
+
+    //new code for persistence:
+
+    private File getDataFile(){
+        return new File(getContext().getFilesDir(), ParseUser.getCurrentUser().getObjectId() + "groups.txt");
+    }
+    private void readItems(){
+        //try-catch block to take care off unhandled exceptions
+        try {
+            // create the array using the content in the file
+            groups = new ArrayList<String>(FileUtils.readLines(getDataFile(), Charset.defaultCharset()));
+        }
+        catch (IOException e){
+            //print the error to the console
+            e.printStackTrace();
+            groups = new ArrayList<>();
+        }
+    }
+
+    //write the items to the file system
+    private void writeItems(){
+        try{
+            //save the item list as a line-delimited text file
+            FileUtils.writeLines(getDataFile(), groups);
+        }
+        catch (IOException e){
+            Log.e("MainActivity", "Error writing file", e);
+
+        }
+    }
+
+
+    }
+
+
