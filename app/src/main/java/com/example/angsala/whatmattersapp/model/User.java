@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -12,6 +13,7 @@ public class User extends ParseObject {
 
     private static final String CONTACTS = "contacts";
     private static final String KEY_USER = "username";
+    private static final String KEY_IMAGE = "ProfileImage";
 
     public static String getUser() {
         return KEY_USER;
@@ -48,4 +50,10 @@ public class User extends ParseObject {
 //        curr.add(message);
 //        this.put(CONTACTS, curr);
 //    }
+
+
+
+    public ParseFile getProfileImage() {
+        return getParseFile(KEY_IMAGE);
+    }
 }

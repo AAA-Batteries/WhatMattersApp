@@ -57,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
     String currentId;
 
     Chat chat;
+    NewChatAdapter adapter;
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -179,8 +180,8 @@ public class ChatActivity extends AppCompatActivity {
 
         //where we will fill the adapter
         readItems();
-        mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
-        rvChat.setAdapter(mAdapter);
+        adapter = new NewChatAdapter(this, mMessages, userId);
+        rvChat.setAdapter(adapter);
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
@@ -250,7 +251,7 @@ public class ChatActivity extends AppCompatActivity {
             mMessages.addAll(chat.getMessages());
             //where we will write the items to update
             writeItems();
-            mAdapter.notifyDataSetChanged(); // update adapter
+            adapter.notifyDataSetChanged(); // update adapter
             // Scroll to the bottom of the list on initial load
             if (mFirstLoad) {
                 rvChat.scrollToPosition(0);
