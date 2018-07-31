@@ -22,7 +22,6 @@ import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -45,6 +44,7 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
+    NewChatAdapter adapter;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
@@ -178,8 +178,8 @@ public class ChatActivity extends AppCompatActivity {
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         final String userId = ParseUser.getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
-        rvChat.setAdapter(mAdapter);
+        adapter = new NewChatAdapter(this, mMessages, userId);
+        rvChat.setAdapter(adapter);
 
         // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
@@ -247,7 +247,7 @@ public class ChatActivity extends AppCompatActivity {
         if (chat != null) {
             mMessages.clear();
             mMessages.addAll(chat.getMessages());
-            mAdapter.notifyDataSetChanged(); // update adapter
+            adapter.notifyDataSetChanged(); // update adapter
             // Scroll to the bottom of the list on initial load
             if (mFirstLoad) {
                 rvChat.scrollToPosition(0);
