@@ -28,6 +28,15 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import static com.parse.ParseQuery.getQuery;
@@ -386,6 +395,57 @@ public class ChatActivity extends AppCompatActivity {
             fm.popBackStack();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    // returns the file in which the data is stored
+    private File getDataFile() {
+        String fileName;
+        if (currentId.compareTo(recipientId) <= 0) {
+           fileName = currentId + recipientId + ".txt";
+        } else {
+            fileName = recipientId + currentId + ".txt";
+        }
+        return new File(getFilesDir(), fileName);
+    }
+
+    // read the items from the file system
+    private void readItems() {
+        try {
+            ObjectInputStream messageIO;
+            if (currentId.compareTo(recipientId) <= 0) {
+                messageIO = new ObjectInputStream(new FileInputStream(currentId + recipientId));
+            } else {
+                messageIO = new ObjectInputStream(new FileInputStream(recipientId + currentId));
+            }
+            // create the array using the content in the file
+            try {
+                mMessages = (ArrayList) messageIO.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            // print the error to the console
+            e.printStackTrace();
+            // just load an empty list
+            mMessages = new ArrayList<>();
+        }
+    }
+
+    // write the items to the filesystem
+    private void writeItems() {
+        try {
+            // save the item list as a line-delimited text file
+            ObjectOutputStream messageIO;
+            if (currentId.compareTo(recipientId) <= 0) {
+                messageIO = new ObjectOutputStream(new FileOutputStream(currentId + recipientId));
+            } else {
+                messageIO = new ObjectOutputStream(new FileOutputStream(recipientId + currentId));
+            }
+            messageIO.writeObject(mMessages);
+        } catch (IOException e) {
+            // print the error to the console
+            e.printStackTrace();
         }
     }
 }

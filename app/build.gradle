@@ -49,4 +49,6 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.6'
     compile 'com.mafstech.libs:mafs-image-shape:1.0.4'
 
+    compile 'commons-io:commons-io:2.5'
+
 }
