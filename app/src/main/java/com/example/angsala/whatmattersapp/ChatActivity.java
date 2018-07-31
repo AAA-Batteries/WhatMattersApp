@@ -27,15 +27,12 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import static com.parse.ParseQuery.getQuery;
@@ -186,6 +183,9 @@ public class ChatActivity extends AppCompatActivity {
         rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         final String userId = ParseUser.getCurrentUser().getObjectId();
+
+        //where we will fill the adapter
+        readItems();
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
@@ -255,6 +255,8 @@ public class ChatActivity extends AppCompatActivity {
         if (chat != null) {
             mMessages.clear();
             mMessages.addAll(chat.getMessages());
+            //where we will write the items to update
+            writeItems();
             mAdapter.notifyDataSetChanged(); // update adapter
             // Scroll to the bottom of the list on initial load
             if (mFirstLoad) {
@@ -397,10 +399,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
-
-
-=======
     // returns the file in which the data is stored
     private File getDataFile() {
         String fileName;
@@ -451,5 +449,5 @@ public class ChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
->>>>>>> 4f0a1e0bb9e10ef0d0f536474f413c1eb71e4b21
+
 }
