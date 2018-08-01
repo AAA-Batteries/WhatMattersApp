@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -24,6 +26,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     Context context;
     List<Contacts> contacts;
+    ParseUser user;
 
     public ContactsAdapter(List<Contacts> contacts) {
         this.contacts = contacts;
@@ -52,6 +55,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.relationship.setText("Friend");
         } else if (relationship.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
+
+            GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
+            viewHolder.ivRelation.setColorFilter(color);
+            viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
+
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Parents");
         } else if (relationship.equals("Classmates")) {
@@ -74,9 +84,40 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.flag.setVisibility(View.INVISIBLE);
         }
 
-        Log.d("adapter", contacts.toString());
+        String currentUsername = contact.getContactName();
 
-        viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
+        ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", currentUsername);
+        query1.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+
+                ParseFile img = object.getParseFile("ProfileImage");
+                String imgUrl = "";
+                if (img != null){
+                    imgUrl = img.getUrl();
+
+                }
+
+
+
+
+                GlideApp.with(context).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(viewHolder.contactImage);
+                //   Glide.with(getActivity()).load(imgUrl).transform
+
+
+
+
+
+
+
+
+
+
+            }
+        });
+
+
+
+        //viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
 
         viewHolder.tvUserName.setText(contact.getContactName());
@@ -108,6 +149,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         TextView relationship;
         ImageView flag;
         TextView userPercentage;
+        ImageView ivRelation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,6 +159,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             relationship = itemView.findViewById(R.id.relationship);
             flag = itemView.findViewById(R.id.imvFlag);
             userPercentage = itemView.findViewById(R.id.userPercentage);
+            ivRelation = itemView.findViewById(R.id.ivRelation);
 
             itemView.setOnClickListener(this);
         }

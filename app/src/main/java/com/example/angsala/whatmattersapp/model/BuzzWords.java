@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.R;
-import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
