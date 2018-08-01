@@ -51,27 +51,23 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         String relationship = contact.getRelationship();
         if (relationship.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
-            viewHolder.contactColor.setColorFilter(color);
-            viewHolder.relationship.setText("Friend");
-        } else if (relationship.equals("Parents")) {
-            int color = context.getResources().getColor(R.color.Parents);
-
             GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
-
-
-
-            viewHolder.contactColor.setColorFilter(color);
-            viewHolder.relationship.setText("Parents");
+        } else if (relationship.equals("Parents")) {
+            int color = context.getResources().getColor(R.color.Parents);
+            GlideApp.with(context).load(R.drawable.parent_guardian).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
+            viewHolder.ivRelation.setColorFilter(color);
+            viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
             viewHolder.contactColor.setColorFilter(color);
             viewHolder.relationship.setText("Classmates");
         } else if (relationship.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
-            viewHolder.contactColor.setColorFilter(color);
-            viewHolder.relationship.setText("Family");
+            GlideApp.with(context).load(R.drawable.familyzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
+            viewHolder.ivRelation.setColorFilter(color);
+            viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
             viewHolder.contactColor.setColorFilter(color);
@@ -155,8 +151,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             super(itemView);
             contactImage = itemView.findViewById(R.id.contactImage);
             tvUserName = itemView.findViewById(R.id.tvUserName);
-            contactColor = itemView.findViewById(R.id.contactColor);
-            relationship = itemView.findViewById(R.id.relationship);
+
             flag = itemView.findViewById(R.id.imvFlag);
             userPercentage = itemView.findViewById(R.id.userPercentage);
             ivRelation = itemView.findViewById(R.id.ivRelation);

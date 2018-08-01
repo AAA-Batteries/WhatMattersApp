@@ -45,23 +45,6 @@
         tools:layout_editor_absoluteY="99dp" />
 
     <ImageView
-        android:id="@+id/contactColor"
-        android:layout_width="47dp"
-        android:layout_height="43dp"
-        android:layout_alignBottom="@+id/contactImage"
-        android:layout_alignEnd="@+id/tvUserName"
-        app:srcCompat="@drawable/shape_circle" />
-
-    <TextView
-        android:id="@+id/relationship"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvUserName"
-        android:layout_below="@+id/contactColor"
-        android:gravity="bottom"
-        android:text="TextView" />
-
-    <ImageView
         android:id="@+id/imvFlag"
         android:layout_width="83dp"
         android:layout_height="13dp"
