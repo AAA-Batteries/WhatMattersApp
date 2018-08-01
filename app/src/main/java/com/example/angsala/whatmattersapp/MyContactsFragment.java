@@ -277,6 +277,7 @@ public class MyContactsFragment extends Fragment
                                     if (objects.get(i).getFlag() == true && user.getInt(obRelationship) <= user.getInt(nextRelationship)) {
                                         objects.get(i).setFlag(false);
                                         objects.get(i).saveInBackground();
+
                                     }
                                 }
 

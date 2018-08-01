@@ -8,8 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.angsala.whatmattersapp.model.Message;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -123,8 +127,38 @@ public class NewChatAdapter extends RecyclerView.Adapter {
 
             // Format the stored timestamp into a readable String using method.
             timeText.setText(message.getRelativeTimeAgo());
+            String currentUsername = message.getParseUserSender().getUsername();
 
             nameText.setText(username);
+            ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", currentUsername);
+            query1.getFirstInBackground(new GetCallback<ParseUser>() {
+                public void done(ParseUser object, ParseException e) {
+
+                    ParseFile img = object.getParseFile("ProfileImage");
+                    String imgUrl = "";
+                    if (img != null){
+                        imgUrl = img.getUrl();
+
+                    }
+
+
+
+
+                    GlideApp.with(mContext).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(profileImage);
+                    //   Glide.with(getActivity()).load(imgUrl).transform
+
+
+
+
+
+
+
+
+
+
+                }
+            });
+
 
             // Insert the profile image from the URL into the ImageView.
            // Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);
