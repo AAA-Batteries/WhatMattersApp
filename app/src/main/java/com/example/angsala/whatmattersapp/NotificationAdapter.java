@@ -22,7 +22,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     List<Message> notificationMessages;
 
 
-    public NotificationAdapter(List<Message> notifMessages) {this.notificationMessages = notifMessages;}
+    public NotificationAdapter(List<Message> notifMessages) {
+        this.notificationMessages = notifMessages;
+    }
 
     @NonNull
     @Override
@@ -36,7 +38,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder viewHolder, int position) {
-    Message currentMessage = notificationMessages.get(position);
+        Message currentMessage = notificationMessages.get(position);
         String username = null;
         try {
             username = currentMessage.getParseUserSender().fetchIfNeeded().getUsername();
@@ -44,10 +46,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             e.printStackTrace();
         }
         String body = currentMessage.getBody();
-    viewHolder.txtvName.setText(username);
-    viewHolder.txtvBody.setText(body);
-    viewHolder.timeStamp.setText(currentMessage.getRelativeTimeAgo());
+        viewHolder.txtvName.setText(username);
+        viewHolder.txtvBody.setText(body);
+        viewHolder.timeStamp.setText(currentMessage.getRelativeTimeAgo());
 
+//        if (currentMessage.getUserReceivedPriority() < 3) {
+////            viewHolder.txHoistReason.setText(R.string.priority_hoist);
+////        } else if (currentMessage.getBuzzwordsDetected()) {
+////            viewHolder.txHoistReason.setText(R.string.buzzword_hoist);
+////        }
+        if(currentMessage.getUserReceivedPriority() < 3 && currentMessage.getBuzzwordsDetected()){
+            viewHolder.txHoistReason.setText("DOUBLE FLAG");
+
+        }
+        else if (currentMessage.getBuzzwordsDetected()) {
+           viewHolder.txHoistReason.setText(R.string.buzzword_hoist);
+        }
+
+        //this shouldnt run unless the above return false
+        else if (currentMessage.getUserReceivedPriority() < 3){
+            viewHolder.txHoistReason.setText(R.string.priority_hoist);
+        }
 
     }
 
@@ -62,6 +81,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         ImageView imvPicture;
         public RelativeLayout viewBackground, foreBackground;
         TextView timeStamp;
+        TextView txHoistReason;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -72,16 +92,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             viewBackground = itemView.findViewById(R.id.view_background);
             foreBackground = itemView.findViewById(R.id.view_foreground);
             timeStamp = itemView.findViewById(R.id.timeStamp);
-
+            txHoistReason = itemView.findViewById(R.id.txHoistReason);
 
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
+
         @Override
         public void onClick(View view) {
             int viewPosition = getAdapterPosition();
-            if (viewPosition != RecyclerView.NO_POSITION){
+            if (viewPosition != RecyclerView.NO_POSITION) {
                 Message message = notificationMessages.get(viewPosition);
                 String recipient = message.getParseUserSender().getUsername();
                 Intent chatIntent = new Intent(context, ChatActivity.class);
@@ -97,12 +118,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position) {
         notificationMessages.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(Message messages, int position){
+    public void restoreItem(Message messages, int position) {
         notificationMessages.add(position, messages);
         notifyItemInserted(position);
     }

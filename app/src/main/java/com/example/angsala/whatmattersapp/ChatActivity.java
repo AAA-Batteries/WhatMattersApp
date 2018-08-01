@@ -231,7 +231,7 @@ public class ChatActivity extends AppCompatActivity {
                                         public void done(ParseUser object, ParseException e) {
                                             contactPriority = object.getInt(contactRelationship);
                                             //set the priority between the recipient and sender
-                                            message.setUserReceivedPriority(contactPriority);
+                                           // message.setUserReceivedPriority(contactPriority);
                                             int score = buzz.caseBuzzWord(data, contactPriority);
                                             //access public member field of BuzzWords instance
                                             message.setBuzzwordsDetected(buzz.hasBuzzwords);
@@ -315,6 +315,8 @@ public class ChatActivity extends AppCompatActivity {
     // checks that there is a chat with said user, otherwise create one
     public void setRecipient(final String recipientName) {
         ParseQuery<ParseUser> query = getQuery(ParseUser.class).whereEqualTo("username", recipientName);
+        Log.d("ChatActivity", "trying to make new chat");
+        Log.d("ChatActivity", recipientName);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser object, ParseException e) {
                 ParseUser recipient = object;
@@ -323,7 +325,6 @@ public class ChatActivity extends AppCompatActivity {
 
                     // find or create the chat object for current and recipient users
                     ParseQuery<Chat> chatQuery = ParseQuery.or(orQuery());
-
                     // Execute query to fetch all messages from Parse asynchronously
                     // This is equivalent to a SELECT query with SQL
                     chatQuery.getFirstInBackground(
