@@ -23,24 +23,6 @@
         android:layout_marginTop="12dp"
         app:srcCompat="@color/colorPrimaryDark" />
 
-    <ImageView
-        android:id="@+id/ivContactGroupRelationship"
-        android:layout_width="50dp"
-        android:layout_height="43dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="60dp"
-        app:srcCompat="@drawable/shape_circle" />
-
-    <TextView
-        android:id="@+id/tvGroupRelationship"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/ivContactGroupRelationship"
-        android:layout_below="@+id/ivContactGroupRelationship"
-        android:text="TextView" />
-
     <TextView
         android:id="@+id/myContactName"
         android:layout_width="wrap_content"
@@ -57,21 +39,14 @@
         android:layout_alignBottom="@+id/ivContactGroupRelationship"
         android:layout_toEndOf="@+id/myContactName" />
 
-    <TextView
-        android:id="@+id/groupuserPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/ivContactGroupRelationship"
-        android:layout_marginEnd="90dp" />
-
     <ImageView
         android:id="@+id/myRelation"
         android:layout_width="45dp"
         android:layout_height="39dp"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/alertMessage"
-        android:layout_marginStart="91dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="103dp"
+        android:layout_marginTop="89dp"
         app:srcCompat="@drawable/shape_circle" />
 
 </RelativeLayout>

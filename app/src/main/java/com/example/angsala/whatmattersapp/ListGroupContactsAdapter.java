@@ -11,22 +11,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
 
-public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupContactsAdapter.ViewHolder>{
+public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupContactsAdapter.ViewHolder> {
     List<Contacts> contactsList;
     Context context;
 
-    public ListGroupContactsAdapter(List<Contacts> contactsList){
+    public ListGroupContactsAdapter(List<Contacts> contactsList) {
         this.contactsList = contactsList;
 
     }
+
     @NonNull
     @Override
     public ListGroupContactsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,29 +43,54 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
     public void onBindViewHolder(@NonNull final ListGroupContactsAdapter.ViewHolder viewHolder, int position) {
         Contacts contacts = contactsList.get(position);
         String relationship = contacts.getRelationship();
-        if (relationship.equals("Friends")){
+        if (relationship.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
-            viewHolder.contactGroupRelationship.setColorFilter(color);
-            viewHolder.groupRelationship.setText("Friend");
-        }
-        else if (relationship.equals("Parents")){
+            GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            viewHolder.myRelation.setColorFilter(color);
+            viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+        } else if (relationship.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
-            viewHolder.contactGroupRelationship.setColorFilter(color);
-            viewHolder.groupRelationship.setText("Parents");
-        } else if (relationship.equals("Classmates")){
+            GlideApp.with(context).load(R.drawable.parent_guardian).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            viewHolder.myRelation.setColorFilter(color);
+            viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
+        } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
-            viewHolder.contactGroupRelationship.setColorFilter(color);
-            viewHolder.groupRelationship.setText("Classmates");
-        } else  if (relationship.equals("Family")){
+            GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            viewHolder.myRelation.setColorFilter(color);
+            viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
+        } else if (relationship.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
-            viewHolder.contactGroupRelationship.setColorFilter(color);
-            viewHolder.groupRelationship.setText("Family");
+            GlideApp.with(context).load(R.drawable.familyzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            viewHolder.myRelation.setColorFilter(color);
+            viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
-            viewHolder.contactGroupRelationship.setColorFilter(color);
-            viewHolder.groupRelationship.setText("Professors");
+            GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            viewHolder.myRelation.setColorFilter(color);
+            viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         }
 
+        String currentUsername = contacts.getContactName();
+        ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", currentUsername);
+        query1.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+
+                ParseFile img = object.getParseFile("ProfileImage");
+                String imgUrl = "";
+                if (img != null) {
+                    imgUrl = img.getUrl();
+
+                }
+                GlideApp.with(context).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(viewHolder.contactGroupImage);
+
+
+            }
+        });
 
 
         Log.d("adapter", contacts.toString());
@@ -70,17 +98,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         viewHolder.myContactName.setText(contacts.getContactName());
         Log.d("adapter", viewHolder.myContactName.toString());
 
-        //try to fetch UserRanking, this will be difficult when contact list is large
-        String uname = contacts.getContactName();
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", uname);
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
-            public void done(ParseUser object, ParseException e) {
-                double uRanking = object.getDouble("UserRanking");
-                String stringuRanking = Double.toString(uRanking) + "%";
-                Log.d("adapter", stringuRanking);
-                viewHolder.groupuserPercentage.setText(stringuRanking);
-            }
-        });
+
     }
 
     @Override
@@ -91,19 +109,16 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView contactGroupImage;
-        ImageView contactGroupRelationship;
-        TextView groupRelationship;
         TextView myContactName;
         TextView alertMessage;
-        TextView groupuserPercentage;
+        ImageView myRelation;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             contactGroupImage = itemView.findViewById(R.id.contactGroupImage);
-            contactGroupRelationship = itemView.findViewById(R.id.ivContactGroupRelationship);
-            groupRelationship = itemView.findViewById(R.id.tvGroupRelationship);
             myContactName = itemView.findViewById(R.id.myContactName);
             alertMessage = itemView.findViewById(R.id.alertMessage);
-            groupuserPercentage = itemView.findViewById(R.id.groupuserPercentage);
+            myRelation = itemView.findViewById(R.id.myRelation);
 
 
             itemView.setOnClickListener(this);
