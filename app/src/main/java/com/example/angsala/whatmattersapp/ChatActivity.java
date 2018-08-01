@@ -325,31 +325,35 @@ public class ChatActivity extends AppCompatActivity {
                     chatQuery.getFirstInBackground(
                             new GetCallback<Chat>() {
                                 public void done(Chat object, ParseException e) {
-                                    if (e == null && object != null) {
-                                        chat = (Chat) object;
-                                        // populate screen with messages
-                                        refreshMessages();
-                                    } else {
-                                        // query object between the two users did not exist on the
-                                        // parse backend, create new chat object
-                                        chat = new Chat();
-                                        chat.setUser1(currentId);
-                                        chat.setUser2(recipientId);
-                                        chat.setMessages(new ArrayList<Message>());
-                                        chat.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e == null) {
-                                                    Toast.makeText(
-                                                            ChatActivity.this,
-                                                            "Successfully started a new chat!",
-                                                            Toast.LENGTH_SHORT)
-                                                            .show();
-                                                } else {
-                                                    Log.e(TAG, "Failed to start chat", e);
+                                    if (e == null) {
+                                        if (object != null) {
+                                            chat = (Chat) object;
+                                            // populate screen with messages
+                                            refreshMessages();
+                                            makeFlagToast();
+                                        } else {
+                                            // query object between the two users did not exist on the
+                                            // parse backend, create new chat object
+                                            chat = new Chat();
+                                            chat.setUser1(currentId);
+                                            chat.setUser2(recipientId);
+                                            chat.setMessages(new ArrayList<Message>());
+                                            chat.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        Toast.makeText(
+                                                                ChatActivity.this,
+                                                                "Successfully started a new chat!",
+                                                                Toast.LENGTH_SHORT)
+                                                                .show();
+                                                        makeFlagToast();
+                                                    } else {
+                                                        Log.e(TAG, "Failed to start chat", e);
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
                                 }
                             });
@@ -496,5 +500,36 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    // Check if the recipient contact is flagged for the current user, and display a toast if it is
+    private void makeFlagToast() {
+        try {
+            ParseQuery<Contacts> contactQuery = getQuery(Contacts.class)
+                    .whereEqualTo("Owner", ParseUser.getQuery().get(currentId).getUsername())
+                    .whereEqualTo("ContactName", ParseUser.getQuery().get(recipientId).getUsername());
+            contactQuery.getFirstInBackground(new GetCallback<Contacts>() {
+                @Override
+                public void done(Contacts object, ParseException e) {
+                    if (e == null) {
+                        if (object.getFlag()) {
+                            try {
+                                String message = ParseUser.getQuery().get(recipientId).getUsername()
+                                        + " is a member of " + object.getRelationship() + ".";
+                                if (chat.getMessages().isEmpty()) {
+                                    message += "\nThey should be a prioritized contact!\nStart chatting with them now!";
+                                } else {
+                                    message += "\nYou haven't talked with them in a while. Let's catch up with them!";
+                                }
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                            } catch (ParseException e1) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
