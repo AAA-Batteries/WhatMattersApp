@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +21,6 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class ListGroupContactsActivity extends AppCompatActivity {
@@ -38,14 +41,29 @@ public class ListGroupContactsActivity extends AppCompatActivity {
         rvListGroupContact.setLayoutManager(new LinearLayoutManager(this));
         rvListGroupContact.setAdapter(adapter);
         loadContacts();
-
-
-
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.groups_items, menu);
 
-    public void loadContacts(){
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reprioritize:
+                launchPriorityActivity();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void loadContacts() {
         Intent intent = getIntent();
         String relationship = intent.getStringExtra("relationship");
         Log.d("MyExtra", relationship);
@@ -53,28 +71,28 @@ public class ListGroupContactsActivity extends AppCompatActivity {
         username = user.getUsername();
         ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class)
                 .whereEqualTo("Owner", username)
-                .whereEqualTo("Relationship", relationship )
+                .whereEqualTo("Relationship", relationship)
                 .orderByDescending("Ranking");
         query.findInBackground(new FindCallback<Contacts>() {
             @Override
             public void done(List<Contacts> objects, ParseException e) {
-                if (e == null){
+                if (e == null) {
                     contactsList.addAll(objects);
                     adapter.notifyItemInserted(contactsList.size() - 1);
-                    if (contactsList.isEmpty()){
+                    if (contactsList.isEmpty()) {
                         Toast.makeText(getApplicationContext(), "You have no contacts in this group", Toast.LENGTH_SHORT).show();
                     }
-
-
-
-
-                }
-                else {
+                } else {
                     e.printStackTrace();
                 }
             }
         });
 
 
+    }
+
+    public void launchPriorityActivity() {
+        Intent intent = new Intent(this, PriorityActivity.class);
+        startActivity(intent);
     }
 }
