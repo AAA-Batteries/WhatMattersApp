@@ -6,6 +6,5 @@
         android:id="@+id/reprioritize"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="Compose"
-        android:onClick="launchPriorityActivity"
         app:showAsAction="always"></item>
 </menu>
