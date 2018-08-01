@@ -113,6 +113,17 @@ public class Message extends ParseObject implements Comparable<Message>, Seriali
         }
     }
 
+    public void setBuzzwordsDetected(boolean buzzwordsDetect){
+        put(BUZZWORDS_DETECTED_KEY, buzzwordsDetect);
+    }
+
+    public boolean getBuzzwordsDetected(){
+            return getBoolean(BUZZWORDS_DETECTED_KEY);
+    }
+
+
+    //end of new getters and setters
+
 
 
     public String getRelativeTimeAgo() {
