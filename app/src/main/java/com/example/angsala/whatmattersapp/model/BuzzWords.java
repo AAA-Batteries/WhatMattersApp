@@ -10,6 +10,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -98,10 +100,13 @@ public class BuzzWords {
 
         Log.d("MyArray", buzzwords.toString());
         Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
-
+        //make everything into upper case
+      String uppercaseBody =  myBody.toUpperCase();
         for (int i = 0; i < buzzwords.size(); i++) {
-            if (myBody.equalsIgnoreCase(buzzwords.get(i))) {
-                buzzword_count++;
+            if (uppercaseBody.contains(buzzwords.get(i))) {
+
+                int occurences = StringUtils.countMatches(uppercaseBody, buzzwords.get(i));
+                buzzword_count += occurences;
             }
 
         }
