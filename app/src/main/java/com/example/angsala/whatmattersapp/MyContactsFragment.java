@@ -45,6 +45,7 @@ public class MyContactsFragment extends Fragment
     boolean doesExist;
     List<Contacts> contactsList;
 
+
     SwipeRefreshLayout swipeRefreshLayout;
     Handler myHandler = new Handler();
 

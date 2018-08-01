@@ -1,11 +1,11 @@
 package com.example.angsala.whatmattersapp.model;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.R;
-import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -18,25 +18,42 @@ public class BuzzWords {
     ParseUser user1;
     Context context;
     ArrayList<String> buzzwords;
+    String myBody;
     String relationship;
     int priority;
     int buzzword_count;
+
+    int messageScore;
+
+    Handler myHandler = new Handler();
+    Runnable runnable =
+            new Runnable() {
+                @Override
+                public void run() {
+                    messageScore = caseBuzzWord(buzzwords, myBody, myPriorities(priority));
+                }
+            };
 
     public BuzzWords(Context context) {
         this.context = context;
     }
 
-
-    public int Buzzer(ParseUser user, String body) {
-
+    //this is what we will interface with
+    public void Buzzer(ParseUser user, String body) {
+        myBody = body;
         buzzwords = new ArrayList<>();
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
         user1 = ParseUser.getCurrentUser();
+        String test1 = user.getUsername();
+        String test2 = user1.getUsername();
         ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", user).whereEqualTo("ContactName", user1);
         query.getFirstInBackground(new GetCallback<Contacts>() {
             @Override
             public void done(Contacts object, ParseException e) {
-                relationship = object.getRelationship();
+                if (e == null) {
+                    relationship = object.getRelationship();
+                }
+
             }
         });
 
@@ -49,11 +66,9 @@ public class BuzzWords {
 
             }
 
-
         });
 
-
-        return caseBuzzWord(buzzwords, body, myPriorities(priority));
+        myHandler.postDelayed(runnable, 2000);
 
     }
 
@@ -75,6 +90,7 @@ public class BuzzWords {
 
     }
 
+
     public int caseBuzzWord(ArrayList<String> myBuzz, String myBody, int priorityy) {
 
         Log.d("MyArray", buzzwords.toString());
@@ -89,6 +105,11 @@ public class BuzzWords {
         return (buzzword_count * 10 + priorityy);
 
 
+    }
+
+    public int getMessageScore() {
+
+        return messageScore;
     }
 
 }

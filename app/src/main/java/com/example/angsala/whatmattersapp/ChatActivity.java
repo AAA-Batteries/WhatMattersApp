@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.BuzzWords;
 import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
@@ -59,6 +60,8 @@ public class ChatActivity extends AppCompatActivity {
     Chat chat;
     NewChatAdapter adapter;
 
+    int messageScore;
+
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
@@ -81,6 +84,8 @@ public class ChatActivity extends AppCompatActivity {
                     myHandler.postDelayed(this, POLL_INTERVAL);
                 }
             };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,18 +193,37 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
 
+
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String data = etMessage.getText().toString();
-
+                        final BuzzWords buzz = new BuzzWords(ChatActivity.this);
                         // Using new `Message` Parse-backed model now
-                        Message message = new Message();
+                        final Message message = new Message();
                         message.setBody(data);
                         message.setUserSent(ParseUser.getCurrentUser().getObjectId());
                         message.setUserReceived(recipientId);
+
+                        try {
+                            buzz.Buzzer(ParseUser.getQuery().get(recipientId), data);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        Handler messageScoreHandler = new Handler();
+                        Runnable mMessageScoreRunnable =
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        message.setMessageRanking(buzz.getMessageScore());
+                                    }
+                                };
+
+                        messageScoreHandler.postDelayed(mMessageScoreRunnable, 2000);
+
 
                         final Message tempMessage = message;
                         message.saveInBackground(

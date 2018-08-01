@@ -35,8 +35,7 @@
         android:layout_marginTop="44dp"
         android:layout_toLeftOf="@id/linearLayout1"
         android:paddingLeft="5dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/instagram_user_filled_24" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/profileuserName"
