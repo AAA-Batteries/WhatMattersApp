@@ -90,29 +90,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
                 ParseFile img = object.getParseFile("ProfileImage");
                 String imgUrl = "";
-                if (img != null){
+                if (img != null) {
                     imgUrl = img.getUrl();
 
                 }
-
-
 
 
                 GlideApp.with(context).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(viewHolder.contactImage);
                 //   Glide.with(getActivity()).load(imgUrl).transform
 
 
-
-
-
-
-
-
-
-
             }
         });
-
 
 
         //viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
@@ -131,7 +120,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 Log.d("adapter", stringuRanking);
                 viewHolder.userPercentage.setText(stringuRanking);
             }
-            });
+        });
 
     }
 
@@ -172,14 +161,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 context.startActivity(chatIntent);
             }
         }
-        }
+    }
 
     public void clear() {
         contacts.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Contacts> mcontacts){
+    public void addAll(List<Contacts> mcontacts) {
         contacts.addAll(mcontacts);
         notifyDataSetChanged();
     }

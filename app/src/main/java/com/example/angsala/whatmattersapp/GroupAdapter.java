@@ -68,11 +68,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         if (myPosition.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
             GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
-
-
-
-
             viewHolder.groupImage.setColorFilter(color);
+
             viewHolder.groupName.setText("Friend");
         } else if (myPosition.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
