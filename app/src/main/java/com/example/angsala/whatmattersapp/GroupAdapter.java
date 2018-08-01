@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -66,23 +66,49 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
         if (myPosition.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
+            viewHolder.groupName.setText("Friends");
+            GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
             viewHolder.groupImage.setColorFilter(color);
-            viewHolder.groupName.setText("Friend");
+            viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
         } else if (myPosition.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
             viewHolder.groupName.setText("Parents");
+
+            GlideApp.with(context).load(R.drawable.parent_guardian).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
+
+
         } else if (myPosition.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
-            viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Classmates");
+
+            GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
+
         } else if (myPosition.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
-            viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Family");
+            GlideApp.with(context).load(R.drawable.familyzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+
+
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
-            viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Professors");
+            GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
+            viewHolder.groupImage.setColorFilter(color);
+            viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
         }
 
 
