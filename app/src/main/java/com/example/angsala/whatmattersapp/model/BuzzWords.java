@@ -22,6 +22,8 @@ public class BuzzWords {
     String relationship;
     int priority;
     int buzzword_count;
+    //made public to directly use
+    public Boolean hasBuzzwords;
 
     public BuzzWords(Context context) {
         this.context = context;
@@ -92,7 +94,6 @@ public class BuzzWords {
     }
 
 
-
     public int caseBuzzWord(String myBody, int priorityy) {
 
         buzzwords = new ArrayList<>();
@@ -101,7 +102,7 @@ public class BuzzWords {
         Log.d("MyArray", buzzwords.toString());
         Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
         //make everything into upper case
-      String uppercaseBody =  myBody.toUpperCase();
+        String uppercaseBody = myBody.toUpperCase();
         for (int i = 0; i < buzzwords.size(); i++) {
             if (uppercaseBody.contains(buzzwords.get(i))) {
 
@@ -109,6 +110,11 @@ public class BuzzWords {
                 buzzword_count += occurences;
             }
 
+        }
+        if (buzzword_count > 0) {
+            hasBuzzwords = true;
+        } else {
+            hasBuzzwords = false;
         }
         return (buzzword_count * 10 + myPriorities(priorityy));
 

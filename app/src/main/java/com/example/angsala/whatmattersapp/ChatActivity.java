@@ -230,7 +230,11 @@ public class ChatActivity extends AppCompatActivity {
                                         @Override
                                         public void done(ParseUser object, ParseException e) {
                                             contactPriority = object.getInt(contactRelationship);
+                                            //set the priority between the recipient and sender
+                                            message.setUserReceivedPriority(contactPriority);
                                             int score = buzz.caseBuzzWord(data, contactPriority);
+                                            //access public member field of BuzzWords instance
+                                            message.setBuzzwordsDetected(buzz.hasBuzzwords);
                                             message.setMessageRanking(score);
 
                                             final Message tempMessage = message;

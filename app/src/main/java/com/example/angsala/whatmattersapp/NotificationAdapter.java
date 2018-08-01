@@ -47,6 +47,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     viewHolder.txtvName.setText(username);
     viewHolder.txtvBody.setText(body);
     viewHolder.timeStamp.setText(currentMessage.getRelativeTimeAgo());
+
+
     }
 
     @Override
@@ -70,6 +72,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             viewBackground = itemView.findViewById(R.id.view_background);
             foreBackground = itemView.findViewById(R.id.view_foreground);
             timeStamp = itemView.findViewById(R.id.timeStamp);
+
 
 
             itemView.setOnClickListener(this);
