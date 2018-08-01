@@ -18,8 +18,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
         app:srcCompat="@color/colorPrimaryDark" />
 
     <ImageView
@@ -63,5 +64,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ivContactGroupRelationship"
         android:layout_marginEnd="90dp" />
+
+    <ImageView
+        android:id="@+id/myRelation"
+        android:layout_width="45dp"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/alertMessage"
+        android:layout_marginStart="91dp"
+        app:srcCompat="@drawable/shape_circle" />
 
 </RelativeLayout>

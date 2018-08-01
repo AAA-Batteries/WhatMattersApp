@@ -19,7 +19,6 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
@@ -93,7 +92,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
                 ParseFile img = object.getParseFile("ProfileImage");
                 String imgUrl = "";
-                if (img != null){
+                if (img != null) {
                     imgUrl = img.getUrl();
 
                 }
@@ -103,19 +102,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 //   Glide.with(getActivity()).load(imgUrl).transform
 
 
-
-
-
-
-
-
-
-
             }
         });
-
-
-
 
 
         //be able to use glid
@@ -125,7 +113,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
         viewHolder.tvUserName.setText(contact.getContactName());
         Log.d("adapter user ranking", viewHolder.tvUserName.toString());
-
 
 
     }
@@ -170,14 +157,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 context.startActivity(chatIntent);
             }
         }
-        }
+    }
 
     public void clear() {
         contacts.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Contacts> mcontacts){
+    public void addAll(List<Contacts> mcontacts) {
         contacts.addAll(mcontacts);
         notifyDataSetChanged();
     }

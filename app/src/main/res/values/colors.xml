@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="Friends">#00ffff</color>
     <color name="Parents">#0000ff</color>
-    <color name="Classmates">#ffff00</color>
+    <color name="Classmates">#ff8800</color>
     <color name="Family">#ff0080</color>
-    <color name="colorAccent">#b5ffc2</color>
+    <color name="colorAccent">#58a466</color>
     <color name="light_background">#effaf4</color>
     <color name="light_chat">#ebefed</color>
     <color name = "hoist_contact">#F46868 </color>
