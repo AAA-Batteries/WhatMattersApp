@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName" />
@@ -21,9 +21,9 @@
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/etUsername"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="223dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPersonName" />
@@ -32,89 +32,93 @@
         android:id="@+id/btSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/spinnerProfessors"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="51dp"
+        android:layout_marginTop="50dp"
         android:text="Sign Up" />
 
     <Spinner
         android:id="@+id/spinnerParents"
         android:layout_width="140dp"
-        android:layout_height="27dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="30dp" />
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/etUsername"
+        android:layout_below="@+id/etPassword"
+        android:layout_marginTop="50dp" />
 
     <Spinner
         android:id="@+id/spinnerFamily"
-        android:layout_width="137dp"
-        android:layout_height="27dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="272dp"
-        android:layout_marginStart="30dp"/>
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/etUsername"
+        android:layout_below="@+id/spinnerParents"
+        android:layout_marginTop="20dp" />
 
     <Spinner
         android:id="@+id/spinnerFriends"
-        android:layout_width="143dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="229dp"
-        android:layout_marginStart="30dp"/>
+        android:layout_alignStart="@+id/etUsername"
+        android:layout_below="@+id/spinnerFamily"
+        android:layout_marginTop="20dp" />
 
     <Spinner
         android:id="@+id/spinnerClassmates"
-        android:layout_width="141dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="182dp"
-        android:layout_marginStart="30dp" />
+        android:layout_alignStart="@+id/etUsername"
+        android:layout_below="@+id/spinnerFriends"
+        android:layout_marginTop="20dp" />
 
     <Spinner
         android:id="@+id/spinnerProfessors"
-        android:layout_width="141dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/spinnerFriends"
-        android:layout_marginBottom="129dp" />
+        android:layout_alignStart="@+id/etUsername"
+        android:layout_below="@+id/spinnerClassmates"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/txtParents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/etUsername"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/spinnerParents"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@+id/spinnerParents"
         android:text="Parents" />
 
     <TextView
         android:id="@+id/txtFamily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/etUsername"
         android:layout_alignTop="@+id/spinnerFamily"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@+id/spinnerFamily"
         android:text="Family" />
 
     <TextView
         android:id="@+id/txtFriends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txtFamily"
         android:layout_alignTop="@+id/spinnerFriends"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@+id/spinnerParents"
         android:text="Friends" />
 
     <TextView
         android:id="@+id/txtClassmates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txtParents"
         android:layout_alignTop="@+id/spinnerClassmates"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@+id/spinnerParents"
         android:text="Classmates" />
 
     <TextView
         android:id="@+id/txtProfessors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txtParents"
         android:layout_alignTop="@+id/spinnerProfessors"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@+id/spinnerParents"
         android:text="Professors" />
 </RelativeLayout>
