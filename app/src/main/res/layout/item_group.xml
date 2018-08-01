@@ -20,13 +20,21 @@
 
     <ImageView
         android:id="@+id/groupImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:layout_editor_absoluteX="51dp"
         tools:layout_editor_absoluteY="52dp" />
 
+    <ImageView
+        android:id="@+id/myGroupImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/groupImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        app:srcCompat="@drawable/ic_options" />
 </RelativeLayout>

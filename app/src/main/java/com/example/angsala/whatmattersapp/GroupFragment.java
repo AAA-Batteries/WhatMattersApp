@@ -7,10 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -48,16 +52,16 @@ public class GroupFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_group, container, false);
 
-        reprioritize = v.findViewById(R.id.reprioritize);
-        // handles resetting priorities upon the reset button being clicked
-        reprioritize.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), PriorityActivity.class);
-                        startActivity(intent);
-                    }
-                });
+//        reprioritize = v.findViewById(R.id.reprioritize);
+//        // handles resetting priorities upon the reset button being clicked
+//        reprioritize.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent intent = new Intent(getActivity(), PriorityActivity.class);
+//                        startActivity(intent);
+//                    }
+//                });
 
         groupImage = v.findViewById(R.id.groupImage);
         groupName = v.findViewById(R.id.groupName);
@@ -90,19 +94,23 @@ public class GroupFragment extends Fragment {
             groups.add("");
         }
 
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_groups);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
+
         groups.set((int) ParseUser.getCurrentUser().get("Parents") - 1, "Parents");
         groups.set((int) ParseUser.getCurrentUser().get("Family") - 1, "Family");
         groups.set((int) ParseUser.getCurrentUser().get("Friends") - 1, "Friends");
         groups.set((int) ParseUser.getCurrentUser().get("Classmates") - 1, "Classmates");
         groups.set((int) ParseUser.getCurrentUser().get("Professors") - 1, "Professors");
-    //where we will write the groups?
+        //where we will write the groups?
         writeItems();
 
         // Initialize contacts
         // Create adapter passing in the sample user data
 
         //where we will read the groups?
-    readItems();
+        readItems();
         adapter = new GroupAdapter(groups);
         // Attach the adapter to the recyclerview to populate items
 
@@ -115,6 +123,11 @@ public class GroupFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.groups_items, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     public void myContacts() {
         String username;
@@ -152,22 +165,22 @@ public class GroupFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("relationship", group);
         fragment.setArguments(bundle);
-        
+
     }
 
 
     //new code for persistence:
 
-    private File getDataFile(){
+    private File getDataFile() {
         return new File(getContext().getFilesDir(), ParseUser.getCurrentUser().getObjectId() + "groups.txt");
     }
-    private void readItems(){
+
+    private void readItems() {
         //try-catch block to take care off unhandled exceptions
         try {
             // create the array using the content in the file
             groups = new ArrayList<String>(FileUtils.readLines(getDataFile(), Charset.defaultCharset()));
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             //print the error to the console
             e.printStackTrace();
             groups = new ArrayList<>();
@@ -175,18 +188,21 @@ public class GroupFragment extends Fragment {
     }
 
     //write the items to the file system
-    private void writeItems(){
-        try{
+    private void writeItems() {
+        try {
             //save the item list as a line-delimited text file
             FileUtils.writeLines(getDataFile(), groups);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             Log.e("MainActivity", "Error writing file", e);
 
         }
     }
 
-
+    public void launchPriorityActivity(View view) {
+        Intent intent = new Intent(getActivity(), PriorityActivity.class);
+        startActivity(intent);
     }
+
+}
 
 
