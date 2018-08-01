@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -67,11 +66,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
         if (myPosition.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
-            GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
-
-
-
-
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupName.setText("Friend");
         } else if (myPosition.equals("Parents")) {

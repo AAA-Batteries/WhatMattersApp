@@ -1,7 +1,6 @@
 package com.example.angsala.whatmattersapp.model;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,29 +17,17 @@ public class BuzzWords {
     ParseUser user1;
     Context context;
     ArrayList<String> buzzwords;
-    String myBody;
     String relationship;
     int priority;
     int buzzword_count;
-
-    int messageScore;
-
-    Handler myHandler = new Handler();
-    Runnable runnable =
-            new Runnable() {
-                @Override
-                public void run() {
-                    messageScore = caseBuzzWord(buzzwords, myBody, myPriorities(priority));
-                }
-            };
 
     public BuzzWords(Context context) {
         this.context = context;
     }
 
     //this is what we will interface with
-    public void Buzzer(ParseUser user, String body) {
-        myBody = body;
+    public int Buzzer(final ParseUser user, String body) {
+
         buzzwords = new ArrayList<>();
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
         user1 = ParseUser.getCurrentUser();
@@ -52,23 +39,35 @@ public class BuzzWords {
             public void done(Contacts object, ParseException e) {
                 if (e == null) {
                     relationship = object.getRelationship();
+                    ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", user.getUsername());
+                    query1.getFirstInBackground(new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser object, ParseException e) {
+                            priority = object.getInt(relationship);
+
+                        }
+
+
+                    });
                 }
 
             }
         });
 
 
-        ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", user.getUsername());
-        query1.getFirstInBackground(new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                priority = object.getInt(relationship);
+//        ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", user.getUsername());
+//        query1.getFirstInBackground(new GetCallback<ParseUser>() {
+//            @Override
+//            public void done(ParseUser object, ParseException e) {
+//                priority = object.getInt(relationship);
+//
+//            }
+//
+//
+//        });
 
-            }
 
-        });
-
-        myHandler.postDelayed(runnable, 2000);
+        return caseBuzzWord(body, myPriorities(priority));
 
     }
 
@@ -91,25 +90,24 @@ public class BuzzWords {
     }
 
 
-    public int caseBuzzWord(ArrayList<String> myBuzz, String myBody, int priorityy) {
+
+    public int caseBuzzWord(String myBody, int priorityy) {
+
+        buzzwords = new ArrayList<>();
+        buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
 
         Log.d("MyArray", buzzwords.toString());
         Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
 
-        for (int i = 0; i < myBuzz.size(); i++) {
+        for (int i = 0; i < buzzwords.size(); i++) {
             if (myBody.equalsIgnoreCase(buzzwords.get(i))) {
                 buzzword_count++;
             }
 
         }
-        return (buzzword_count * 10 + priorityy);
+        return (buzzword_count * 10 + myPriorities(priorityy));
 
 
-    }
-
-    public int getMessageScore() {
-
-        return messageScore;
     }
 
 }

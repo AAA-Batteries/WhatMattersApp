@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -82,7 +81,7 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -90,14 +89,14 @@ public class GroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvContacts = view.findViewById(R.id.rvContacts);
 
-        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_groups);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-
         groups = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             groups.add("");
         }
+
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_groups);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
         groups.set((int) ParseUser.getCurrentUser().get("Parents") - 1, "Parents");
         groups.set((int) ParseUser.getCurrentUser().get("Family") - 1, "Family");
@@ -128,18 +127,6 @@ public class GroupFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.groups_items, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.reprioritize:
-                launchPriorityActivity();
-                return true;
-            default:
-                // If we got here, the user's action was not recognized
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public void myContacts() {
@@ -211,7 +198,7 @@ public class GroupFragment extends Fragment {
         }
     }
 
-    public void launchPriorityActivity() {
+    public void launchPriorityActivity(View view) {
         Intent intent = new Intent(getActivity(), PriorityActivity.class);
         startActivity(intent);
     }

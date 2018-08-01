@@ -35,12 +35,10 @@
         android:layout_marginTop="44dp"
         android:layout_toLeftOf="@id/linearLayout1"
         android:paddingLeft="5dp"
-<<<<<<< HEAD
-        android:scaleType="fitXY" />
-=======
+
         android:scaleType="centerCrop"
         android:src="@drawable/instagram_user_filled_24" />
->>>>>>> 1e8aa142c94d93351a6c9d0a45401781872faf7d
+
 
     <TextView
         android:id="@+id/profileuserName"
