@@ -13,14 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.example.angsala.whatmattersapp.model.Contacts;
-<<<<<<< HEAD
-=======
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
->>>>>>> 42acba6db401f6a20f2ff1158b6f2e7176c23252
+
 
 import java.util.List;
 
@@ -121,13 +119,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
 
 
-<<<<<<< HEAD
+
 
         //be able to use glid
-        viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
-=======
+
         //viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
->>>>>>> 42acba6db401f6a20f2ff1158b6f2e7176c23252
 
 
         viewHolder.tvUserName.setText(contact.getContactName());
@@ -148,12 +144,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView contactColor;
         TextView relationship;
         ImageView flag;
-<<<<<<< HEAD
 
-=======
         TextView userPercentage;
         ImageView ivRelation;
->>>>>>> 42acba6db401f6a20f2ff1158b6f2e7176c23252
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -162,11 +156,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             contactColor = itemView.findViewById(R.id.contactColor);
             relationship = itemView.findViewById(R.id.relationship);
             flag = itemView.findViewById(R.id.imvFlag);
-<<<<<<< HEAD
-=======
+
             userPercentage = itemView.findViewById(R.id.userPercentage);
             ivRelation = itemView.findViewById(R.id.ivRelation);
->>>>>>> 42acba6db401f6a20f2ff1158b6f2e7176c23252
 
             itemView.setOnClickListener(this);
         }
