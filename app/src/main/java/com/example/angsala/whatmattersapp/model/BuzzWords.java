@@ -1,14 +1,14 @@
 package com.example.angsala.whatmattersapp.model;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,12 +96,12 @@ public class BuzzWords {
         buzzwords = new ArrayList<>();
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
 
-        Log.d("MyArray", buzzwords.toString());
-        Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
 
+        String uppercaseBody = myBody.toUpperCase();
         for (int i = 0; i < buzzwords.size(); i++) {
-            if (myBody.equalsIgnoreCase(buzzwords.get(i))) {
-                buzzword_count++;
+            if (uppercaseBody.contains(buzzwords.get(i))) {
+                int occurences = StringUtils.countMatches(uppercaseBody, buzzwords.get(i));
+                buzzword_count += occurences;
             }
 
         }
