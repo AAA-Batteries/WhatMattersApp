@@ -12,13 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
+import com.example.angsala.whatmattersapp.model.Message;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
@@ -112,9 +117,25 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
 
         viewHolder.tvUserName.setText(contact.getContactName());
-        Log.d("adapter user ranking", viewHolder.tvUserName.toString());
 
+        ParseQuery<Chat> query1 = ParseQuery.getQuery(Chat.class)
+                .whereEqualTo("User1", ParseUser.getCurrentUser().getUsername())
+                .whereEqualTo("User2", contact.getContactName());
+        ParseQuery<Chat> query2 = ParseQuery.getQuery(Chat.class)
+                .whereEqualTo("User1", ParseUser.getCurrentUser().getUsername())
+                .whereEqualTo("User2", contact.getContactName());
+        ArrayList<ParseQuery<Chat>> queries = new ArrayList<>();
+        ParseQuery<Chat> orQuery= ParseQuery.or(queries);
 
+        orQuery.getFirstInBackground(new GetCallback<Chat>() {
+            @Override
+            public void done(Chat object, ParseException e) {
+                if (e == null) {
+                    String lastMessage = object.getMessages().get(0);
+                    viewHolder.tvMessage.setText(lastMessage);
+                }
+            }
+        });
     }
 
     @Override
@@ -125,6 +146,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView contactImage;
         TextView tvUserName;
+        TextView tvMessage;
         ImageView contactColor;
         TextView relationship;
         ImageView flag;
@@ -137,6 +159,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             super(itemView);
             contactImage = itemView.findViewById(R.id.contactImage);
             tvUserName = itemView.findViewById(R.id.tvUserName);
+            tvMessage = itemView.findViewById(R.id.tvMessage);
 
             flag = itemView.findViewById(R.id.imvFlag);
 
