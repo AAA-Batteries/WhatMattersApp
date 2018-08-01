@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.angsala.whatmattersapp.model.BuzzWords;
 import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
@@ -55,9 +56,15 @@ public class ChatActivity extends AppCompatActivity {
 
     String recipientId;
     String currentId;
+    String recipUsername;
 
     Chat chat;
     NewChatAdapter adapter;
+
+
+    //new queries
+    String contactRelationship;
+    int contactPriority;
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -92,6 +99,7 @@ public class ChatActivity extends AppCompatActivity {
         // also, checks for existing chat with recipient user and creates one if one is not found
         setRecipient(getIntent().getStringExtra("Recipient"));
         // set current user reference for future use
+        recipUsername = getIntent().getStringExtra("Recipient");
         currentId = ParseUser.getCurrentUser().getObjectId();
 
         // Make sure the Parse server is setup to configured for live queries
@@ -188,57 +196,94 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
 
+
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String data = etMessage.getText().toString();
-
+                        final String data = etMessage.getText().toString();
+                        final BuzzWords buzz = new BuzzWords(ChatActivity.this);
                         // Using new `Message` Parse-backed model now
-                        Message message = new Message();
+                        final Message message = new Message();
                         message.setBody(data);
                         message.setUserSent(ParseUser.getCurrentUser().getObjectId());
                         message.setUserReceived(recipientId);
 
-                        final Message tempMessage = message;
-                        message.saveInBackground(
-                                new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e == null) {
-                                            // add new message to chat object between current and recipient users
-                                            chat.addMessage(tempMessage);
-                                            chat.saveInBackground();
+                        try {
+                            ParseUser recipUser = ParseUser.getQuery().get(recipientId);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                                            // reload the screen and notify user of successful new message creation
-                                            refreshMessages();
 
-                                            // after user sends a message, update the recipient contact ranking based on priority category
-                                            try {
-                                                ParseQuery<Contacts> contactsQuery = new ParseQuery<Contacts>(Contacts.class)
-                                                        .whereEqualTo("Owner", ParseUser.getCurrentUser().getUsername())
-                                                        .whereEqualTo("ContactName", ParseUser.getQuery().get(recipientId).getUsername());
-                                                contactsQuery.getFirstInBackground(
-                                                        new GetCallback<Contacts>() {
-                                                            public void done(Contacts object, ParseException e) {
-                                                                Contacts contact = (Contacts) object;
-                                                                ParseUser user = ParseUser.getCurrentUser();
-                                                                int addPoints = Contacts.makeMessageRanking(user, contact.getRelationship());
-                                                                contact.setRanking(contact.getRanking() + addPoints);
-                                                                contact.saveInBackground();
+                        //start of new queries
+
+                        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", recipUsername).whereEqualTo("ContactName", ParseUser.getCurrentUser().getUsername());
+                        query.getFirstInBackground(new GetCallback<Contacts>() {
+                            @Override
+                            public void done(Contacts object, ParseException e) {
+                                if (e == null) {
+                                    contactRelationship = object.getRelationship();
+                                    ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", recipUsername);
+                                    query1.getFirstInBackground(new GetCallback<ParseUser>() {
+                                        @Override
+                                        public void done(ParseUser object, ParseException e) {
+                                            contactPriority = object.getInt(contactRelationship);
+                                            int score = buzz.caseBuzzWord(data, contactPriority);
+                                            message.setMessageRanking(score);
+
+                                            final Message tempMessage = message;
+                                            message.saveInBackground(
+                                                    new SaveCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            if (e == null) {
+                                                                // add new message to chat object between current and recipient users
+                                                                chat.addMessage(tempMessage);
+                                                                chat.saveInBackground();
+
+                                                                // reload the screen and notify user of successful new message creation
+                                                                refreshMessages();
+
+                                                                // after user sends a message, update the recipient contact ranking based on priority category
+                                                                try {
+                                                                    ParseQuery<Contacts> contactsQuery = new ParseQuery<Contacts>(Contacts.class)
+                                                                            .whereEqualTo("Owner", ParseUser.getCurrentUser().getUsername())
+                                                                            .whereEqualTo("ContactName", ParseUser.getQuery().get(recipientId).getUsername());
+                                                                    contactsQuery.getFirstInBackground(
+                                                                            new GetCallback<Contacts>() {
+                                                                                public void done(Contacts object, ParseException e) {
+                                                                                    Contacts contact = (Contacts) object;
+                                                                                    ParseUser user = ParseUser.getCurrentUser();
+                                                                                    int addPoints = Contacts.makeMessageRanking(user, contact.getRelationship());
+                                                                                    contact.setRanking(contact.getRanking() + addPoints);
+                                                                                    contact.saveInBackground();
+                                                                                }
+                                                                            });
+                                                                } catch (ParseException e1) {
+                                                                    e1.printStackTrace();
+                                                                }
+                                                                // add the message to notifications
+                                                                setNotif(tempMessage);
+                                                            } else {
+                                                                Log.e(TAG, "Failed to save message", e);
                                                             }
-                                                        });
-                                            } catch (ParseException e1) {
-                                                e1.printStackTrace();
-                                            }
-                                            // add the message to notifications
-                                            setNotif(tempMessage);
-                                        } else {
-                                            Log.e(TAG, "Failed to save message", e);
+                                                        }
+                                                    });
+
+
                                         }
-                                    }
-                                });
+
+
+                                    });
+                                }
+
+                            }
+                        });
+
+//end of new queries
+
                         etMessage.setText(null);
                     }
                 });
@@ -404,7 +449,7 @@ public class ChatActivity extends AppCompatActivity {
     private File getDataFile() {
         String fileName;
         if (currentId.compareTo(recipientId) <= 0) {
-           fileName = currentId + recipientId + ".txt";
+            fileName = currentId + recipientId + ".txt";
         } else {
             fileName = recipientId + currentId + ".txt";
         }
@@ -450,5 +495,6 @@ public class ChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
 }

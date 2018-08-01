@@ -19,6 +19,7 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
@@ -61,6 +62,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
+
             GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
@@ -77,7 +79,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         }
         Boolean flag = contact.getFlag();
         if (flag) {
-            viewHolder.flag.setVisibility(View.VISIBLE);
+            viewHolder.flag.setImageResource(R.color.hoist_contact);
+            viewHolder.flag.setImageAlpha(50);
         } else {
             viewHolder.flag.setVisibility(View.INVISIBLE);
         }
@@ -90,7 +93,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
                 ParseFile img = object.getParseFile("ProfileImage");
                 String imgUrl = "";
-                if (img != null) {
+                if (img != null){
                     imgUrl = img.getUrl();
 
                 }
@@ -100,9 +103,22 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 //   Glide.with(getActivity()).load(imgUrl).transform
 
 
+
+
+
+
+
+
+
+
             }
         });
 
+
+
+
+
+        //be able to use glid
 
         //viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
@@ -110,17 +126,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         viewHolder.tvUserName.setText(contact.getContactName());
         Log.d("adapter user ranking", viewHolder.tvUserName.toString());
 
-        //try to fetch UserRanking, this will be difficult when contact list is large
-        String uname = contact.getContactName();
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", uname);
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
-            public void done(ParseUser object, ParseException e) {
-                double uRanking = object.getDouble("UserRanking");
-                String stringuRanking = Double.toString(uRanking) + "%";
-                Log.d("adapter", stringuRanking);
-                viewHolder.userPercentage.setText(stringuRanking);
-            }
-        });
+
 
     }
 
@@ -135,8 +141,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView contactColor;
         TextView relationship;
         ImageView flag;
+
         TextView userPercentage;
         ImageView ivRelation;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -144,6 +152,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             tvUserName = itemView.findViewById(R.id.tvUserName);
 
             flag = itemView.findViewById(R.id.imvFlag);
+
             userPercentage = itemView.findViewById(R.id.userPercentage);
             ivRelation = itemView.findViewById(R.id.ivRelation);
 
@@ -161,14 +170,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 context.startActivity(chatIntent);
             }
         }
-    }
+        }
 
     public void clear() {
         contacts.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Contacts> mcontacts) {
+    public void addAll(List<Contacts> mcontacts){
         contacts.addAll(mcontacts);
         notifyDataSetChanged();
     }
