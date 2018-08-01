@@ -62,8 +62,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
-            viewHolder.contactColor.setColorFilter(color);
-            viewHolder.relationship.setText("Classmates");
+
         } else if (relationship.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
             GlideApp.with(context).load(R.drawable.familyzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
@@ -94,8 +93,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                     imgUrl = img.getUrl();
 
                 }
-
-
 
 
                 GlideApp.with(context).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(viewHolder.contactImage);
