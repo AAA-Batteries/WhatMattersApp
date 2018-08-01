@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.User;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -52,26 +53,36 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         Contacts contact = contacts.get(position);
 
-        ParseQuery<Chat> q1 = ParseQuery.getQuery(Chat.class)
-                .whereEqualTo("User1", ParseUser.getCurrentUser().getUsername())
-                .whereEqualTo("User2", contact.getContactName());
-        ParseQuery<Chat> q2 = ParseQuery.getQuery(Chat.class)
-                .whereEqualTo("User2", ParseUser.getCurrentUser().getUsername())
-                .whereEqualTo("User1", contact.getContactName());
-        ArrayList<ParseQuery<Chat>> queries = new ArrayList<>();
-        queries.add(q1);
-        queries.add(q2);
-        ParseQuery<Chat> orQuery= ParseQuery.or(queries);
-
-        orQuery.getFirstInBackground(new GetCallback<Chat>() {
+        ParseQuery<ParseUser> recipientQuery = ParseQuery.getQuery(ParseUser.class)
+                .whereEqualTo("username", contact.getContactName());
+        recipientQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
-            public void done(Chat object, ParseException e) {
+            public void done(ParseUser recipient, ParseException e) {
                 if (e == null) {
-                    String lastMessage = object.getMessages().get(0).getBody();
-                    viewHolder.tvMessage.setText(lastMessage);
+                    ParseQuery<Chat> q1 = ParseQuery.getQuery(Chat.class)
+                            .whereEqualTo("User1", ParseUser.getCurrentUser())
+                            .whereEqualTo("User2", recipient);
+                    ParseQuery<Chat> q2 = ParseQuery.getQuery(Chat.class)
+                            .whereEqualTo("User2", ParseUser.getCurrentUser())
+                            .whereEqualTo("User1", recipient);
+                    ArrayList<ParseQuery<Chat>> queries = new ArrayList<>();
+                    queries.add(q1);
+                    queries.add(q2);
+                    ParseQuery<Chat> orQuery= ParseQuery.or(queries);
+
+                    orQuery.getFirstInBackground(new GetCallback<Chat>() {
+                        @Override
+                        public void done(Chat object, ParseException e) {
+                            if (e == null) {
+                                String lastMessage = object.getMessages().get(0).getBody();
+                                viewHolder.tvMessage.setText(lastMessage);
+                            }
+                        }
+                    });
                 }
             }
         });
+
 
         String relationship = contact.getRelationship();
         if (relationship.equals("Friends")) {
