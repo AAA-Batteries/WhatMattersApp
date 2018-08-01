@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,18 +49,6 @@ public class ListGroupContactsActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.reprioritize:
-                launchPriorityActivity();
-                return true;
-            default:
-                // If we got here, the user's action was not recognized
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     public void loadContacts() {
         Intent intent = getIntent();
         String relationship = intent.getStringExtra("relationship");
@@ -89,10 +75,5 @@ public class ListGroupContactsActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    public void launchPriorityActivity() {
-        Intent intent = new Intent(this, PriorityActivity.class);
-        startActivity(intent);
     }
 }

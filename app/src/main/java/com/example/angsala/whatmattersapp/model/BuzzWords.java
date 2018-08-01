@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.R;
-import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,34 +25,49 @@ public class BuzzWords {
         this.context = context;
     }
 
-
-    public int Buzzer(ParseUser user, String body) {
+    //this is what we will interface with
+    public int Buzzer(final ParseUser user, String body) {
 
         buzzwords = new ArrayList<>();
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
         user1 = ParseUser.getCurrentUser();
+        String test1 = user.getUsername();
+        String test2 = user1.getUsername();
         ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", user).whereEqualTo("ContactName", user1);
         query.getFirstInBackground(new GetCallback<Contacts>() {
             @Override
             public void done(Contacts object, ParseException e) {
-                relationship = object.getRelationship();
+                if (e == null) {
+                    relationship = object.getRelationship();
+                    ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", user.getUsername());
+                    query1.getFirstInBackground(new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser object, ParseException e) {
+                            priority = object.getInt(relationship);
+
+                        }
+
+
+                    });
+                }
+
             }
         });
 
 
-        ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", user.getUsername());
-        query1.getFirstInBackground(new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                priority = object.getInt(relationship);
+//        ParseQuery<ParseUser> query1 = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", user.getUsername());
+//        query1.getFirstInBackground(new GetCallback<ParseUser>() {
+//            @Override
+//            public void done(ParseUser object, ParseException e) {
+//                priority = object.getInt(relationship);
+//
+//            }
+//
+//
+//        });
 
-            }
 
-
-        });
-
-
-        return caseBuzzWord(buzzwords, body, myPriorities(priority));
+        return caseBuzzWord(body, myPriorities(priority));
 
     }
 
@@ -75,18 +89,23 @@ public class BuzzWords {
 
     }
 
-    public int caseBuzzWord(ArrayList<String> myBuzz, String myBody, int priorityy) {
+
+
+    public int caseBuzzWord(String myBody, int priorityy) {
+
+        buzzwords = new ArrayList<>();
+        buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
 
         Log.d("MyArray", buzzwords.toString());
         Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
 
-        for (int i = 0; i < myBuzz.size(); i++) {
+        for (int i = 0; i < buzzwords.size(); i++) {
             if (myBody.equalsIgnoreCase(buzzwords.get(i))) {
                 buzzword_count++;
             }
 
         }
-        return (buzzword_count * 10 + priorityy);
+        return (buzzword_count * 10 + myPriorities(priorityy));
 
 
     }
