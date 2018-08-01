@@ -81,6 +81,13 @@
             android:layout_alignEnd="@+id/tvNotificationBody"
             android:layout_alignTop="@+id/ivNotification" />
 
+        <TextView
+            android:id="@+id/txHoistReason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivNotification"
+            android:layout_toEndOf="@+id/ivNotification" />
+
 
     </RelativeLayout>
 

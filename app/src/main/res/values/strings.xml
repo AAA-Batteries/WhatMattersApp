@@ -5,7 +5,6 @@
     <string name="profile_me">My Profile Pic</string>
     <string name="profile_other">Other profile pic</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="signin">Sign In</string>
     <string name="cancel">Cancel</string>
@@ -21,6 +20,9 @@
     <!--hoisting tags-->
     <string name="priority_hoist">is a priority!</string>
     <string name="buzzword_hoist">BUZZ!</string>
+
+
+    <!--Global ranking explanation-->
 
 
     <string-array name="relationships">
