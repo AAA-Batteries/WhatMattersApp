@@ -13,24 +13,44 @@
     android:fadingEdge="horizontal|vertical">
 
 
+    <TextView
+        android:id="@+id/myMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/myContactName"
+        android:layout_below="@+id/myContactName"
+        android:layout_marginTop="5dp" />
+
     <ImageView
         android:id="@+id/contactGroupImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         app:srcCompat="@color/colorPrimaryDark" />
+
+    <ImageView
+        android:id="@+id/imvFlag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/myRelation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:adjustViewBounds="true" />
 
     <TextView
         android:id="@+id/myContactName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="24dp"
+        android:layout_alignTop="@+id/contactGroupImage"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_toEndOf="@+id/contactGroupImage"
-        android:text="TextView" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/alertMessage"
@@ -43,10 +63,9 @@
         android:id="@+id/myRelation"
         android:layout_width="45dp"
         android:layout_height="39dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="89dp"
+        android:layout_marginStart="100dp"
         app:srcCompat="@drawable/shape_circle" />
 
 </RelativeLayout>

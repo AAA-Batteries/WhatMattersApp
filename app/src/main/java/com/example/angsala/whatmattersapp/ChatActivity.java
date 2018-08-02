@@ -134,7 +134,6 @@ public class ChatActivity extends AppCompatActivity {
                                         // refresh the chat screen
                                         refreshMessages();
                                         mAdapter.notifyDataSetChanged();
-                                        rvChat.scrollToPosition(0);
                                     }
                                 });
                     }
@@ -288,11 +287,11 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         });
 
-//end of new queries
-
+                        //end of new queries
                         etMessage.setText(null);
                     }
                 });
+        rvChat.scrollToPosition(-100);
     }
 
     // Query messages from Parse so we can load them into the chat adapter
@@ -303,9 +302,9 @@ public class ChatActivity extends AppCompatActivity {
             //where we will write the items to update
             writeItems();
             adapter.notifyDataSetChanged(); // update adapter
-            // Scroll to the bottom of the list on initial load
+            // Scroll to the bottom of the list on ALL loads
+            rvChat.scrollToPosition(-100);
             if (mFirstLoad) {
-                rvChat.scrollToPosition(0);
                 mFirstLoad = false;
             }
         } else {

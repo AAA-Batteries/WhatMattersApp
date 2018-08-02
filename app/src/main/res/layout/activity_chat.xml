@@ -2,19 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_chat"
     tools:context=".ChatActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvChat"
         android:layout_width="match_parent"
-        android:layout_height="456dp"
+        android:layout_height="448dp"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:background="@color/light_background"
 
+        android:layout_below="@+id/toolbarChat"
+        android:layout_marginBottom="75dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_background"
         android:transcriptMode="alwaysScroll" />
 
     <android.support.v7.widget.Toolbar
@@ -29,12 +31,12 @@
 
     <RelativeLayout
         android:id="@+id/rlSend"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:paddingBottom="10dp"
         android:background="@color/light_background"
+        android:paddingBottom="10dp"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="5dp">
@@ -45,12 +47,11 @@
             android:layout_height="36dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="11dp"
+            android:layout_marginStart="15dp"
             android:background="@drawable/textinputborder"
             android:gravity="top"
             android:imeOptions="actionSend"
             android:selectAllOnFocus="false"
-            android:layout_above="@id/rvChat"
             android:singleLine="false" />
 
         <ImageView
@@ -58,6 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_toEndOf="@+id/etMessage"
             app:srcCompat="@drawable/baseline_send_black_18dp" />
     </RelativeLayout>
