@@ -311,16 +311,18 @@ public class MyContactsFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "automatic refresh");
-        contactsList.clear();
-        adapter.notifyDataSetChanged();
-        myContacts();
+//        Log.d(TAG, "automatic refresh");
+//        contactsList.clear();
+//        adapter.notifyDataSetChanged();
+//        myContacts();
+        refreshContacts();
     }
 
     public void refreshContacts() {
         adapter.clear();
         myContacts();
         adapter.addAll(contactsList);
+        rvContacts.setAdapter(adapter);
         swipeRefreshLayout.setRefreshing(false);
 
     }

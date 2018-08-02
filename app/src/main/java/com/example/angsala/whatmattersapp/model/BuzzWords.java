@@ -93,7 +93,7 @@ public class BuzzWords {
 
         buzzwords = new ArrayList<>();
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
-
+        hasBuzzwords = false;
         Log.d("MyArray", buzzwords.toString());
         //make everything into upper case
         String uppercaseBody = myBody.toUpperCase();
@@ -106,11 +106,13 @@ public class BuzzWords {
         }
         if (buzzword_count > 0) {
             hasBuzzwords = true;
-        } else {
-            hasBuzzwords = false;
         }
         return (buzzword_count * 10 + myPriorities(priorityy));
 
+    }
+
+    public Boolean getHasBuzzwords(){
+        return hasBuzzwords;
     }
 
 }
