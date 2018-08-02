@@ -13,6 +13,16 @@
     android:fadingEdge="horizontal|vertical">
 
 
+    <ImageView
+        android:id="@+id/imvFlag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/myRelation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:adjustViewBounds="true" />
+
     <TextView
         android:id="@+id/myMessage"
         android:layout_width="wrap_content"
@@ -31,17 +41,6 @@
         android:layout_marginTop="15dp"
         app:srcCompat="@color/colorPrimaryDark" />
 
-    <ImageView
-        android:id="@+id/imvFlag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/myRelation"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="0dp"
-        android:layout_marginStart="0dp"
-        android:adjustViewBounds="true" />
-
     <TextView
         android:id="@+id/myContactName"
         android:layout_width="wrap_content"
@@ -56,16 +55,16 @@
         android:id="@+id/alertMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivContactGroupRelationship"
-        android:layout_toEndOf="@+id/myContactName" />
+        android:layout_toEndOf="@+id/myContactName"
+        android:layout_toRightOf="@+id/myContactName" />
 
     <ImageView
         android:id="@+id/myRelation"
         android:layout_width="45dp"
         android:layout_height="39dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@id/contactGroupImage"
         android:layout_marginStart="100dp"
-        app:srcCompat="@drawable/shape_circle" />
+        app:srcCompat="@drawable/shape_circle"
+        android:layout_marginLeft="100dp" />
 
 </RelativeLayout>
