@@ -369,8 +369,10 @@ public class ChatActivity extends AppCompatActivity {
                     query.getFirstInBackground(new GetCallback<Notification>() {
                         @Override
                         public void done(Notification object, ParseException e) {
-                            object.removeReceived(recipientId);
-                            object.saveInBackground();
+                            if(e == null) {
+                                object.removeReceived(recipientId);
+                                object.saveInBackground();
+                            }
                         }
                     });
 
