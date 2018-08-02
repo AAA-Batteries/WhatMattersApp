@@ -53,6 +53,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_toRightOf="@id/contactImage"
+        android:textSize="18sp"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="99dp" />
 

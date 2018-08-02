@@ -103,7 +103,6 @@ User user1;
                 String imgUrl = "";
                 if (img != null){
                     imgUrl = img.getUrl();
-
                 }
 
 
