@@ -67,8 +67,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         if (flag) {
             viewHolder.flag.setImageResource(R.color.hoist_contact);
             viewHolder.flag.setImageAlpha(50);
-        } else {
-            viewHolder.flag.setVisibility(View.INVISIBLE);
         }
 
         Log.d("adapter", contacts.toString());
