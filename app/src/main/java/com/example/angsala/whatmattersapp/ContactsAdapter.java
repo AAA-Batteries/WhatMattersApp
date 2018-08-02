@@ -12,19 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
-<<<<<<< HEAD
-=======
-import com.example.angsala.whatmattersapp.model.Message;
-import com.example.angsala.whatmattersapp.model.User;
->>>>>>> ea3c716c5b061367fa776a30d8305c897baf299f
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
 
@@ -148,12 +146,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
 
         viewHolder.tvUserName.setText(contact.getContactName());
-<<<<<<< HEAD
         Log.d("adapter user ranking", viewHolder.tvUserName.toString());
 
 
-=======
->>>>>>> ea3c716c5b061367fa776a30d8305c897baf299f
     }
 
     @Override
@@ -164,6 +159,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView contactImage;
         TextView tvUserName;
+        TextView tvMessage;
         ImageView contactColor;
         TextView relationship;
         ImageView flag;
@@ -181,6 +177,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
             userPercentage = itemView.findViewById(R.id.userPercentage);
             ivRelation = itemView.findViewById(R.id.ivRelation);
+            tvMessage = itemView.findViewById(R.id.tvMessage);
 
             itemView.setOnClickListener(this);
         }
