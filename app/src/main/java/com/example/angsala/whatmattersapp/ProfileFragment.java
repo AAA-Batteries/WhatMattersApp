@@ -86,8 +86,14 @@ User user1;
         contactQuery.findInBackground(new FindCallback<Contacts>() {
             @Override
             public void done(List<Contacts> objects, ParseException e) {
-                contactAmount = objects.size();
-                numberOfContacts.setText(Integer.toString(contactAmount) + " contacts");
+                if(e == null) {
+                    contactAmount = objects.size();
+                    if (contactAmount == 1) {
+                        numberOfContacts.setText(Integer.toString(contactAmount) + " contact");
+                    } else {
+                        numberOfContacts.setText(Integer.toString(contactAmount) + " contacts");
+                    }
+                }
 
             }
         });
@@ -95,23 +101,23 @@ User user1;
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", currentUsername);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser object, ParseException e) {
-                double uRanking = object.getDouble("UserRanking");
+                if (e == null){
+                    double uRanking = object.getDouble("UserRanking");
                 circleBar.setProgress((int) uRanking);
                 txtvPercentage.setText(Double.toString(uRanking) + "%");
                 ParseFile img = object.getParseFile("ProfileImage");
                 String imgUrl = "";
-                if (img != null){
+                if (img != null) {
                     imgUrl = img.getUrl();
                 }
 
 
-
-
-                    GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
-             //   Glide.with(getActivity()).load(imgUrl).transform
+                GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
+                //   Glide.with(getActivity()).load(imgUrl).transform
 
 
             }
+        }
         });
 
 
