@@ -77,6 +77,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         }
         Boolean flag = contact.getFlag();
+
         if (flag) {
             viewHolder.flag.setImageResource(R.color.hoist_contact);
             viewHolder.flag.setImageAlpha(50);
