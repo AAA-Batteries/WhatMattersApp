@@ -229,9 +229,13 @@ public class ChatActivity extends AppCompatActivity {
                                     query1.getFirstInBackground(new GetCallback<ParseUser>() {
                                         @Override
                                         public void done(ParseUser object, ParseException e) {
+                                            if (e == null){
+
                                             contactPriority = object.getInt(contactRelationship);
                                             int score = buzz.caseBuzzWord(data, contactPriority);
                                             message.setMessageRanking(score);
+                                            message.setUserReceivedPriority(contactPriority);
+                                            message.setBuzzwordsDetected(buzz.getHasBuzz());
 
                                             final Message tempMessage = message;
                                             message.saveInBackground(
@@ -271,6 +275,7 @@ public class ChatActivity extends AppCompatActivity {
                                                             }
                                                         }
                                                     });
+                                        }
 
 
                                         }
@@ -360,8 +365,10 @@ public class ChatActivity extends AppCompatActivity {
                     query.getFirstInBackground(new GetCallback<Notification>() {
                         @Override
                         public void done(Notification object, ParseException e) {
-                            object.removeReceived(recipientId);
-                            object.saveInBackground();
+                            if(e == null) {
+                                object.removeReceived(recipientId);
+                                object.saveInBackground();
+                            }
                         }
                     });
 

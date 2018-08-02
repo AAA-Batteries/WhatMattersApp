@@ -47,6 +47,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     viewHolder.txtvName.setText(username);
     viewHolder.txtvBody.setText(body);
     viewHolder.timeStamp.setText(currentMessage.getRelativeTimeAgo());
+    if (currentMessage.getBuzzwordsDetected() && currentMessage.getUserReceivedPriority() < 3){
+        viewHolder.txtvhoistReason.setText("DOUBLE HOIST");
+    }
+    else if(currentMessage.getBuzzwordsDetected()){
+        viewHolder.txtvhoistReason.setText(R.string.buzzword_hoist);
+    }
+    else if(currentMessage.getUserReceivedPriority() < 3){
+        viewHolder.txtvhoistReason.setText(R.string.priority_hoist);
+    }
     }
 
     @Override
@@ -60,6 +69,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         ImageView imvPicture;
         public RelativeLayout viewBackground, foreBackground;
         TextView timeStamp;
+        TextView txtvhoistReason;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -70,6 +80,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             viewBackground = itemView.findViewById(R.id.view_background);
             foreBackground = itemView.findViewById(R.id.view_foreground);
             timeStamp = itemView.findViewById(R.id.timeStamp);
+            txtvhoistReason = itemView.findViewById(R.id.txtvhoistReason);
 
 
             itemView.setOnClickListener(this);

@@ -16,6 +16,8 @@ public class Message extends ParseObject implements Comparable<Message>, Seriali
     private static final String USER_RECEIVED_KEY = "UserReceived";
     private static final String BODY_KEY = "body";
     private static final String MESSAGE_RANKING_KEY = "MessageRanking";
+    private static final String USER_RECEIVED_PRIORITY_KEY = "UserReceivedPriority";
+    private static final String BUZZWORDS_DETECTED_KEY = "BuzzwordsDetected";
 
     public String getUserSent() {
         try {
@@ -95,6 +97,33 @@ public class Message extends ParseObject implements Comparable<Message>, Seriali
     public void setMessageRanking(int messageRankPoints) {
         put(MESSAGE_RANKING_KEY, messageRankPoints);
     }
+
+
+    //new getters and setters
+    public void setUserReceivedPriority(int userReceivedPriority){
+        put(USER_RECEIVED_PRIORITY_KEY, userReceivedPriority);
+    }
+
+    public Integer getUserReceivedPriority(){
+        try{
+            this.fetchIfNeeded();
+            return getInt(USER_RECEIVED_PRIORITY_KEY);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setBuzzwordsDetected(boolean buzzwordsDetect){
+        put(BUZZWORDS_DETECTED_KEY, buzzwordsDetect);
+    }
+
+    public boolean getBuzzwordsDetected(){
+        return getBoolean(BUZZWORDS_DETECTED_KEY);
+    }
+
+
+    //end of new getters and setters
 
 
     public String getRelativeTimeAgo() {

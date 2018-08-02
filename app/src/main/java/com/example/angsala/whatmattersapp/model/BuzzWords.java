@@ -21,6 +21,8 @@ public class BuzzWords {
     int priority;
     int buzzword_count;
 
+    Boolean hasBuzz;
+
     public BuzzWords(Context context) {
         this.context = context;
     }
@@ -96,7 +98,7 @@ public class BuzzWords {
         buzzwords = new ArrayList<>();
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
 
-
+        hasBuzz = false;
         String uppercaseBody = myBody.toUpperCase();
         for (int i = 0; i < buzzwords.size(); i++) {
             if (uppercaseBody.contains(buzzwords.get(i))) {
@@ -105,9 +107,16 @@ public class BuzzWords {
             }
 
         }
+        if (buzzword_count > 0){
+            hasBuzz = true;
+        }
         return (buzzword_count * 10 + myPriorities(priorityy));
 
 
+    }
+
+    public boolean getHasBuzz(){
+        return hasBuzz;
     }
 
 }
