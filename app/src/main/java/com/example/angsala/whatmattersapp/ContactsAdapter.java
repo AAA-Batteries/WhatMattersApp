@@ -73,7 +73,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                             if (e == null) {
                                 if(!object.getMessages().isEmpty()) {
                                     String lastMessage = object.getMessages().get(0).getBody();
-                                    viewHolder.tvMessage.setText(lastMessage);
+                                    viewHolder.tvMessage.setText(lastMessage + "  " + (object.getMessages().get(0).getRelativeTimeAgo()));
+                                    //viewHolder.timeCreated.setText((object.getMessages().get(0).getRelativeTimeAgo()));
                                 }
                             }
                         }
@@ -166,7 +167,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         TextView relationship;
         ImageView flag;
 
-        TextView userPercentage;
+        TextView timeCreated;
         ImageView ivRelation;
 
 
@@ -177,7 +178,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
             flag = itemView.findViewById(R.id.imvFlag);
 
-            userPercentage = itemView.findViewById(R.id.userPercentage);
+            timeCreated = itemView.findViewById(R.id.timeCreated);
             ivRelation = itemView.findViewById(R.id.ivRelation);
             tvMessage = itemView.findViewById(R.id.tvMessage);
 

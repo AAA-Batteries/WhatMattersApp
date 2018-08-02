@@ -2,5 +2,10 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/amiko</item>
+        <item>@font/antic</item>
+        <item>@font/averia_serif_libre_light</item>
+        <item>@font/droid_sans_mono</item>
+        <item>@font/julius_sans_one</item>
+        <item>@font/quando</item>
     </array>
 </resources>

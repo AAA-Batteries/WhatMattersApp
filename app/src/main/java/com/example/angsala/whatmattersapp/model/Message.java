@@ -128,7 +128,7 @@ public class Message extends ParseObject implements Comparable<Message>, Seriali
 
     public String getRelativeTimeAgo() {
         long dateMillis = getCreatedAt().getTime();
-        return DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        return DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL).toString();
     }
 
 
