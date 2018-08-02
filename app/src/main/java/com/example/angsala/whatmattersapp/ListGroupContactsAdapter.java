@@ -127,11 +127,21 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             }
         });
 
+        Boolean flag = contacts.getFlag();
+
+        if (flag) {
+            viewHolder.flag.setImageResource(R.color.hoist_contact);
+            viewHolder.flag.setImageAlpha(50);
+        } else {
+            viewHolder.flag.setVisibility(View.INVISIBLE);
+        }
+
 
         Log.d("adapter", contacts.toString());
         viewHolder.contactGroupImage.setImageResource(R.drawable.ic_launcher_background);
         viewHolder.myContactName.setText(contacts.getContactName());
         Log.d("adapter", viewHolder.myContactName.toString());
+
 
 
     }
@@ -148,6 +158,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         TextView alertMessage;
         ImageView myRelation;
         TextView myMessage;
+        ImageView flag;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -156,6 +167,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             alertMessage = itemView.findViewById(R.id.alertMessage);
             myRelation = itemView.findViewById(R.id.myRelation);
             myMessage = itemView.findViewById(R.id.myMessage);
+            flag = itemView.findViewById(R.id.imvFlag);
 
             itemView.setOnClickListener(this);
         }

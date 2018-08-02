@@ -6,14 +6,20 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
@@ -60,6 +66,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
 
@@ -72,9 +79,16 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
 
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //make toolbar
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.toolbar_notification);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
+
         user = ParseUser.getCurrentUser();
         notificationList = new ArrayList<>();
         myBadge = view.findViewById(R.id.myBadge);
@@ -85,11 +99,34 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         rvNotifications.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNotifications.setAdapter(adapter);
 
+
+
         //adding the item touch helperI
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
-          fetchNotifications();
+        fetchNotifications();
 
+    }
+    //make tool bar
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.notification_items, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.clearNotifs:
+                Toast.makeText(getContext(), "clicked on refresh notifs", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "I clicked on the refresh button");
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -173,7 +210,6 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         });
     }
 
-
     //ANGELA S TESTING MESSAGE CLASSIFICATION:
     public void makeTestMessages() {
         final Message mMessage1 = new Message();
@@ -219,6 +255,8 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         }
     }
 
+    //end of testing code
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -233,7 +271,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
     public void sendBackResult() {
-       listener.upDate(notificationList.size());
+        listener.upDate(notificationList.size());
 
     }
 

@@ -9,14 +9,15 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvNotifications"
         android:layout_width="match_parent"
-        android:layout_height="509dp"
+        android:layout_height="511dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="56dp"
         android:background="@color/light_background"
         android:paddingTop="?attr/actionBarSize" />
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_notifications"
+        android:id="@+id/toolbar_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
