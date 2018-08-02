@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:scaleType="matrix"
+        android:scaleType="center"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:layout_editor_absoluteX="51dp"
         tools:layout_editor_absoluteY="52dp" />

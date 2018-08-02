@@ -1,6 +1,5 @@
 package com.example.angsala.whatmattersapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -158,13 +157,6 @@ public class MyContactsFragment extends Fragment
                 openDialog();
                 return true;
 
-            case R.id.logOut:
-                Log.d(TAG, "Clicked on logout button");
-                user.logOut();
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                startActivity(i);
-                getActivity().finish();
-                return true;
 
             default:
                 // If we got here, the user's action was not recognized
