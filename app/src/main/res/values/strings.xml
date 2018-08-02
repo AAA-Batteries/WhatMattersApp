@@ -60,4 +60,7 @@
     <string name="my_groups">Groups</string>
     />
     />
+
+
+    <string name = "bottom_half_global"> Your priority percentage indicates that your </string>
 </resources>
