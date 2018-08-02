@@ -199,4 +199,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         notificationMessages.add(position, messages);
         notifyItemInserted(position);
     }
+
+    public void clear() {
+        notificationMessages.clear();
+        notifyDataSetChanged();
+    }
 }
