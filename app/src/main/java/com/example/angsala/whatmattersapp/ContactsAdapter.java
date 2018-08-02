@@ -71,7 +71,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                         @Override
                         public void done(Chat object, ParseException e) {
                             if (e == null) {
-                                if(object.getMessages().size() > 0) {
+                                if(!object.getMessages().isEmpty()) {
                                     String lastMessage = object.getMessages().get(0).getBody();
                                     viewHolder.tvMessage.setText(lastMessage);
                                 }

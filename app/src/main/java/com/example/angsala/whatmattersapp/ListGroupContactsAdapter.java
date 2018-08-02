@@ -66,7 +66,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
                         @Override
                         public void done(Chat object, ParseException e) {
                             if (e == null) {
-                                if(object.getMessages().size() > 0) {
+                                if(!object.getMessages().isEmpty()) {
                                     String lastMessage = object.getMessages().get(0).getBody();
                                     viewHolder.myMessage.setText(lastMessage);
                                 }
