@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tvUserName"
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/contactImage"
         android:layout_marginLeft="15dp"
@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/tvMessage"
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvUserName"
         android:layout_below="@+id/tvUserName"

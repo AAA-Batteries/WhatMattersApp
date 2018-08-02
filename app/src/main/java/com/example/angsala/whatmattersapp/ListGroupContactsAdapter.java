@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Contacts;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -19,6 +20,7 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupContactsAdapter.ViewHolder> {
@@ -42,6 +44,39 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
     @Override
     public void onBindViewHolder(@NonNull final ListGroupContactsAdapter.ViewHolder viewHolder, int position) {
         Contacts contacts = contactsList.get(position);
+
+        ParseQuery<ParseUser> recipientQuery = ParseQuery.getQuery(ParseUser.class)
+                .whereEqualTo("username", contacts.getContactName());
+        recipientQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser recipient, ParseException e) {
+                if (e == null) {
+                    ParseQuery<Chat> q1 = ParseQuery.getQuery(Chat.class)
+                            .whereEqualTo("User1", ParseUser.getCurrentUser())
+                            .whereEqualTo("User2", recipient);
+                    ParseQuery<Chat> q2 = ParseQuery.getQuery(Chat.class)
+                            .whereEqualTo("User2", ParseUser.getCurrentUser())
+                            .whereEqualTo("User1", recipient);
+                    ArrayList<ParseQuery<Chat>> queries = new ArrayList<>();
+                    queries.add(q1);
+                    queries.add(q2);
+                    ParseQuery<Chat> orQuery= ParseQuery.or(queries);
+
+                    orQuery.getFirstInBackground(new GetCallback<Chat>() {
+                        @Override
+                        public void done(Chat object, ParseException e) {
+                            if (e == null) {
+                                if(object.getMessages().size() > 0) {
+                                    String lastMessage = object.getMessages().get(0).getBody();
+                                    viewHolder.myMessage.setText(lastMessage);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
         String relationship = contacts.getRelationship();
         if (relationship.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
@@ -112,6 +147,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         TextView myContactName;
         TextView alertMessage;
         ImageView myRelation;
+        TextView myMessage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,7 +155,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             myContactName = itemView.findViewById(R.id.myContactName);
             alertMessage = itemView.findViewById(R.id.alertMessage);
             myRelation = itemView.findViewById(R.id.myRelation);
-
+            myMessage = itemView.findViewById(R.id.myMessage);
 
             itemView.setOnClickListener(this);
         }
