@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -13,9 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.angsala.whatmattersapp.model.Chat;
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
 import com.parse.FindCallback;
@@ -40,6 +39,8 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     NotificationAdapter adapter;
     RecyclerView rvNotifications;
     // Create a handler which can run code periodically
+    private NotificationFragmentListener listener;
+
     static final int POLL_INTERVAL = 2000;
 
     Handler myHandler = new Handler();
@@ -111,10 +112,14 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
                     if (objects.size() > 0) {
                         Notification mnotifciation = objects.get(0);
                         notificationList.addAll(mnotifciation.getReceived());
+
+
                         //hopefully returns a size not null
                         Log.d(TAG, Integer.toString(notificationList.size()));
 
                         adapter.notifyItemInserted(notificationList.size() - 1);
+                        sendBackResult();
+
 
                     }
                 } else {
@@ -207,4 +212,25 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (NotificationFragmentListener) context;
+
+
+    }
+
+    public interface NotificationFragmentListener {
+
+        void upDate(int notifs);
+    }
+
+    public void sendBackResult() {
+        //this will now pass in the relationship and the username
+       listener.upDate(notificationList.size());
+
+    }
+
+
 }

@@ -522,7 +522,7 @@ public class ChatActivity extends AppCompatActivity {
                                 if (chat.getMessages().isEmpty()) {
                                     message += "\nThey should be a prioritized contact!\nStart chatting with them now!";
                                 } else {
-                                    message += "\nYou haven't talked with them in a while. Let's catch up with them!";
+                                    message += "\nYou don't chat enough with them.\nLet's catch up!";
                                 }
                                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                             } catch (ParseException e1) {

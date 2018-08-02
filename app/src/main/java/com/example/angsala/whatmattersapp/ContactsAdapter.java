@@ -13,6 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.example.angsala.whatmattersapp.model.Contacts;
+<<<<<<< HEAD
+=======
+import com.example.angsala.whatmattersapp.model.Message;
+import com.example.angsala.whatmattersapp.model.User;
+>>>>>>> ea3c716c5b061367fa776a30d8305c897baf299f
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -46,6 +51,36 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         Contacts contact = contacts.get(position);
+
+        ParseQuery<ParseUser> recipientQuery = ParseQuery.getQuery(ParseUser.class)
+                .whereEqualTo("username", contact.getContactName());
+        recipientQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser recipient, ParseException e) {
+                if (e == null) {
+                    ParseQuery<Chat> q1 = ParseQuery.getQuery(Chat.class)
+                            .whereEqualTo("User1", ParseUser.getCurrentUser())
+                            .whereEqualTo("User2", recipient);
+                    ParseQuery<Chat> q2 = ParseQuery.getQuery(Chat.class)
+                            .whereEqualTo("User2", ParseUser.getCurrentUser())
+                            .whereEqualTo("User1", recipient);
+                    ArrayList<ParseQuery<Chat>> queries = new ArrayList<>();
+                    queries.add(q1);
+                    queries.add(q2);
+                    ParseQuery<Chat> orQuery= ParseQuery.or(queries);
+
+                    orQuery.getFirstInBackground(new GetCallback<Chat>() {
+                        @Override
+                        public void done(Chat object, ParseException e) {
+                            if (e == null) {
+                                String lastMessage = object.getMessages().get(0).getBody();
+                                viewHolder.tvMessage.setText(lastMessage);
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
 
         String relationship = contact.getRelationship();
@@ -107,15 +142,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         });
 
 
-        //be able to use glid
+        //be able to use glide
 
         //viewHolder.contactImage.setImageResource(R.drawable.ic_launcher_background);
 
 
         viewHolder.tvUserName.setText(contact.getContactName());
+<<<<<<< HEAD
         Log.d("adapter user ranking", viewHolder.tvUserName.toString());
 
 
+=======
+>>>>>>> ea3c716c5b061367fa776a30d8305c897baf299f
     }
 
     @Override

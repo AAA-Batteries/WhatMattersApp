@@ -48,13 +48,11 @@ public class BuzzWords {
                         @Override
                         public void done(ParseUser object, ParseException e) {
                             priority = object.getInt(relationship);
-
                         }
 
 
                     });
                 }
-
             }
         });
 
@@ -69,7 +67,6 @@ public class BuzzWords {
 //
 //
 //        });
-
 
         return caseBuzzWord(body, myPriorities(priority));
 
@@ -88,9 +85,7 @@ public class BuzzWords {
             return 5;
         }
 
-
         return 0;
-
     }
 
 
@@ -100,7 +95,6 @@ public class BuzzWords {
         buzzwords.addAll(Arrays.asList(context.getResources().getStringArray(R.array.buzz_words)));
         hasBuzzwords = false;
         Log.d("MyArray", buzzwords.toString());
-        Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
         //make everything into upper case
         String uppercaseBody = myBody.toUpperCase();
         for (int i = 0; i < buzzwords.size(); i++) {
@@ -109,13 +103,11 @@ public class BuzzWords {
                 int occurences = StringUtils.countMatches(uppercaseBody, buzzwords.get(i));
                 buzzword_count += occurences;
             }
-
         }
         if (buzzword_count > 0) {
             hasBuzzwords = true;
         }
         return (buzzword_count * 10 + myPriorities(priorityy));
-
 
     }
 

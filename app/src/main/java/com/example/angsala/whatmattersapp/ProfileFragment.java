@@ -1,10 +1,17 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +30,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import static android.support.constraint.Constraints.TAG;
 
 
 public class ProfileFragment extends Fragment {
@@ -40,6 +48,7 @@ User user1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
 
@@ -64,6 +73,9 @@ User user1;
         txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);
         numberOfContacts = (TextView) getActivity().findViewById(R.id.numberOfContacts);
         profile = getActivity().findViewById(R.id.ivProfileImage);
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.profile_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
         currentUsername = user.getUsername();
         profileUsername.setText(currentUsername);
@@ -113,5 +125,31 @@ User user1;
         });
 
 
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.profile_logout, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+
+            case R.id.logOut:
+                Log.d(TAG, "Clicked on logout button");
+                user.logOut();
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+                getActivity().finish();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

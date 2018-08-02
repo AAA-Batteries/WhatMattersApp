@@ -136,32 +136,20 @@ public class NewChatAdapter extends RecyclerView.Adapter {
 
                     ParseFile img = object.getParseFile("ProfileImage");
                     String imgUrl = "";
-                    if (img != null){
+                    if (img != null) {
                         imgUrl = img.getUrl();
 
                     }
 
-
-
-
                     GlideApp.with(mContext).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(profileImage);
                     //   Glide.with(getActivity()).load(imgUrl).transform
-
-
-
-
-
-
-
-
-
 
                 }
             });
 
 
             // Insert the profile image from the URL into the ImageView.
-           // Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);
+            // Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);
         }
     }
 }
