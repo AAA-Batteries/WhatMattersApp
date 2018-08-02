@@ -42,6 +42,8 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     private NotificationFragmentListener listener;
 
     static final int POLL_INTERVAL = 2000;
+    TextView myBadge;
+    int myNotifs;
 
     Handler myHandler = new Handler();
     Runnable mRefreshNotifsRunnable =
@@ -61,6 +63,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         notificationList = new ArrayList<>();
+        myBadge = view.findViewById(R.id.myBadge);
 
         adapter = new NotificationAdapter(notificationList);
 
@@ -84,7 +88,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         //adding the item touch helperI
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
-        //  fetchNotifications();
+          fetchNotifications();
 
     }
 
@@ -93,8 +97,10 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         super.onResume();
         notificationList.clear();
         adapter.notifyDataSetChanged();
-        ;
-        fetchNotifications();
+
+        //fetchNotifications();
+        myNotifs = notificationList.size();
+
         //makeTestMessages();
         Log.d(TAG, "hello");
     }
@@ -227,7 +233,6 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
     public void sendBackResult() {
-        //this will now pass in the relationship and the username
        listener.upDate(notificationList.size());
 
     }

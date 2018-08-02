@@ -28,7 +28,9 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
     public void upDate(int notifs) {
         size = notifs;
         Log.d("notifs", String.valueOf(size));
+
         myBadge.setText(String.valueOf(size));
+
 
 
     }
@@ -39,6 +41,7 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments_controller);
+        final int[] btnMemory = new int[4];
 
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -59,20 +62,38 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
                             case R.id.navigation_notifications:
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.my_placeholder, fragment1).commit();
-                                removeBadge(bottomNavigationView, 0);
+                               // removeBadge(bottomNavigationView, 0);
+
+                                myBadge.setVisibility(View.GONE);
+                                size = 0;
+
+
                                 return true;
                             case R.id.profile:
                                 fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.my_placeholder, fragment2).commit();
+                                if (size != 0){
+                                    myBadge.setVisibility(View.VISIBLE);
+                                }
+
 
                                 return true;
                             case R.id.contacts:
                                 fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.my_placeholder, fragment3).commit();
+                                if (size != 0){
+                                    myBadge.setVisibility(View.VISIBLE);
+                                }
+
+
                                 return true;
                             case R.id.groups:
                                 fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.my_placeholder, fragment4).commit();
+                                if (size != 0){
+                                    myBadge.setVisibility(View.VISIBLE);
+                                }
+
                                 return true;
                         }
                         return false;
@@ -91,6 +112,12 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
         Log.d("notifsss", String.valueOf(size));
 
 
+
+           // itemView.removeView(myBadge);
+
+
+
+
         Notification notification = new Notification();
        // int size = notification.getReceived().size();
        // Log.d("Notification", String.valueOf(size));
@@ -102,7 +129,8 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
         BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) navigationView.getChildAt(0);
         View v = bottomNavigationMenuView.getChildAt(index);
         BottomNavigationItemView itemView = (BottomNavigationItemView) v;
-        itemView.removeViewAt(itemView.getChildCount() - 1);
+
+            itemView.removeViewAt(0);
     }
 
 
