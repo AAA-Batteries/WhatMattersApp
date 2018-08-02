@@ -35,28 +35,27 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id= "@+id/view_foreground"
-        android:background="@android:color/white"
+        android:id="@+id/view_foreground"
         android:layout_width="match_parent"
-        android:padding="10dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginLeft="4dp">
-
+        android:layout_marginTop="2dp"
+        android:background="@android:color/white"
+        android:padding="10dp">
 
 
         <ImageView
             android:id="@+id/ivNotification"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:scaleType="centerCrop"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="23dp"
             android:layout_marginTop="17dp"
             android:padding="5dp"
+            android:scaleType="centerCrop"
             app:srcCompat="@android:color/black" />
 
         <TextView
@@ -86,8 +85,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivNotification"
-            android:layout_toEndOf="@+id/ivNotification"
-            android:textColor="@color/hoist_contact"/>
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="158dp"
+            android:textColor="@color/hoist_contact" />
+
+        <ImageView
+            android:id="@+id/ivNotifzz"
+            android:layout_width="45dp"
+            android:layout_height="39dp"
+            android:layout_alignBottom="@+id/ivNotification"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="94dp"
+            app:srcCompat="@drawable/shape_circle" />
 
 
     </RelativeLayout>
