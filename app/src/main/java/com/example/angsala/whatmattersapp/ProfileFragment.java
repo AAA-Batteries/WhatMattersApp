@@ -1,6 +1,7 @@
 package com.example.angsala.whatmattersapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +32,9 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+
 import static android.support.constraint.Constraints.TAG;
 
 
@@ -44,6 +49,7 @@ public class ProfileFragment extends Fragment {
     ParseUser user;
     ProfileImageHelper helper;
     ImageView profile;
+    KonfettiView viewKonfetti;
     User user1;
 
     @Override
@@ -73,6 +79,7 @@ public class ProfileFragment extends Fragment {
         txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);
         numberOfContacts = (TextView) getActivity().findViewById(R.id.numberOfContacts);
         profile = getActivity().findViewById(R.id.ivProfileImage);
+        viewKonfetti = getActivity().findViewById(R.id.viewKonfetti);
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.profile_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
@@ -117,6 +124,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        viewKonfetti.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(new nl.dionsegijn.konfetti.models.Size(12, 5))
+                .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
+                .stream(300, 5000L);
 
     }
 

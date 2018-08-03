@@ -53,8 +53,11 @@ dependencies {
     // If you want to use the GPU Filters
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 
-   compile  'org.apache.commons:commons-collections4:4.0'
+    compile 'org.apache.commons:commons-collections4:4.0'
     compile 'commons-io:commons-io:2.5'
     compile 'org.apache.commons:commons-lang3:3.7'
+
+    compile 'nl.dionsegijn:konfetti:1.1.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.60"
 
 }
