@@ -35,16 +35,17 @@ import static android.support.constraint.Constraints.TAG;
 
 public class ProfileFragment extends Fragment {
 
-TextView profileUsername;
-TextView numberOfContacts;
-ProgressBar circleBar;
-TextView txtvPercentage;
-String currentUsername;
-int contactAmount;
-ParseUser user;
-ProfileImageHelper helper;
-ImageView profile;
-User user1;
+    TextView profileUsername;
+    TextView numberOfContacts;
+    ProgressBar circleBar;
+    TextView txtvPercentage;
+    String currentUsername;
+    int contactAmount;
+    ParseUser user;
+    ProfileImageHelper helper;
+    ImageView profile;
+    User user1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,13 +81,12 @@ User user1;
         profileUsername.setText(currentUsername);
 
 
-
         //consider making this a local field in user class
         ParseQuery<Contacts> contactQuery = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", currentUsername);
         contactQuery.findInBackground(new FindCallback<Contacts>() {
             @Override
             public void done(List<Contacts> objects, ParseException e) {
-                if(e == null) {
+                if (e == null) {
                     contactAmount = objects.size();
                     if (contactAmount == 1) {
                         numberOfContacts.setText(Integer.toString(contactAmount) + " contact");
@@ -101,23 +101,20 @@ User user1;
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class).whereEqualTo("username", currentUsername);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser object, ParseException e) {
-                if (e == null){
+                if (e == null) {
                     double uRanking = object.getDouble("UserRanking");
-                circleBar.setProgress((int) uRanking);
-                txtvPercentage.setText(Double.toString(uRanking) + "%");
-                ParseFile img = object.getParseFile("ProfileImage");
-                String imgUrl = "";
-                if (img != null) {
-                    imgUrl = img.getUrl();
+                    circleBar.setProgress((int) uRanking);
+                    txtvPercentage.setText(Double.toString(uRanking) + "%");
+                    ParseFile img = object.getParseFile("ProfileImage");
+                    String imgUrl = "";
+                    if (img != null) {
+                        imgUrl = img.getUrl();
+                    }
+
+                    GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
+                    //   Glide.with(getActivity()).load(imgUrl).transform
                 }
-
-
-                GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
-                //   Glide.with(getActivity()).load(imgUrl).transform
-
-
             }
-        }
         });
 
 
