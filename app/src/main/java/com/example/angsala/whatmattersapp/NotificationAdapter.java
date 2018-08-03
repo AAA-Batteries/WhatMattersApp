@@ -55,8 +55,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
         String body = currentMessage.getBody();
         viewHolder.txtvName.setText(username);
-        viewHolder.txtvBody.setText(body);
-        viewHolder.timeStamp.setText(currentMessage.getRelativeTimeAgo());
+        viewHolder.txtvBody.setText(body + "  " + currentMessage.getRelativeTimeAgo());
+       // viewHolder.timeStamp.setText(currentMessage.getRelativeTimeAgo());
 
 //        if (currentMessage.getUserReceivedPriority() < 3) {
 ////            viewHolder.txHoistReason.setText(R.string.priority_hoist);

@@ -103,7 +103,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         //adding the item touch helperI
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
-        fetchNotifications();
+      //  fetchNotifications();
 
     }
     //make tool bar
@@ -135,7 +135,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         notificationList.clear();
         adapter.notifyDataSetChanged();
 
-        //fetchNotifications();
+        fetchNotifications();
         myNotifs = notificationList.size();
 
         //makeTestMessages();
