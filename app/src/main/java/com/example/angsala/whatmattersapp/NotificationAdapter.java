@@ -112,7 +112,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     } else if (relationship.equals("Classmates")) {
                         int color = context.getResources().getColor(R.color.Classmates);
 
-                        GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivNotiffz);
+                        GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivNotiffz);
                         viewHolder.ivNotiffz.setColorFilter(color);
                         viewHolder.ivNotiffz.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
                     } else if (relationship.equals("Family")) {
@@ -122,7 +122,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         viewHolder.ivNotiffz.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
                     } else {
                         int color = context.getResources().getColor(R.color.colorAccent);
-                        GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivNotiffz);
+                        GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivNotiffz);
                         viewHolder.ivNotiffz.setColorFilter(color);
                         viewHolder.ivNotiffz.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
                     }
