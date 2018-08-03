@@ -97,8 +97,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
-
-            GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
+            GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else if (relationship.equals("Family")) {
@@ -108,7 +107,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
-            GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
+            GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
         }
