@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.Message;
 import com.example.angsala.whatmattersapp.model.Notification;
@@ -104,7 +103,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         //adding the item touch helperI
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
-        fetchNotifications();
+      //  fetchNotifications();
 
     }
     //make tool bar
@@ -119,7 +118,8 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         switch (item.getItemId()) {
 
             case R.id.clearNotifs:
-                Toast.makeText(getContext(), "clicked on refresh notifs", Toast.LENGTH_SHORT).show();
+                adapter.clear();
+                fetchNotifications();
                 Log.d(TAG, "I clicked on the refresh button");
                 return true;
 
@@ -135,7 +135,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         notificationList.clear();
         adapter.notifyDataSetChanged();
 
-        //fetchNotifications();
+        fetchNotifications();
         myNotifs = notificationList.size();
 
         //makeTestMessages();

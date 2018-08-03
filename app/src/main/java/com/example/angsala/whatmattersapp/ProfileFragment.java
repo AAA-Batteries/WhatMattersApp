@@ -35,16 +35,17 @@ import static android.support.constraint.Constraints.TAG;
 
 public class ProfileFragment extends Fragment {
 
-TextView profileUsername;
-TextView numberOfContacts;
-ProgressBar circleBar;
-TextView txtvPercentage;
-String currentUsername;
-int contactAmount;
-ParseUser user;
-ProfileImageHelper helper;
-ImageView profile;
-User user1;
+    TextView profileUsername;
+    TextView numberOfContacts;
+    ProgressBar circleBar;
+    TextView txtvPercentage;
+    String currentUsername;
+    int contactAmount;
+    ParseUser user;
+    ProfileImageHelper helper;
+    ImageView profile;
+    User user1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,6 @@ User user1;
         profileUsername.setText(currentUsername);
 
 
-
         //consider making this a local field in user class
         ParseQuery<Contacts> contactQuery = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", currentUsername);
         contactQuery.findInBackground(new FindCallback<Contacts>() {
@@ -88,7 +88,11 @@ User user1;
             public void done(List<Contacts> objects, ParseException e) {
                 if (e == null) {
                     contactAmount = objects.size();
-                    numberOfContacts.setText(Integer.toString(contactAmount) + " contacts");
+                    if (contactAmount == 1) {
+                        numberOfContacts.setText(Integer.toString(contactAmount) + " contact");
+                    } else {
+                        numberOfContacts.setText(Integer.toString(contactAmount) + " contacts");
+                    }
                 }
 
             }
@@ -107,10 +111,8 @@ User user1;
                         imgUrl = img.getUrl();
                     }
 
-
                     GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
                     //   Glide.with(getActivity()).load(imgUrl).transform
-
                 }
             }
         });
