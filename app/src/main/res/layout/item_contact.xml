@@ -75,8 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/tvMessage"
-        app:srcCompat="@drawable/baseline_offline_bolt_black_dp" />
+        android:layout_toEndOf="@+id/tvMessage"/>
 
     <TextView
         android:id="@+id/tvSession"
