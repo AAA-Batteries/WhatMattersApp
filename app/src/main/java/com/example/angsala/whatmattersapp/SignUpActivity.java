@@ -138,7 +138,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                     Intent intent = new Intent(SignUpActivity.this, BottomNavigation.class);
                                                     intent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(newUser));
                                                     intent.putExtra(TOAST_CODE, CREATE_CODE);
-                                                    createNotif(mUsername);
                                                     startActivity(intent);
                                                 } else {
                                                     Log.e(TAG, "Failed to create Account");
