@@ -22,11 +22,24 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="5dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/txtvPercentage"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="11dp"
+        android:orientation="vertical"></LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_marginTop="66dp"
+        android:alpha="0.25"
+        android:background="#b9dcd2" />
+
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -34,8 +47,8 @@
         android:layout_height="119dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="63dp"
-        android:layout_marginTop="77dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="76dp"
         android:padding="5dp"
         android:paddingLeft="5dp"
         android:scaleType="centerCrop"
@@ -57,10 +70,8 @@
         android:id="@+id/numberOfContacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivProfileImage"
-        android:layout_alignLeft="@id/profileuserName"
-        android:layout_alignStart="@id/profileuserName"
-        android:layout_toRightOf="@id/linearLayout1"
+        android:layout_alignStart="@+id/profileuserName"
+        android:layout_below="@+id/profileuserName"
         android:fontFamily="@font/amiko"
         android:text="-" />
 
@@ -69,9 +80,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="143dp"
         android:layout_height="148dp"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/numberOfContacts"
-        android:layout_marginTop="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/ivProfileImage"
+        android:layout_marginBottom="153dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
         android:max="100"
@@ -81,9 +92,10 @@
         android:id="@+id/txtvPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/numberOfContacts"
-        android:layout_marginTop="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="208dp"
+        android:layout_marginStart="63dp"
         android:fontFamily="@font/amiko"
         android:text="-"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
@@ -97,5 +109,17 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="160dp"
+        android:layout_toEndOf="@+id/circleprogressBar"
+        android:padding="3dp"
+        android:text="A teenage boy is found wandering, naked and dazed, in traffic. At a nearby youth detention center, authorities discover that this kid -- Kyle -- is a savant who's missing instinctive human behavior like joy, anger and love. Stranger still, he's missing the one thing every mammal has: a belly button"
+        android:textSize="11sp"
+        android:textStyle="italic" />
 
 </RelativeLayout>

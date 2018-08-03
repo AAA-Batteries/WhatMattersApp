@@ -60,14 +60,6 @@
         tools:layout_editor_absoluteY="99dp" />
 
     <TextView
-        android:id="@+id/timeCreated"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:textAppearance="@style/TextAppearance.Compat.Notification.Line2.Media" />
-
-    <TextView
         android:id="@+id/tvMessage"
         android:layout_width="191dp"
         android:layout_height="64dp"
@@ -77,6 +69,22 @@
         android:layout_marginTop="5dp"
         android:textSize="11sp"
         android:textStyle="italic" />
+
+    <ImageView
+        android:id="@+id/ivSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/tvMessage"
+        app:srcCompat="@drawable/baseline_offline_bolt_black_dp" />
+
+    <TextView
+        android:id="@+id/tvSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/ivRelation"
+        android:text="TextView" />
 
 
 </RelativeLayout>

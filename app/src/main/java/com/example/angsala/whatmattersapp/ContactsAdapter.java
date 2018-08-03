@@ -137,6 +137,21 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 GlideApp.with(context).load(imgUrl).apply(RequestOptions.circleCropTransform()).thumbnail(0.1f).into(viewHolder.contactImage);
                 //   Glide.with(getActivity()).load(imgUrl).transform
 
+                String session = object.getString("Session");
+                viewHolder.tvSession.setText(session);
+
+                if (session.equals("Online")){
+                    int color = context.getResources().getColor(R.color.colorAccent);
+
+                    viewHolder.ivSession.setColorFilter(color);
+                } else if (session.equals("Offline")){
+                    int color = context.getResources().getColor(R.color.Offline);
+                    viewHolder.ivSession.setColorFilter(color);
+                } else {
+                    int color = context.getResources().getColor(R.color.Sleep_mode);
+                    viewHolder.ivSession.setColorFilter(color);
+                }
+
 
             }
         });
@@ -149,6 +164,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
         viewHolder.tvUserName.setText(contact.getContactName());
         Log.d("adapter user ranking", viewHolder.tvUserName.toString());
+
+
 
 
     }
@@ -168,6 +185,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
         TextView timeCreated;
         ImageView ivRelation;
+        ImageView ivSession;
+        TextView tvSession;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -177,9 +196,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
             flag = itemView.findViewById(R.id.imvFlag);
 
-            timeCreated = itemView.findViewById(R.id.timeCreated);
             ivRelation = itemView.findViewById(R.id.ivRelation);
             tvMessage = itemView.findViewById(R.id.tvMessage);
+            ivSession = itemView.findViewById(R.id.ivSession);
+            tvSession = itemView.findViewById(R.id.tvSession);
 
             itemView.setOnClickListener(this);
         }

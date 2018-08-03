@@ -10,6 +10,10 @@
     <color name="light_background">#effaf4</color>
     <color name="light_chat">#ebefed</color>
     <color name = "hoist_contact">#F46868 </color>
+    <color name = "Sleep_mode">#f4ef68</color>
+    <color name = "Offline">#bfbdbd</color>
+
+
 
 
 </resources>
