@@ -95,9 +95,6 @@ public class ChatActivity extends AppCompatActivity {
 
         mFirstLoad = true;
 
-        // receive recipient user reference from the contact activity
-        // also, checks for existing chat with recipient user and creates one if one is not found
-        setRecipient(getIntent().getStringExtra("Recipient"));
         // set current user reference for future use
         recipUsername = getIntent().getStringExtra("Recipient");
         currentId = ParseUser.getCurrentUser().getObjectId();
@@ -133,7 +130,6 @@ public class ChatActivity extends AppCompatActivity {
                                     public void run() {
                                         // refresh the chat screen
                                         refreshMessages();
-                                        mAdapter.notifyDataSetChanged();
                                     }
                                 });
                     }
@@ -151,6 +147,10 @@ public class ChatActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        // receive recipient user reference from the contact activity
+        // also, checks for existing chat with recipient user and creates one if one is not found
+        setRecipient(recipUsername);
 
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
@@ -291,7 +291,7 @@ public class ChatActivity extends AppCompatActivity {
                         etMessage.setText(null);
                     }
                 });
-        rvChat.scrollToPosition(-100);
+        rvChat.scrollToPosition(0);
     }
 
     // Query messages from Parse so we can load them into the chat adapter
@@ -303,7 +303,7 @@ public class ChatActivity extends AppCompatActivity {
             writeItems();
             adapter.notifyDataSetChanged(); // update adapter
             // Scroll to the bottom of the list on ALL loads
-            rvChat.scrollToPosition(-100);
+            rvChat.scrollToPosition(0);
             if (mFirstLoad) {
                 mFirstLoad = false;
             }
