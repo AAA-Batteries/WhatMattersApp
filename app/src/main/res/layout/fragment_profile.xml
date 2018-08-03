@@ -111,7 +111,7 @@
         android:theme="?attr/actionBarTheme" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtvPercentExplanation"
         android:layout_width="185dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

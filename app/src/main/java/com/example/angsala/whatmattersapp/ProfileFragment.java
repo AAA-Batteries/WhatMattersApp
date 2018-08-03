@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +49,7 @@ public class ProfileFragment extends Fragment {
     ProfileImageHelper helper;
     ImageView profile;
     KonfettiView viewKonfetti;
+    TextView txtvPercentageExplanation;
     User user1;
 
     @Override
@@ -78,6 +78,7 @@ public class ProfileFragment extends Fragment {
         circleBar = (ProgressBar) getActivity().findViewById(R.id.circleprogressBar);
         txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);
         numberOfContacts = (TextView) getActivity().findViewById(R.id.numberOfContacts);
+        txtvPercentageExplanation = (TextView) getActivity().findViewById(R.id.txtvPercentExplanation);
         profile = getActivity().findViewById(R.id.ivProfileImage);
         viewKonfetti = getActivity().findViewById(R.id.viewKonfetti);
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.profile_toolbar);
@@ -112,6 +113,23 @@ public class ProfileFragment extends Fragment {
                     double uRanking = object.getDouble("UserRanking");
                     circleBar.setProgress((int) uRanking);
                     txtvPercentage.setText(Double.toString(uRanking) + "%");
+
+                    if(uRanking <= 25){
+                        txtvPercentageExplanation.setText(R.string.bottom_quarter_global);
+                    }
+
+                    else if (uRanking <= 50){
+                        txtvPercentageExplanation.setText(R.string.twenty_five_percentile);
+                    }
+
+                    else if (uRanking <= 75){
+                        txtvPercentageExplanation.setText(R.string.fifty_percentile);
+                    }
+
+                    else{
+                        txtvPercentageExplanation.setText(R.string.seventy_five_percentile);
+                    }
+
                     ParseFile img = object.getParseFile("ProfileImage");
                     String imgUrl = "";
                     if (img != null) {

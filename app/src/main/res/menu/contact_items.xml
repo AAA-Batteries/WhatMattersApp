@@ -6,6 +6,7 @@
     <item
         android:id="@+id/addContact"
         android:title="Compose"
+        android:icon=""
         app:showAsAction="ifRoom"></item>
 
 
