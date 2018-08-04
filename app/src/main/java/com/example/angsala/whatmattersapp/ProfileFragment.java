@@ -2,6 +2,7 @@ package com.example.angsala.whatmattersapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -120,9 +121,11 @@ public class ProfileFragment extends Fragment {
                     String imgUrl = "";
                     if (img != null) {
                         imgUrl = img.getUrl();
+                        GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
+                    } else {
+                        int id = getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "instagram_user_filled_24", null, null);
+                        profile.setImageResource(id);
                     }
-
-                    GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
                     //   Glide.with(getActivity()).load(imgUrl).transform
                     profileStatus.setText(myStatus);
                 }
