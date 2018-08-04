@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,6 +50,8 @@ public class ProfileFragment extends Fragment {
     ImageView profile;
     KonfettiView viewKonfetti;
     User user1;
+    TextView profileStatus;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,8 @@ public class ProfileFragment extends Fragment {
         numberOfContacts = (TextView) getActivity().findViewById(R.id.numberOfContacts);
         profile = getActivity().findViewById(R.id.ivProfileImage);
         viewKonfetti = getActivity().findViewById(R.id.viewKonfetti);
+        profileStatus = getActivity().findViewById(R.id.profileStatus);
+
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.profile_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
@@ -112,6 +115,7 @@ public class ProfileFragment extends Fragment {
                     double uRanking = object.getDouble("UserRanking");
                     circleBar.setProgress((int) uRanking);
                     txtvPercentage.setText(Double.toString(uRanking) + "%");
+                    String myStatus =object.getString("ProfileStatus");
                     ParseFile img = object.getParseFile("ProfileImage");
                     String imgUrl = "";
                     if (img != null) {
@@ -120,6 +124,7 @@ public class ProfileFragment extends Fragment {
 
                     GlideApp.with(getActivity()).load(imgUrl).apply(RequestOptions.circleCropTransform()).into(profile);
                     //   Glide.with(getActivity()).load(imgUrl).transform
+                    profileStatus.setText(myStatus);
                 }
             }
         });
