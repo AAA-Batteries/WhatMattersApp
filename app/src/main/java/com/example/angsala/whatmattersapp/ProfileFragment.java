@@ -132,16 +132,19 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        viewKonfetti.build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(new nl.dionsegijn.konfetti.models.Size(12, 5))
-                .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
-                .stream(300, 5000L);
+        int ranking = user.get("UserRanking") != null ? (Integer) user.get("UserRanking"): 0 ;
+        if (ranking >= 70) {
+            viewKonfetti.build()
+                    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(1f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(2000L)
+                    .addShapes(Shape.RECT, Shape.CIRCLE)
+                    .addSizes(new nl.dionsegijn.konfetti.models.Size(12, 5))
+                    .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
+                    .stream(300, 5000L);
+        }
 
     }
 
