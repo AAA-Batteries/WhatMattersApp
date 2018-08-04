@@ -58,11 +58,11 @@
         android:id="@+id/profileuserName"
         android:layout_width="124dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ivProfileImage"
-        android:layout_toStartOf="@+id/fab"
+        android:layout_marginEnd="80dp"
         android:fontFamily="@font/amiko"
         android:gravity="top"
-        android:paddingTop="?attr/actionBarSize"
         android:text="-"
         android:textSize="24sp" />
 
@@ -80,9 +80,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="143dp"
         android:layout_height="148dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/fab"
         android:layout_alignStart="@+id/ivProfileImage"
-        android:layout_marginBottom="153dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
         android:max="100"
@@ -92,13 +91,13 @@
         android:id="@+id/txtvPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="208dp"
-        android:layout_marginStart="63dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_below="@+id/imageView5"
+        android:layout_marginTop="-212dp"
         android:fontFamily="@font/amiko"
         android:text="-"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textSize="15sp" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/profile_toolbar"
@@ -111,11 +110,10 @@
         android:theme="?attr/actionBarTheme" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvExplanation"
         android:layout_width="185dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="160dp"
+        android:layout_above="@+id/fab"
         android:layout_toEndOf="@+id/circleprogressBar"
         android:padding="3dp"
         android:text="A teenage boy is found wandering, naked and dazed, in traffic. At a nearby youth detention center, authorities discover that this kid -- Kyle -- is a savant who's missing instinctive human behavior like joy, anger and love. Stranger still, he's missing the one thing every mammal has: a belly button"
@@ -126,5 +124,43 @@
         android:id="@+id/viewKonfetti"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/ivProfileImage"
+        android:layout_marginTop="230dp"
+        android:src="@drawable/baseline_poll_black_dp" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="212dp"
+        android:src="@drawable/baseline_star_black_dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="243dp"
+        android:layout_toEndOf="@+id/imageView2"
+        android:padding="3dp"
+        android:text="Statistics"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/profileStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profileuserName"
+        android:layout_below="@+id/numberOfContacts"
+        android:text="TextView"
+        android:textStyle="italic" />
 
 </RelativeLayout>
