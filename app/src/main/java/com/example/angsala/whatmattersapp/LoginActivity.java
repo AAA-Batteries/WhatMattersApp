@@ -41,11 +41,11 @@ public class LoginActivity extends AppCompatActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
+            checkBox = (AppCompatCheckBox) findViewById(R.id.checkbox);
             loginUsername = (EditText) findViewById(R.id.loginUsername);
             loginPassword = (EditText) findViewById(R.id.loginPassword);
             loginButton = (Button) findViewById(R.id.loginButton);
             createButton = (Button) findViewById(R.id.signUpcreateButton);
-            checkBox = (AppCompatCheckBox) findViewById(R.id.checkbox);
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
