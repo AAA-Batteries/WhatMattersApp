@@ -69,11 +69,7 @@
     <ImageView
         android:id="@+id/flower_png"
         android:layout_width="match_parent"
-<<<<<<< HEAD
-        android:layout_height="354dp"
-=======
         android:layout_height="249dp"
->>>>>>> eb2076b03f1b8c1b27dad6eda650164e34ed3c03
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:adjustViewBounds="true"
