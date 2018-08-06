@@ -39,38 +39,55 @@
 
     <Button
         android:id="@+id/signUpcreateButton"
-        android:layout_width="200dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/app_title"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="14dp"
-        android:background="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="223dp"
+        android:background="@drawable/layout_button"
         android:text="create account" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/app_title"
-        android:layout_alignTop="@+id/signUpcreateButton"
-        android:background="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="282dp"
+        android:background="@drawable/layout_button"
         android:text="login" />
 
     <ImageView
         android:id="@+id/app_title"
-        android:layout_width="336dp"
-        android:layout_height="67dp"
+        android:layout_width="374dp"
+        android:layout_height="101dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="19dp"
         app:srcCompat="@drawable/anotherlogo" />
 
     <ImageView
         android:id="@+id/flower_png"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="354dp"
+=======
+        android:layout_height="249dp"
+>>>>>>> eb2076b03f1b8c1b27dad6eda650164e34ed3c03
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
         app:srcCompat="@drawable/flower_signup" />
+
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/loginPassword"
+        android:text="Show Password"
+        android:textSize="12sp" />
 
 </RelativeLayout>
