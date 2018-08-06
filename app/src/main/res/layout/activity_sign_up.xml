@@ -7,6 +7,14 @@
     android:background="@color/light_background"
     tools:context=".SignUpActivity">
 
+    <ImageView
+        android:id="@+id/flower_png"
+        android:layout_width="360dp"
+        android:layout_height="301dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/flower_signup" />
+
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="wrap_content"
@@ -122,4 +130,5 @@
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
         android:text="Professors" />
+
 </RelativeLayout>

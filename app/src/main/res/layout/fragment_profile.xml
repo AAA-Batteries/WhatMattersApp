@@ -13,11 +13,10 @@
         android:id="@+id/fab"
         android:layout_width="130dp"
         android:layout_height="101dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/numberOfContacts"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="92dp"
-        android:layout_marginEnd="47dp"
+        android:layout_marginStart="103dp"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <LinearLayout
@@ -90,13 +89,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="271dp"
-        android:layout_marginStart="88dp"
+        android:layout_marginBottom="278dp"
+        android:layout_toStartOf="@+id/star_icon"
         android:fontFamily="@font/amiko"
+        android:gravity="center_vertical|center_horizontal|center"
         android:text="-"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/profile_toolbar"
@@ -115,44 +115,48 @@
         android:layout_alignStart="@+id/linearLayout1"
         android:layout_alignTop="@+id/circleprogressBar"
         android:padding="3dp"
-        android:text="A teenage boy is found wandering, naked and dazed, in traffic. At a nearby youth detention center, authorities discover that this kid -- Kyle -- is a savant who's missing instinctive human behavior like joy, anger and love. Stranger still, he's missing the one thing every mammal has: a belly button"
-        android:textStyle="italic" />
+        android:text="-"
+        android:textStyle="italic"
+        android:layout_alignLeft="@+id/linearLayout1" />
 
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/viewKonfetti"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/stats_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/ivProfileImage"
         android:layout_marginTop="230dp"
-        android:src="@drawable/baseline_poll_black_dp" />
+        android:src="@drawable/baseline_poll_black_dp"
+        android:layout_alignLeft="@+id/ivProfileImage" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/star_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView2"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="301dp"
-        android:src="@drawable/baseline_star_black_dp" />
+        android:layout_alignEnd="@+id/statistics_title"
+        android:layout_centerVertical="true"
+        android:src="@drawable/baseline_star_black_dp"
+        android:layout_alignRight="@+id/statistics_title" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/statistics_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="243dp"
-        android:layout_toEndOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/stats_icon"
         android:padding="3dp"
         android:text="Statistics"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_toRightOf="@+id/stats_icon" />
 
     <TextView
         android:id="@+id/profileStatus"
@@ -161,6 +165,7 @@
         android:layout_alignStart="@+id/profileuserName"
         android:layout_below="@+id/numberOfContacts"
         android:text="TextView"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:layout_alignLeft="@+id/profileuserName" />
 
 </RelativeLayout>

@@ -54,6 +54,16 @@
         <item>KILL</item>
         <item>SHOOTING</item>
         <item>LEAVE</item>
+        <item>RENT</item>
+        <item>MONEY</item>
+        <item>HELP</item>
+        <item>POLICE</item>
+        <!--buzz phrases-->
+        <item>NEED TO TALK</item>
+        <item>HAVE TO TALK</item>
+        <item>MEET UP</item>
+        <item>HANG OUT</item>
+
 
     </string-array>
     <string name="my_groups">Groups</string>
