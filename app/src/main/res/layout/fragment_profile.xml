@@ -13,11 +13,10 @@
         android:id="@+id/fab"
         android:layout_width="130dp"
         android:layout_height="101dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/numberOfContacts"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="92dp"
-        android:layout_marginEnd="47dp"
+        android:layout_marginStart="103dp"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <LinearLayout
@@ -115,7 +114,7 @@
         android:layout_alignStart="@+id/linearLayout1"
         android:layout_alignTop="@+id/circleprogressBar"
         android:padding="3dp"
-        android:text="A teenage boy is found wandering, naked and dazed, in traffic. At a nearby youth detention center, authorities discover that this kid -- Kyle -- is a savant who's missing instinctive human behavior like joy, anger and love. Stranger still, he's missing the one thing every mammal has: a belly button"
+        android:text="-"
         android:textStyle="italic" />
 
     <nl.dionsegijn.konfetti.KonfettiView
