@@ -109,7 +109,7 @@
         android:theme="?attr/actionBarTheme" />
 
     <TextView
-        android:id="@+id/tvExplanation"
+        android:id="@+id/txtvPercentExplanation"
         android:layout_width="185dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/fab"

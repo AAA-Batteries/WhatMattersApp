@@ -56,11 +56,22 @@
         <item>LEAVE</item>
 
     </string-array>
-
     <string name="my_groups">Groups</string>
-    />
-    />
+    /> />
 
 
-    <string name = "bottom_half_global"> Your priority percentage indicates that your </string>
+    <string name = "bottom_quarter_global"> Your priority ranking score indicates that you don\'t talk to your priority contacts nearly enough! This
+     could mean you are in danger of losing touch to people you really care about. Consider chatting with them! </string>
+
+    <string name = "twenty_five_percentile">"Your priority ranking indicates that you could work on maintaining your most valuable relationships. The less you talk to the contacts you prioritize,
+        the more likely you risk losing touch to them.
+        Consider chatting with them!"</string>
+
+    <string name = "fifty_percentile">"Your priority ranking indicates that you have taken time to give attention to the relationships you prioritize, but you have room to improve. Remember, the more time
+        you take to connect with your priority contacts, the less likely you will lose touch."</string>
+
+    <string name = "seventy_five_percentile">"Your priority ranking indicates that you have taken time to give attention to the relationships you prioritize, and understand the value of taking time to connect
+        with the people you care about! As you spend time talking with your prioritized relationships, the more likely these relationships will be maintained and continued to be valued. "</string>
+
+
 </resources>
