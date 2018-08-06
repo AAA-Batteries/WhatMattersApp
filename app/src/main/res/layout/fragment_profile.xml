@@ -25,9 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txtvPercentage"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/circleprogressBar"
         android:orientation="vertical"></LinearLayout>
 
     <ImageView
@@ -57,16 +55,13 @@
         android:id="@+id/profileuserName"
         android:layout_width="124dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/ivProfileImage"
-        android:layout_toLeftOf="@id/ivProfileImage"
-        android:layout_marginEnd="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/txtvPercentExplanation"
+        android:layout_marginTop="99dp"
         android:fontFamily="@font/amiko"
         android:gravity="top"
         android:text="-"
-        android:textSize="24sp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="80dp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/numberOfContacts"
@@ -82,8 +77,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="143dp"
         android:layout_height="148dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/ivProfileImage"
-        android:layout_alignTop="@+id/txtvPercentExplanation"
+        android:layout_marginBottom="226dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
         android:max="100"
@@ -95,8 +91,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="262dp"
-        android:layout_marginStart="93dp"
+        android:layout_marginBottom="271dp"
+        android:layout_marginStart="88dp"
         android:fontFamily="@font/amiko"
         android:text="-"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
@@ -116,14 +112,10 @@
         android:id="@+id/txtvPercentExplanation"
         android:layout_width="185dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/fab"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="169dp"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@id/circleprogressBar"
+        android:layout_alignStart="@+id/linearLayout1"
+        android:layout_alignTop="@+id/circleprogressBar"
         android:padding="3dp"
         android:text="A teenage boy is found wandering, naked and dazed, in traffic. At a nearby youth detention center, authorities discover that this kid -- Kyle -- is a savant who's missing instinctive human behavior like joy, anger and love. Stranger still, he's missing the one thing every mammal has: a belly button"
-        android:textSize="14sp"
         android:textStyle="italic" />
 
     <nl.dionsegijn.konfetti.KonfettiView
@@ -148,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/textView2"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="292dp"
+        android:layout_marginBottom="301dp"
         android:src="@drawable/baseline_star_black_dp" />
 
     <TextView
