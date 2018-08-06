@@ -3,18 +3,18 @@ package com.example.angsala.whatmattersapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.angsala.whatmattersapp.model.Message;
-import com.example.angsala.whatmattersapp.model.Notification;
-import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText loginPassword;
     Button loginButton;
     Button createButton;
+    AppCompatCheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,18 @@ public class LoginActivity extends AppCompatActivity {
             loginPassword = (EditText) findViewById(R.id.loginPassword);
             loginButton = (Button) findViewById(R.id.loginButton);
             createButton = (Button) findViewById(R.id.signUpcreateButton);
+            checkBox = (AppCompatCheckBox) findViewById(R.id.checkbox);
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (!isChecked){
+                        loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    } else {
+                        loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    }
+                }
+            });
 
             loginButton.setOnClickListener(
                     new View.OnClickListener() {

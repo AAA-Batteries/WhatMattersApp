@@ -11,7 +11,8 @@
         android:id="@+id/view_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent">
+        android:background="@color/colorAccent"
+        android:alpha="0.40">
 
         <ImageView
             android:id="@+id/delete_icon"
@@ -42,7 +43,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:background="@android:color/white"
+        android:background="@drawable/layout_bg"
         android:padding="10dp">
 
 
@@ -61,8 +62,8 @@
             android:id="@+id/tvNotificationBody"
             android:layout_width="191dp"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvNotificationUsername"
             android:layout_below="@+id/tvNotificationUsername"
-            android:layout_toEndOf="@+id/ivNotification"
             android:textSize="11sp"
             android:textStyle="italic" />
 
@@ -70,8 +71,9 @@
             android:id="@+id/tvNotificationUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/ivNotification"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/ivNotification"
+            android:layout_marginStart="124dp"
             android:text="TextView"
             android:textSize="18sp" />
 
@@ -79,15 +81,15 @@
             android:id="@+id/timeStamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/tvNotificationBody"
+            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/ivNotification" />
 
         <TextView
             android:id="@+id/txHoistReason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvNotificationBody"
-            android:layout_toEndOf="@+id/ivNotification"
+            android:layout_alignStart="@+id/tvNotificationBody"
+            android:layout_alignTop="@+id/ivNotifzz"
             android:textColor="@color/hoist_contact" />
 
         <ImageView
