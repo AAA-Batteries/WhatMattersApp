@@ -61,7 +61,7 @@
 
     <TextView
         android:id="@+id/tvMessage"
-        android:layout_width="191dp"
+        android:layout_width="210dp"
         android:layout_height="64dp"
         android:layout_alignStart="@+id/tvUserName"
         android:layout_below="@+id/tvUserName"
@@ -74,18 +74,19 @@
         android:id="@+id/ivSession"
         android:layout_width="30dp"
         android:layout_height="25dp"
-        android:layout_above="@+id/tvSession"
-        android:layout_alignStart="@+id/tvSession"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="6dp"
         app:srcCompat="@drawable/baseline_offline_bolt_black_dp" />
 
     <TextView
         android:id="@+id/tvSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivRelation"
-        android:layout_marginStart="-16dp"
-        android:layout_toEndOf="@+id/tvMessage"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/ivSession"
         android:paddingLeft="3dp"
+        android:paddingRight="8dp"
         android:text="TextView"
         android:textSize="9sp" />
 
