@@ -10,11 +10,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvChat"
         android:layout_width="match_parent"
-        android:layout_height="448dp"
+        android:layout_height="528dp"
         android:layout_alignParentStart="true"
 
         android:layout_below="@+id/toolbarChat"
-        android:layout_marginBottom="75dp"
         android:layout_marginTop="10dp"
         android:background="@color/light_background" />
 
@@ -37,8 +36,7 @@
         android:background="@color/light_background"
         android:paddingBottom="10dp"
         android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="5dp">
+        android:paddingRight="0dp">
 
         <EditText
             android:id="@+id/etMessage"
