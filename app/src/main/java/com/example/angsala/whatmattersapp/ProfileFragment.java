@@ -2,7 +2,6 @@ package com.example.angsala.whatmattersapp;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,6 +49,7 @@ public class ProfileFragment extends Fragment {
     ProfileImageHelper helper;
     ImageView profile;
     KonfettiView viewKonfetti;
+    TextView txtvPercentageExplanation;
     User user1;
     TextView profileStatus;
 
@@ -80,6 +80,7 @@ public class ProfileFragment extends Fragment {
         circleBar = (ProgressBar) getActivity().findViewById(R.id.circleprogressBar);
         txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);
         numberOfContacts = (TextView) getActivity().findViewById(R.id.numberOfContacts);
+        txtvPercentageExplanation = (TextView) getActivity().findViewById(R.id.txtvPercentExplanation);
         profile = getActivity().findViewById(R.id.ivProfileImage);
         viewKonfetti = getActivity().findViewById(R.id.viewKonfetti);
         profileStatus = getActivity().findViewById(R.id.profileStatus);
@@ -116,6 +117,23 @@ public class ProfileFragment extends Fragment {
                     double uRanking = object.getDouble("UserRanking");
                     circleBar.setProgress((int) uRanking);
                     txtvPercentage.setText(Double.toString(uRanking) + "%");
+                    if(uRanking <= 25){
+                        txtvPercentageExplanation.setText(R.string.bottom_quarter_global);
+                    }
+
+                    else if (uRanking <= 50){
+                        txtvPercentageExplanation.setText(R.string.twenty_five_percentile);
+                    }
+
+                    else if (uRanking <= 75){
+                        txtvPercentageExplanation.setText(R.string.fifty_percentile);
+                    }
+
+                    else{
+                        txtvPercentageExplanation.setText(R.string.seventy_five_percentile);
+                    }
+
+
                     String myStatus =object.getString("ProfileStatus");
                     ParseFile img = object.getParseFile("ProfileImage");
                     String imgUrl = "";
