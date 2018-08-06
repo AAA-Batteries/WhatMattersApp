@@ -90,7 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/tvNotificationBody"
             android:layout_alignTop="@+id/ivNotifzz"
-            android:textColor="@color/hoist_contact" />
+            android:textColor="@color/hoist_contact"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/ivNotifzz"
