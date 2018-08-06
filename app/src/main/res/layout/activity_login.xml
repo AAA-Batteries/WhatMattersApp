@@ -58,11 +58,11 @@
 
     <ImageView
         android:id="@+id/app_title"
-        android:layout_width="336dp"
-        android:layout_height="67dp"
+        android:layout_width="374dp"
+        android:layout_height="101dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="19dp"
         app:srcCompat="@drawable/anotherlogo" />
 
     <ImageView
