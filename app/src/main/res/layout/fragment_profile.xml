@@ -86,17 +86,17 @@
 
     <TextView
         android:id="@+id/txtvPercentage"
-        android:layout_width="wrap_content"
+        android:layout_width="104dp"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/fab"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="278dp"
-        android:layout_toStartOf="@+id/star_icon"
+        android:layout_marginBottom="276dp"
+        android:layout_marginEnd="-3dp"
         android:fontFamily="@font/amiko"
         android:gravity="center_vertical|center_horizontal|center"
         android:text="-"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="15sp"
-        />
+        android:textSize="24sp" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/profile_toolbar"
@@ -136,15 +136,6 @@
         android:layout_marginTop="230dp"
         android:src="@drawable/baseline_poll_black_dp"
         android:layout_alignLeft="@+id/ivProfileImage" />
-
-    <ImageView
-        android:id="@+id/star_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/statistics_title"
-        android:layout_centerVertical="true"
-        android:src="@drawable/baseline_star_black_dp"
-        android:layout_alignRight="@+id/statistics_title" />
 
     <TextView
         android:id="@+id/statistics_title"
