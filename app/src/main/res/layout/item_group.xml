@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
         android:alpha="0.25"
-        android:background="#b9dcd2" />
+        android:background="@color/colorAccent" />
 
 
     <TextView
