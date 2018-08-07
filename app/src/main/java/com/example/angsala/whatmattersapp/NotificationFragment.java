@@ -39,12 +39,13 @@ import static com.parse.ParseQuery.getQuery;
 public class NotificationFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     ParseUser user;
-    List<Message> notificationList;
+    public static List<Message> notificationList;
     public final String TAG = "NotificationFragment";
     NotificationAdapter adapter;
     RecyclerView rvNotifications;
     // Create a handler which can run code periodically
     private NotificationFragmentListener listener;
+    public static String NOTIFICATION_CHANNEL ="notif_channel";
 
     static final int POLL_INTERVAL = 2000;
     TextView myBadge;
