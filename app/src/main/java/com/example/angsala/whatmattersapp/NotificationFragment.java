@@ -50,6 +50,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     TextView myBadge;
     int myNotifs;
 
+    //this is where AS will test having a "push notification"- new branch
     Handler myHandler = new Handler();
     Runnable mRefreshNotifsRunnable =
             new Runnable() {
