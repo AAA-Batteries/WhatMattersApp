@@ -67,7 +67,7 @@
         android:layout_below="@+id/tvUserName"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:textSize="11sp"
+        android:textSize="15sp"
         android:textStyle="italic" />
 
     <ImageView
