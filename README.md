@@ -1,4 +1,4 @@
-# WhatMattersApp
+# What Matters App
 Messaging app that specializes in prioritization
 
 ## August 7 Update
