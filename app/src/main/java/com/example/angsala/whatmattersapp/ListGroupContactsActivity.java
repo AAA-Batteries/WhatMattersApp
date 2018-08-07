@@ -72,19 +72,19 @@ public class ListGroupContactsActivity extends AppCompatActivity {
         String relationship = intent.getStringExtra("relationship");
         String path = "com.example.angsala.whatmattersapp:drawable/";
         switch (relationship) {
-            case "parents":
+            case "Parents":
                 path += "parents_title";
                 break;
-            case "family":
+            case "Family":
                 path += "family_title";
                 break;
-            case "friends":
+            case "Friends":
                 path += "friends_title";
                 break;
-            case "classmates":
+            case "Classmates":
                 path += "classmates_title";
                 break;
-            case "professors":
+            case "Professors":
                 path += "prof_title";
                 break;
         }
