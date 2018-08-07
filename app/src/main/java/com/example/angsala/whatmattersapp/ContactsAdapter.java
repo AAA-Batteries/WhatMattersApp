@@ -90,26 +90,41 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "friends_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else if (relationship.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
             GlideApp.with(context).load(R.drawable.parent_guardian).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "parents_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
             GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "classmates_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else if (relationship.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
             GlideApp.with(context).load(R.drawable.familyzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "family_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
             GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
             viewHolder.ivRelation.setColorFilter(color);
             viewHolder.ivRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "prof_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         }
         Boolean flag = contact.getFlag();
 
@@ -187,6 +202,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView ivRelation;
         ImageView ivSession;
         TextView tvSession;
+        ImageView ivContact;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -200,6 +216,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             tvMessage = itemView.findViewById(R.id.tvMessage);
             ivSession = itemView.findViewById(R.id.ivSession);
             tvSession = itemView.findViewById(R.id.tvSession);
+
+            ivContact = itemView.findViewById(R.id.ivContact);
 
             itemView.setOnClickListener(this);
         }
