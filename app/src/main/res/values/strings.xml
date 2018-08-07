@@ -20,6 +20,7 @@
     <!--hoisting tags-->
     <string name="priority_hoist">is a priority!</string>
     <string name="buzzword_hoist">BUZZ!</string>
+    <string name="priority_buzzword_hoist">is a priority! BUZZ!</string>>
 
 
     <!--Global ranking explanation-->

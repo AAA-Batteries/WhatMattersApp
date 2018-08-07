@@ -64,7 +64,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 ////            viewHolder.txHoistReason.setText(R.string.buzzword_hoist);
 ////        }
         if (currentMessage.getUserReceivedPriority() < 3 && currentMessage.getBuzzwordsDetected()) {
-            viewHolder.txHoistReason.setText("DOUBLE FLAG");
+            viewHolder.txHoistReason.setText(R.string.priority_buzzword_hoist);
 
         } else if (currentMessage.getBuzzwordsDetected()) {
             viewHolder.txHoistReason.setText(R.string.buzzword_hoist);

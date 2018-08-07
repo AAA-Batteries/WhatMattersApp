@@ -28,7 +28,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="147dp"
         android:text="TextView"
-        android:textSize="12sp"
+        android:textSize="18sp"
         tools:layout_editor_absoluteX="81dp"
         tools:layout_editor_absoluteY="160dp" />
 
