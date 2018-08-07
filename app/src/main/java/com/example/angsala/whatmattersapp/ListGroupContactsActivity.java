@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class ListGroupContactsActivity extends AppCompatActivity {
     RecyclerView rvListGroupContact;
+    ImageView ivContact;
     ListGroupContactsAdapter adapter;
     List<Contacts> contactsList;
     ParseUser user;
@@ -40,6 +42,8 @@ public class ListGroupContactsActivity extends AppCompatActivity {
         rvListGroupContact = findViewById(R.id.rvListGroupContacts);
         rvListGroupContact.setLayoutManager(new LinearLayoutManager(this));
         rvListGroupContact.setAdapter(adapter);
+        ivContact = findViewById(R.id.ivContact);
+
         loadContacts();
     }
 
@@ -66,6 +70,26 @@ public class ListGroupContactsActivity extends AppCompatActivity {
     public void loadContacts() {
         Intent intent = getIntent();
         String relationship = intent.getStringExtra("relationship");
+        String path = "com.example.angsala.whatmattersapp:drawable/";
+        switch (relationship) {
+            case "parents":
+                path += "parents_title";
+                break;
+            case "family":
+                path += "family_title";
+                break;
+            case "friends":
+                path += "friends_title";
+                break;
+            case "classmates":
+                path += "classmates_title";
+                break;
+            case "professors":
+                path += "prof_title";
+                break;
+        }
+        int id = getResources().getIdentifier(path, null, null);
+        ivContact.setImageResource(id);
         Log.d("MyExtra", relationship);
         user = ParseUser.getCurrentUser();
         username = user.getUsername();
