@@ -56,8 +56,18 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
             new Runnable() {
                 @Override
                 public void run() {
+                    ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class).whereEqualTo("UserReceived", user);
+          query.getFirstInBackground(new GetCallback<Notification>() {
+              @Override
+              public void done(Notification object, ParseException e) {
+                  if (e == null){
+                      if (object.getReceived().size() > notificationList.size()){
+                          //fire a notif
+                      }
 
-                    fetchNotifications();
+                  }
+              }
+          });
 
 
                 }
@@ -273,6 +283,11 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
 
     public void sendBackResult() {
         listener.upDate(notificationList.size());
+
+    }
+
+    public void sendNotification(){
+       // NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
 
     }
 
