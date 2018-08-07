@@ -13,20 +13,18 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_alignStart="@+id/loginUsername"
         android:layout_below="@+id/loginPassword"
         android:text="Show Password"
         android:textSize="12sp" />
 
     <EditText
         android:id="@+id/loginUsername"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="60dp"
 
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
         android:gravity="top"
         android:hint="Username"
@@ -36,36 +34,36 @@
 
     <EditText
         android:id="@+id/loginPassword"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="56dp"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="220dp"
         android:gravity="top"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:imeOptions="actionSend" />
+        android:imeOptions="actionSend"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/signUpcreateButton"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/amiko"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="223dp"
-        android:background="@drawable/layout_button"
+        android:background="@color/button_green"
         android:text="create account" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/amiko"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="282dp"
-        android:background="@drawable/layout_button"
+        android:background="@color/button_green"
         android:text="login" />
 
     <ImageView
@@ -82,10 +80,11 @@
         android:layout_width="match_parent"
         android:layout_height="249dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
+        android:alpha=".50"
         android:cropToPadding="true"
-        app:srcCompat="@drawable/flower_signup" />
+        app:srcCompat="@drawable/flower_signup_5" />
 
 
 

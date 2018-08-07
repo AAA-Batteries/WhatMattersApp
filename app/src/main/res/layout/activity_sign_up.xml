@@ -9,11 +9,12 @@
 
     <ImageView
         android:id="@+id/flower_png"
-        android:layout_width="360dp"
-        android:layout_height="301dp"
+        android:layout_width="398dp"
+        android:layout_height="319dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/flower_signup" />
+        android:layout_alignParentEnd="true"
+        android:alpha=".50"
+        app:srcCompat="@drawable/flower_signup_5" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="158dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName" />
@@ -30,29 +31,35 @@
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etUsername"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="228dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/btSignUp"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerProfessors"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Sign Up" />
+        android:layout_marginBottom="60dp"
+        android:background="@color/button_green"
+        android:fontFamily="@font/amiko"
+        android:text="Sign up"
+        android:layout_alignStart="@id/etUsername"
+        android:layout_alignLeft="@id/etUsername"
+        android:layout_alignEnd="@id/etUsername"
+        android:layout_alignRight="@id/etUsername" />
 
     <Spinner
         android:id="@+id/spinnerParents"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/etUsername"
-        android:layout_below="@+id/etPassword"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="303dp" />
 
     <Spinner
         android:id="@+id/spinnerFamily"
@@ -92,8 +99,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/spinnerParents"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Parents" />
+        android:text="Parents"
+        android:textColor="@android:color/background_dark" />
 
     <TextView
         android:id="@+id/txtFamily"
@@ -102,7 +111,8 @@
         android:layout_alignTop="@+id/spinnerFamily"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerFamily"
-        android:text="Family" />
+        android:text="Family"
+        android:textColor="@android:color/background_dark"/>
 
     <TextView
         android:id="@+id/txtFriends"
@@ -111,7 +121,8 @@
         android:layout_alignTop="@+id/spinnerFriends"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Friends" />
+        android:text="Friends"
+        android:textColor="@android:color/background_dark"/>
 
     <TextView
         android:id="@+id/txtClassmates"
@@ -120,7 +131,8 @@
         android:layout_alignTop="@+id/spinnerClassmates"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Classmates" />
+        android:text="Classmates"
+        android:textColor="@android:color/background_dark"/>
 
     <TextView
         android:id="@+id/txtProfessors"
@@ -129,6 +141,16 @@
         android:layout_alignTop="@+id/spinnerProfessors"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Professors" />
+        android:text="Professors"
+        android:textColor="@android:color/background_dark"/>
+
+    <ImageView
+        android:id="@+id/create_account_png"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="17dp"
+        app:srcCompat="@drawable/create_an_account" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -83,31 +84,41 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
-        } else if (relationship.equals("Parents")) {
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "friends_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
+            } else if (relationship.equals("Parents")) {
             int color = context.getResources().getColor(R.color.Parents);
             GlideApp.with(context).load(R.drawable.parent_guardian).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
-
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "parents_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
             GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
-
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "classmates_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else if (relationship.equals("Family")) {
             int color = context.getResources().getColor(R.color.Family);
             GlideApp.with(context).load(R.drawable.familyzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "family_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
             GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+
+            int id = context.getResources().getIdentifier("com.example.angsala.whatmattersapp:drawable/" + "prof_title", null, null);
+            viewHolder.ivContact.setImageResource(id);
         }
 
         String currentUsername = contacts.getContactName();
@@ -159,6 +170,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
         ImageView myRelation;
         TextView myMessage;
         ImageView flag;
+        ImageView ivContact;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -168,6 +180,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
             myRelation = itemView.findViewById(R.id.myRelation);
             myMessage = itemView.findViewById(R.id.myMessage);
             flag = itemView.findViewById(R.id.imvFlag);
+            ivContact = itemView.findViewById(R.id.ivContact);
 
             itemView.setOnClickListener(this);
         }
