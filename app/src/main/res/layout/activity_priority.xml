@@ -11,54 +11,54 @@
         android:id="@+id/respinnerParents"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/respinnerFriends"
-        android:layout_marginTop="203dp" />
+        android:layout_below="@+id/imageView" />
 
     <Spinner
         android:id="@+id/respinnerFamily"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/respinnerParents"
         android:layout_alignStart="@+id/respinnerFriends"
-        android:layout_marginTop="20dp" />
+        android:layout_below="@+id/respinnerParents"
+        android:layout_marginTop="30dp" />
 
     <Spinner
         android:id="@+id/respinnerFriends"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/respinnerFamily"
         android:layout_alignStart="@+id/respinnerClassmates"
-        android:layout_marginTop="20dp" />
+        android:layout_below="@+id/respinnerFamily"
+        android:layout_marginTop="30dp" />
 
     <Spinner
         android:id="@+id/respinnerClassmates"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/respinnerFriends"
         android:layout_alignStart="@+id/respinnerProfessors"
-        android:layout_marginTop="20dp" />
+        android:layout_below="@+id/respinnerFriends"
+        android:layout_marginTop="30dp" />
 
     <Spinner
         android:id="@+id/respinnerProfessors"
         android:layout_width="150dp"
-        android:layout_height="33dp"
-        android:layout_alignEnd="@+id/resetBtn"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/respinnerClassmates"
-        android:layout_marginBottom="206dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginBottom="238dp"
+        android:layout_marginRight="30dp"
+        android:layout_toStartOf="@+id/txtParents" />
 
     <TextView
         android:id="@+id/txtParents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/respinnerParents"
         android:layout_marginEnd="80dp"
+        android:fontFamily="@font/amiko"
         android:text="Parents"
         android:textColor="@android:color/background_dark"
-        android:layout_alignParentRight="true" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtFamily"
@@ -66,8 +66,10 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtParents"
         android:layout_alignTop="@+id/respinnerFamily"
+        android:fontFamily="@font/amiko"
         android:text="Family"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtFriends"
@@ -75,8 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtFamily"
         android:layout_alignTop="@+id/respinnerFriends"
+        android:fontFamily="@font/amiko"
         android:text="Friends"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtClassmates"
@@ -84,8 +88,10 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtParents"
         android:layout_alignTop="@+id/respinnerClassmates"
+        android:fontFamily="@font/amiko"
         android:text="Classmates"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtProfessors"
@@ -93,37 +99,36 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtParents"
         android:layout_alignTop="@+id/respinnerProfessors"
+        android:fontFamily="@font/amiko"
         android:text="Professors"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/resetBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/amiko"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="123dp"
-        android:background="@color/button_green"
-        android:text="reset" />
-
-    <TextView
-        android:id="@+id/resetTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="122dp"
+        android:layout_marginBottom="138dp"
+        android:background="#9658a466"
         android:fontFamily="@font/amiko"
-        android:text="Reprioritize Relationships"
-        android:textSize="30sp" />
+        android:text="reset" />
 
     <ImageView
         android:id="@+id/flower_reprioritize_png"
         android:layout_width="wrap_content"
-        android:alpha=".50"
         android:layout_height="334dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:alpha=".50"
         app:srcCompat="@drawable/flower_signup_5" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/reprioritize_title" />
 </RelativeLayout>
