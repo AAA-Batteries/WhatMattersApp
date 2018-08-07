@@ -30,10 +30,10 @@
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
-        android:layout_height="156dp"
+        android:layout_height="167dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="55dp"
         android:alpha="0.25"
         android:background="#b9dcd2" />
 
@@ -60,7 +60,8 @@
         android:fontFamily="@font/amiko"
         android:gravity="top"
         android:text="-"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/numberOfContacts"
@@ -94,9 +95,12 @@
         android:layout_marginEnd="-3dp"
         android:fontFamily="@font/amiko"
         android:gravity="center_vertical|center_horizontal|center"
+        android:paddingRight="30dp"
         android:text="-"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="24sp" />
+        android:textColor="@color/Percent"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/profile_toolbar"
@@ -110,15 +114,15 @@
 
     <TextView
         android:id="@+id/txtvPercentExplanation"
-        android:layout_width="185dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout1"
         android:layout_alignStart="@+id/linearLayout1"
         android:layout_alignTop="@+id/circleprogressBar"
+        android:maxLines="5"
         android:padding="3dp"
         android:text="-"
-        android:maxLines="5"
-        android:textStyle="italic"
-        android:layout_alignLeft="@+id/linearLayout1" />
+        android:textStyle="italic" />
 
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/viewKonfetti"
@@ -162,11 +166,12 @@
 
     <Button
         android:id="@+id/openpopup"
-        android:layout_width="143dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/circleprogressBar"
-        android:layout_marginTop="-226dp"
-        android:layout_toStartOf="@+id/linearLayout1"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="66dp"
+        android:background="@color/button_green"
         android:text="Know more" />
 
     <TextView
@@ -189,5 +194,12 @@
         android:textColor="@color/colorAccent"
         android:textStyle="italic"
         android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView4"
+        android:background="@color/colorPrimary" />
 
 </RelativeLayout>
