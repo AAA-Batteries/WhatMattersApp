@@ -87,7 +87,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             int color = context.getResources().getColor(R.color.Classmates);
             viewHolder.groupName.setText("Classmates");
 
-            GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
+            GlideApp.with(context).load(R.drawable.bookszz_border).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
@@ -105,7 +105,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
             viewHolder.groupName.setText("Professors");
-            GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
+            GlideApp.with(context).load(R.drawable.classzz_border).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupImage);
             viewHolder.groupImage.setColorFilter(color);
             viewHolder.groupImage.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
