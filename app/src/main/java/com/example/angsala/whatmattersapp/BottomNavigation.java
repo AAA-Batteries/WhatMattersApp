@@ -1,6 +1,11 @@
 package com.example.angsala.whatmattersapp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -8,6 +13,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +23,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.angsala.whatmattersapp.model.Notification;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class BottomNavigation extends AppCompatActivity implements NotificationFragment.NotificationFragmentListener {
 
@@ -23,6 +34,36 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
     String testUser;
     TextView myBadge;
     int size;
+    public final String TAG = "BottomNavigation";
+    ParseUser user;
+
+    //this is where AS will test having a "push notification"- new branch
+    Handler myHandler = new Handler();
+    Runnable mRefreshNotifsRunnable =
+            new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "entering the runnable 1");
+                    ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class).whereEqualTo("UserReceived", user);
+                    query.getFirstInBackground(new GetCallback<Notification>() {
+                        @Override
+                        public void done(Notification object, ParseException e) {
+                            if (e == null){
+                                if (object.getReceived().size() > NotificationFragment.notificationList.size()){
+                                    createNotificationChannel();
+                                    Log.d(TAG, "entering the runnable 2");
+                                    sendNotification();
+                                }
+
+                            }
+                            myHandler.postDelayed(mRefreshNotifsRunnable, 5000);
+                        }
+
+                    });
+
+
+                }
+            };
 
     @Override
     public void upDate(int notifs) {
@@ -30,7 +71,6 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
         Log.d("notifs", String.valueOf(size));
 
         myBadge.setText(String.valueOf(size));
-
 
 
     }
@@ -42,8 +82,10 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments_controller);
         final int[] btnMemory = new int[4];
+        Log.d(TAG, "in bottom nav on create");
+        myHandler.postDelayed(mRefreshNotifsRunnable, 2000);
 
-
+        user = ParseUser.getCurrentUser();
         final FragmentManager fragmentManager = getSupportFragmentManager();
         // define your fragments here
         final Fragment fragment1 = new NotificationFragment();
@@ -131,6 +173,44 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
         BottomNavigationItemView itemView = (BottomNavigationItemView) v;
 
             itemView.removeViewAt(0);
+    }
+
+    public void sendNotification(){
+        Intent intent = new Intent(BottomNavigation.this, BottomNavigation.class);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(BottomNavigation.this, NotificationFragment.NOTIFICATION_CHANNEL)
+                .setSmallIcon(R.drawable.ic_add)
+                .setContentTitle("Notif Test")
+                .setContentText("This is a notif")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVibrate(new long[]{0})
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                //removes notif when tapped
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(BottomNavigation.this);
+        notificationManager.notify(001, mBuilder.build());
+
+
+    }
+
+    public void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "notifs_name";
+            String description = "notifs_description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(NotificationFragment.NOTIFICATION_CHANNEL, name, NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription(description);
+            channel.setShowBadge(true);
+            channel.canShowBadge();
+
+            //register notification with the system
+            NotificationManager notificationManager = BottomNavigation.this.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+
+        }
+
     }
 
 

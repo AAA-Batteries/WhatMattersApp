@@ -1,11 +1,16 @@
 package com.example.angsala.whatmattersapp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,39 +44,20 @@ import static com.parse.ParseQuery.getQuery;
 public class NotificationFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     ParseUser user;
-    List<Message> notificationList;
+    public static List<Message> notificationList;
     public final String TAG = "NotificationFragment";
     NotificationAdapter adapter;
     RecyclerView rvNotifications;
     // Create a handler which can run code periodically
     private NotificationFragmentListener listener;
 
+    public static String NOTIFICATION_CHANNEL ="notif_channel";
+
     static final int POLL_INTERVAL = 2000;
     TextView myBadge;
     int myNotifs;
 
     //this is where AS will test having a "push notification"- new branch
-    Handler myHandler = new Handler();
-    Runnable mRefreshNotifsRunnable =
-            new Runnable() {
-                @Override
-                public void run() {
-                    ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class).whereEqualTo("UserReceived", user);
-          query.getFirstInBackground(new GetCallback<Notification>() {
-              @Override
-              public void done(Notification object, ParseException e) {
-                  if (e == null){
-                      if (object.getReceived().size() > notificationList.size()){
-                          //fire a notif
-                      }
-
-                  }
-              }
-          });
-
-
-                }
-            };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,6 +111,14 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "now in on pause");
+      //  myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
@@ -132,6 +126,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
                 adapter.clear();
                 fetchNotifications();
                 Log.d(TAG, "I clicked on the refresh button");
+                //sendNotification();
                 return true;
 
             default:
@@ -143,9 +138,9 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     @Override
     public void onResume() {
         super.onResume();
+        //must be created asap
         notificationList.clear();
         adapter.notifyDataSetChanged();
-
         fetchNotifications();
         myNotifs = notificationList.size();
 
@@ -287,7 +282,39 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
     public void sendNotification(){
-       // NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        Intent intent = new Intent(getContext(), BottomNavigation.class);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext(), NOTIFICATION_CHANNEL)
+                .setSmallIcon(R.drawable.ic_add)
+                .setContentTitle("Notif Test")
+                .setContentText("This is a notif")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVibrate(new long[]{0})
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                //removes notif when tapped
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        notificationManager.notify(001, mBuilder.build());
+
+
+    }
+
+    public void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "notifs_name";
+            String description = "notifs_description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, name, NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription(description);
+            channel.setShowBadge(true);
+            channel.canShowBadge();
+
+            //register notification with the system
+            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
 
     }
 
