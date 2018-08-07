@@ -48,7 +48,7 @@
         android:layout_marginTop="76dp"
         android:padding="5dp"
         android:paddingLeft="5dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerInside" />
 
     <TextView
         android:id="@+id/profileuserName"
@@ -116,6 +116,7 @@
         android:layout_alignTop="@+id/circleprogressBar"
         android:padding="3dp"
         android:text="-"
+        android:maxLines="5"
         android:textStyle="italic"
         android:layout_alignLeft="@+id/linearLayout1" />
 
@@ -163,8 +164,30 @@
         android:id="@+id/openpopup"
         android:layout_width="143dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/linearLayout1"
-        android:layout_alignTop="@+id/star_icon"
+        android:layout_below="@+id/circleprogressBar"
+        android:layout_marginTop="-226dp"
+        android:layout_toStartOf="@+id/linearLayout1"
         android:text="Know more" />
+
+    <TextView
+        android:id="@+id/tvReadMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/linearLayout1"
+        android:layout_below="@+id/txtvPercentExplanation"
+        android:text="...READ MORE"
+        android:textColor="@color/colorAccent"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/tvCollapse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/linearLayout1"
+        android:layout_below="@+id/txtvPercentExplanation"
+        android:text="...COLLAPSE"
+        android:textColor="@color/colorAccent"
+        android:textStyle="italic"
+        android:visibility="gone"/>
 
 </RelativeLayout>

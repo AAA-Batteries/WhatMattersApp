@@ -55,19 +55,20 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_toRightOf="@id/contactImage"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="99dp" />
 
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="210dp"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvUserName"
         android:layout_below="@+id/tvUserName"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:textSize="11sp"
+        android:textSize="13sp"
         android:textStyle="italic" />
 
     <ImageView
@@ -76,6 +77,7 @@
         android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="3dp"
         android:paddingRight="6dp"
         app:srcCompat="@drawable/baseline_offline_bolt_black_dp" />
 
@@ -88,7 +90,7 @@
         android:paddingLeft="3dp"
         android:paddingRight="8dp"
         android:text="TextView"
-        android:textSize="9sp" />
+        android:textSize="11sp" />
 
 
 </RelativeLayout>

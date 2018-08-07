@@ -9,7 +9,7 @@
         android:layout_width="400dp"
         android:layout_height="548dp"
         android:layout_margin="1dp"
-        android:background="@drawable/layout_button"
+        android:background="@drawable/layout_bg"
 
         android:orientation="vertical">
         >
@@ -34,7 +34,7 @@
                 android:id="@+id/dismiss"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/layout_button"
+                android:background="@drawable/layout_bg"
                 android:text="Dismiss" />
         </LinearLayout>
     </LinearLayout>

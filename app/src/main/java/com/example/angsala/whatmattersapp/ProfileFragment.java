@@ -58,6 +58,8 @@ public class ProfileFragment extends Fragment {
     User user1;
     TextView profileStatus;
     Button btOpenPopUp;
+    TextView tvReadMore, tvCollapse;
+    double uRanking;
 
 
     @Override
@@ -90,6 +92,29 @@ public class ProfileFragment extends Fragment {
         viewKonfetti = getActivity().findViewById(R.id.viewKonfetti);
         profileStatus = getActivity().findViewById(R.id.profileStatus);
         btOpenPopUp = getActivity().findViewById(R.id.openpopup);
+        tvReadMore = getActivity().findViewById(R.id.tvReadMore);
+        tvCollapse = getActivity().findViewById(R.id.tvCollapse);
+
+        tvReadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvReadMore.setVisibility(View.GONE);
+                tvCollapse.setVisibility(View.VISIBLE);
+                txtvPercentageExplanation.setMaxLines(Integer.MAX_VALUE);
+            }
+        });
+
+        tvCollapse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvCollapse.setVisibility(View.GONE);
+                tvReadMore.setVisibility(View.VISIBLE);
+                txtvPercentageExplanation.setMaxLines(5);
+            }
+        });
+
+
+
 
 
 
@@ -104,14 +129,23 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                double rank = user.getDouble("UserRanking");
                 View popupView = inflater.inflate(R.layout.popup, null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 ImageView myGraph = popupView.findViewById(R.id.myGraph);
-                GlideApp.with(getActivity()).load(R.drawable.finalchartz).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
+                Log.d("Ranking", String.valueOf(rank));
 
+
+                if (uRanking > 90 ){
+                    GlideApp.with(getActivity()).load(R.drawable.finalchartz).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
+
+
+                } else {
+                    GlideApp.with(getActivity()).load(R.drawable.poorchart).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
+
+                }
 
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
                 Button btnDismiss = (Button) popupView.findViewById(R.id.dismiss);
                 btnDismiss.setOnClickListener(new Button.OnClickListener() {
 
@@ -153,7 +187,7 @@ public class ProfileFragment extends Fragment {
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser object, ParseException e) {
                 if (e == null) {
-                    double uRanking = object.getDouble("UserRanking");
+                    uRanking = object.getDouble("UserRanking");
                     circleBar.setProgress((int) uRanking);
                     txtvPercentage.setText(Double.toString(uRanking) + "%");
                     if(uRanking <= 25){
@@ -185,23 +219,26 @@ public class ProfileFragment extends Fragment {
                     }
                     //   Glide.with(getActivity()).load(imgUrl).transform
                     profileStatus.setText(myStatus);
+
+                    if (uRanking >= 70) {
+                        viewKonfetti.build()
+                                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                                .setDirection(0.0, 359.0)
+                                .setSpeed(1f, 5f)
+                                .setFadeOutEnabled(true)
+                                .setTimeToLive(2000L)
+                                .addShapes(Shape.RECT, Shape.CIRCLE)
+                                .addSizes(new nl.dionsegijn.konfetti.models.Size(12, 5))
+                                .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
+                                .stream(300, 5000L);
+                    }
+
                 }
             }
         });
 
-        int ranking = user.get("UserRanking") != null ? (Integer) user.get("UserRanking"): 0 ;
-        if (ranking >= 70) {
-            viewKonfetti.build()
-                    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                    .setDirection(0.0, 359.0)
-                    .setSpeed(1f, 5f)
-                    .setFadeOutEnabled(true)
-                    .setTimeToLive(2000L)
-                    .addShapes(Shape.RECT, Shape.CIRCLE)
-                    .addSizes(new nl.dionsegijn.konfetti.models.Size(12, 5))
-                    .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
-                    .stream(300, 5000L);
-        }
+        //uRanking = user.get("UserRanking") != null ? (Integer) user.get("UserRanking"): 0 ;
+
 
     }
 
