@@ -37,7 +37,7 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
     int size;
     public final String TAG = "BottomNavigation";
     ParseUser user;
-    final int POLL_INTERVAL = 2000;
+    final int POLL_INTERVAL = 5000;
 
     //this is where AS will test having a "push notification"- new branch
     Handler myHandler = new Handler();
@@ -82,9 +82,9 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments_controller);
-        myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
         final int[] btnMemory = new int[4];
-
+        myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
+        user = ParseUser.getCurrentUser();
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         // define your fragments here
