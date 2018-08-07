@@ -168,4 +168,12 @@
         android:textStyle="italic"
         android:layout_alignLeft="@+id/profileuserName" />
 
+    <Button
+        android:id="@+id/openpopup"
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/linearLayout1"
+        android:layout_alignTop="@+id/star_icon"
+        android:text="Know more" />
+
 </RelativeLayout>

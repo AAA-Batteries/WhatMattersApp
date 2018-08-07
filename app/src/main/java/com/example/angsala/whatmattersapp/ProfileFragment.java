@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,13 +10,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +36,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 
@@ -46,12 +52,12 @@ public class ProfileFragment extends Fragment {
     String currentUsername;
     int contactAmount;
     ParseUser user;
-    ProfileImageHelper helper;
     ImageView profile;
     KonfettiView viewKonfetti;
     TextView txtvPercentageExplanation;
     User user1;
     TextView profileStatus;
+    Button btOpenPopUp;
 
 
     @Override
@@ -75,7 +81,6 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        helper = new ProfileImageHelper();
         profileUsername = (TextView) getActivity().findViewById(R.id.profileuserName);
         circleBar = (ProgressBar) getActivity().findViewById(R.id.circleprogressBar);
         txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);
@@ -84,6 +89,9 @@ public class ProfileFragment extends Fragment {
         profile = getActivity().findViewById(R.id.ivProfileImage);
         viewKonfetti = getActivity().findViewById(R.id.viewKonfetti);
         profileStatus = getActivity().findViewById(R.id.profileStatus);
+        btOpenPopUp = getActivity().findViewById(R.id.openpopup);
+
+
 
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.profile_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
@@ -91,6 +99,37 @@ public class ProfileFragment extends Fragment {
 
         currentUsername = user.getUsername();
         profileUsername.setText(currentUsername);
+
+        btOpenPopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.popup, null);
+                final PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                ImageView myGraph = popupView.findViewById(R.id.myGraph);
+                GlideApp.with(getActivity()).load(R.drawable.finalchartz).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
+
+
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                Button btnDismiss = (Button) popupView.findViewById(R.id.dismiss);
+                btnDismiss.setOnClickListener(new Button.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        popupWindow.dismiss();
+                    }
+                });
+
+                popupWindow.showAsDropDown(btOpenPopUp, 50, -30);
+
+            }
+        });
+
+
+
+
 
 
         //consider making this a local field in user class
