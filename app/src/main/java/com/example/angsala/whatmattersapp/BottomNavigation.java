@@ -2,6 +2,7 @@ package com.example.angsala.whatmattersapp;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -177,15 +178,19 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
 
     public void sendNotification(){
         Intent intent = new Intent(BottomNavigation.this, BottomNavigation.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(BottomNavigation.this, NotificationFragment.NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.drawable.ic_add)
-                .setContentTitle("Notif Test")
-                .setContentText("This is a notif")
+                .setContentTitle("New Notification")
+                .setContentText("Check out your notifications!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVibrate(new long[]{0})
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 //removes notif when tapped
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(BottomNavigation.this);
