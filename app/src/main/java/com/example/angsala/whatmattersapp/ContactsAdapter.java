@@ -73,7 +73,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                             if (e == null) {
                                 if(!object.getMessages().isEmpty()) {
                                     String lastMessage = object.getMessages().get(0).getBody();
-                                    viewHolder.tvMessage.setText(lastMessage + "  " + (object.getMessages().get(0).getRelativeTimeAgo()));
+                                    viewHolder.tvMessage.setText(lastMessage + "\n" + (object.getMessages().get(0).getRelativeTimeAgo()));
                                     //viewHolder.timeCreated.setText((object.getMessages().get(0).getRelativeTimeAgo()));
                                 }
                             }
