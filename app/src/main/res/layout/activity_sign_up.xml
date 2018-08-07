@@ -13,6 +13,7 @@
         android:layout_height="301dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:alpha=".50"
         app:srcCompat="@drawable/flower_signup" />
 
     <EditText
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="158dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName" />
@@ -30,29 +31,31 @@
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etUsername"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="221dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/btSignUp"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
+
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerProfessors"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Sign Up" />
+        android:layout_marginBottom="61dp"
+        android:background="@drawable/layout_button"
+        android:text="login" />
 
     <Spinner
         android:id="@+id/spinnerParents"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/etUsername"
-        android:layout_below="@+id/etPassword"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="294dp" />
 
     <Spinner
         android:id="@+id/spinnerFamily"
@@ -92,8 +95,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/spinnerParents"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Parents" />
+        android:text="Parents"
+        android:textColor="@android:color/background_dark" />
 
     <TextView
         android:id="@+id/txtFamily"
@@ -102,7 +107,8 @@
         android:layout_alignTop="@+id/spinnerFamily"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerFamily"
-        android:text="Family" />
+        android:text="Family"
+        android:textColor="@android:color/background_dark"/>
 
     <TextView
         android:id="@+id/txtFriends"
@@ -111,7 +117,8 @@
         android:layout_alignTop="@+id/spinnerFriends"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Friends" />
+        android:text="Friends"
+        android:textColor="@android:color/background_dark"/>
 
     <TextView
         android:id="@+id/txtClassmates"
@@ -120,7 +127,8 @@
         android:layout_alignTop="@+id/spinnerClassmates"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Classmates" />
+        android:text="Classmates"
+        android:textColor="@android:color/background_dark"/>
 
     <TextView
         android:id="@+id/txtProfessors"
@@ -129,6 +137,7 @@
         android:layout_alignTop="@+id/spinnerProfessors"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
-        android:text="Professors" />
+        android:text="Professors"
+        android:textColor="@android:color/background_dark"/>
 
 </RelativeLayout>

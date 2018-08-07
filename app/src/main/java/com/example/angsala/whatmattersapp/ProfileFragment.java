@@ -46,7 +46,6 @@ public class ProfileFragment extends Fragment {
     String currentUsername;
     int contactAmount;
     ParseUser user;
-    ProfileImageHelper helper;
     ImageView profile;
     KonfettiView viewKonfetti;
     TextView txtvPercentageExplanation;
@@ -75,7 +74,6 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        helper = new ProfileImageHelper();
         profileUsername = (TextView) getActivity().findViewById(R.id.profileuserName);
         circleBar = (ProgressBar) getActivity().findViewById(R.id.circleprogressBar);
         txtvPercentage = (TextView) getActivity().findViewById(R.id.txtvPercentage);

@@ -84,6 +84,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:adjustViewBounds="true"
+        android:alpha=".50"
         android:cropToPadding="true"
         app:srcCompat="@drawable/flower_signup" />
 
