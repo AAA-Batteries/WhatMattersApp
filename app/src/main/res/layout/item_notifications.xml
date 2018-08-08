@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/tvNotificationUsername"
             android:layout_below="@+id/tvNotificationUsername"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="italic" />
 
         <TextView
@@ -75,7 +75,8 @@
             android:layout_alignTop="@+id/ivNotification"
             android:layout_marginStart="124dp"
             android:text="TextView"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/timeStamp"
@@ -88,8 +89,8 @@
             android:id="@+id/txHoistReason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivNotification"
             android:layout_alignStart="@+id/tvNotificationBody"
-            android:layout_alignTop="@+id/ivNotifzz"
             android:textColor="@color/hoist_contact"
             android:textSize="18sp" />
 
