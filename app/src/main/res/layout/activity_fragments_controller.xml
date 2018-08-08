@@ -39,5 +39,12 @@
 
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimary" />
+
 
 </RelativeLayout>

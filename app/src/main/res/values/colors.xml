@@ -13,8 +13,9 @@
     <color name = "Sleep_mode">#12d0ed</color>
     <color name = "Offline">#bfbdbd</color>
     <color name = "Button">#882C383E</color>
-    <color name = "Transparent">#00000000</color>
-    <color name="button_green">#c858a466</color>
+    <color name = "Transparent">#00061e08</color>
+    <color name="button_green">#6458a466</color>
+    <color name = "Percent">#13331b</color>
 
 
 </resources>

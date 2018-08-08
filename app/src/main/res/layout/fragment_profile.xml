@@ -9,6 +9,546 @@
   >
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_background"
+        tools:context=".ProfileFragment">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="130dp"
+            android:layout_height="101dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/numberOfContacts"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="103dp"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/circleprogressBar"
+            android:orientation="vertical"></LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="66dp"
+            android:alpha="0.25"
+            android:background="#b9dcd2" />
+
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="111dp"
+            android:layout_height="119dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="76dp"
+            android:padding="5dp"
+            android:paddingLeft="5dp"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/profileuserName"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/txtvPercentExplanation"
+            android:layout_marginTop="99dp"
+            android:fontFamily="@font/amiko"
+            android:gravity="top"
+            android:text="-"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/numberOfContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/profileuserName"
+            android:layout_below="@+id/profileuserName"
+            android:fontFamily="@font/amiko"
+            android:text="-" />
+
+        <ProgressBar
+            android:id="@+id/circleprogressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="143dp"
+            android:layout_height="148dp"
+            android:layout_above="@+id/openpopup"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/circle_shape"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/circular_progress_bar" />
+
+        <TextView
+            android:id="@+id/txtvPercentage"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/fab"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="276dp"
+            android:layout_marginEnd="-3dp"
+            android:fontFamily="@font/amiko"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:text="-"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
+        <TextView
+            android:id="@+id/txtvPercentExplanation"
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/circleprogressBar"
+            android:layout_marginEnd="30dp"
+            android:maxLines="5"
+            android:padding="5dp"
+            android:text="-"
+            android:textStyle="italic" />
+
+        <ImageView
+            android:id="@+id/stats_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_marginTop="239dp"
+            android:src="@drawable/baseline_poll_black_dp" />
+
+        <TextView
+            android:id="@+id/statistics_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="246dp"
+            android:layout_toEndOf="@+id/stats_icon"
+            android:padding="3dp"
+            android:text="Statistics"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/profileStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileuserName"
+            android:layout_alignStart="@+id/profileuserName"
+            android:layout_below="@+id/numberOfContacts"
+            android:text="TextView"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/openpopup"
+            android:layout_width="143dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="150dp"
+            android:layout_toStartOf="@+id/linearLayout1"
+            android:text="Know more" />
+
+        <TextView
+            android:id="@+id/tvReadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/profileuserName"
+            android:layout_below="@+id/txtvPercentExplanation"
+            android:text="...READ MORE"
+            android:textColor="@color/colorAccent"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvCollapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/linearLayout1"
+            android:layout_below="@+id/txtvPercentExplanation"
+            android:text="...COLLAPSE"
+            android:textColor="@color/colorAccent"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_background"
+        tools:context=".ProfileFragment">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_background"
+            tools:context=".ProfileFragment">
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="130dp"
+                android:layout_height="101dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/numberOfContacts"
+                android:layout_gravity="bottom|end"
+                android:layout_marginStart="103dp"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/circleprogressBar"
+                android:orientation="vertical"></LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="66dp"
+                android:alpha="0.25"
+                android:background="#b9dcd2" />
+
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="111dp"
+                android:layout_height="119dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="76dp"
+                android:padding="5dp"
+                android:paddingLeft="5dp"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/profileuserName"
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/txtvPercentExplanation"
+                android:layout_marginTop="99dp"
+                android:fontFamily="@font/amiko"
+                android:gravity="top"
+                android:text="-"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/numberOfContacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/profileuserName"
+                android:layout_below="@+id/profileuserName"
+                android:fontFamily="@font/amiko"
+                android:text="-" />
+
+            <ProgressBar
+                android:id="@+id/circleprogressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="143dp"
+                android:layout_height="148dp"
+                android:layout_above="@+id/openpopup"
+                android:layout_alignStart="@+id/ivProfileImage"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/circle_shape"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressDrawable="@drawable/circular_progress_bar" />
+
+            <TextView
+                android:id="@+id/txtvPercentage"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/fab"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="276dp"
+                android:layout_marginEnd="-3dp"
+                android:fontFamily="@font/amiko"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="-"
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                android:textSize="24sp" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/profile_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme" />
+
+            <TextView
+                android:id="@+id/txtvPercentExplanation"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/circleprogressBar"
+                android:layout_marginEnd="30dp"
+                android:maxLines="5"
+                android:padding="5dp"
+                android:text="-"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/stats_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/ivProfileImage"
+                android:layout_marginTop="239dp"
+                android:src="@drawable/baseline_poll_black_dp" />
+
+            <TextView
+                android:id="@+id/statistics_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="246dp"
+                android:layout_toEndOf="@+id/stats_icon"
+                android:padding="3dp"
+                android:text="Statistics"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/profileStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/profileuserName"
+                android:layout_alignStart="@+id/profileuserName"
+                android:layout_below="@+id/numberOfContacts"
+                android:text="TextView"
+                android:textStyle="italic" />
+
+            <Button
+                android:id="@+id/openpopup"
+                android:layout_width="143dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="150dp"
+                android:layout_toStartOf="@+id/linearLayout1"
+                android:text="Know more" />
+
+            <TextView
+                android:id="@+id/tvReadMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/profileuserName"
+                android:layout_below="@+id/txtvPercentExplanation"
+                android:text="...READ MORE"
+                android:textColor="@color/colorAccent"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tvCollapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/linearLayout1"
+                android:layout_below="@+id/txtvPercentExplanation"
+                android:text="...COLLAPSE"
+                android:textColor="@color/colorAccent"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="130dp"
+            android:layout_height="101dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/numberOfContacts"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="103dp"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/circleprogressBar"
+            android:orientation="vertical"></LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="66dp"
+            android:alpha="0.25"
+            android:background="#b9dcd2" />
+
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="111dp"
+            android:layout_height="119dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="76dp"
+            android:padding="5dp"
+            android:paddingLeft="5dp"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/profileuserName"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/txtvPercentExplanation"
+            android:layout_marginTop="99dp"
+            android:fontFamily="@font/amiko"
+            android:gravity="top"
+            android:text="-"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/numberOfContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/profileuserName"
+            android:layout_below="@+id/profileuserName"
+            android:fontFamily="@font/amiko"
+            android:text="-" />
+
+        <ProgressBar
+            android:id="@+id/circleprogressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="143dp"
+            android:layout_height="148dp"
+            android:layout_above="@+id/openpopup"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/circle_shape"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/circular_progress_bar" />
+
+        <TextView
+            android:id="@+id/txtvPercentage"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/fab"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="276dp"
+            android:layout_marginEnd="-3dp"
+            android:fontFamily="@font/amiko"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:text="-"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
+        <TextView
+            android:id="@+id/txtvPercentExplanation"
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/circleprogressBar"
+            android:layout_marginEnd="30dp"
+            android:maxLines="5"
+            android:padding="5dp"
+            android:text="-"
+            android:textStyle="italic" />
+
+        <ImageView
+            android:id="@+id/stats_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_marginTop="239dp"
+            android:src="@drawable/baseline_poll_black_dp" />
+
+        <TextView
+            android:id="@+id/statistics_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="246dp"
+            android:layout_toEndOf="@+id/stats_icon"
+            android:padding="3dp"
+            android:text="Statistics"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/profileStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileuserName"
+            android:layout_alignStart="@+id/profileuserName"
+            android:layout_below="@+id/numberOfContacts"
+            android:text="TextView"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/openpopup"
+            android:layout_width="143dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="150dp"
+            android:layout_toStartOf="@+id/linearLayout1"
+            android:text="Know more" />
+
+        <TextView
+            android:id="@+id/tvReadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/profileuserName"
+            android:layout_below="@+id/txtvPercentExplanation"
+            android:text="...READ MORE"
+            android:textColor="@color/colorAccent"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvCollapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/linearLayout1"
+            android:layout_below="@+id/txtvPercentExplanation"
+            android:text="...COLLAPSE"
+            android:textColor="@color/colorAccent"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="130dp"
@@ -76,9 +616,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="143dp"
         android:layout_height="148dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/openpopup"
         android:layout_alignStart="@+id/ivProfileImage"
-        android:layout_marginBottom="226dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
         android:max="100"
@@ -120,27 +660,33 @@
         android:text="-"
         android:textStyle="italic" />
 
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/viewKonfetti"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
     <ImageView
         android:id="@+id/stats_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/ivProfileImage"
-        android:layout_marginTop="230dp"
-        android:src="@drawable/baseline_poll_black_dp"
-        android:layout_alignLeft="@+id/ivProfileImage" />
+        android:layout_marginTop="239dp"
+        android:src="@drawable/baseline_poll_black_dp" />
 
     <TextView
         android:id="@+id/statistics_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="243dp"
+        android:layout_marginTop="246dp"
         android:layout_toEndOf="@+id/stats_icon"
         android:padding="3dp"
         android:text="Statistics"
-        android:textSize="12sp"
-        android:layout_toRightOf="@+id/stats_icon" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/profileStatus"
@@ -156,8 +702,8 @@
         android:id="@+id/openpopup"
         android:layout_width="143dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/circleprogressBar"
-        android:layout_marginTop="-226dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
         android:layout_toStartOf="@+id/linearLayout1"
         android:text="Know more" />
 
