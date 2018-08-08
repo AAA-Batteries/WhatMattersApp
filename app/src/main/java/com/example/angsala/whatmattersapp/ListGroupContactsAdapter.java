@@ -2,8 +2,6 @@ package com.example.angsala.whatmattersapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -94,7 +92,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
 
         } else if (relationship.equals("Classmates")) {
             int color = context.getResources().getColor(R.color.Classmates);
-            GlideApp.with(context).load(R.drawable.bookszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            GlideApp.with(context).load(R.drawable.bookszz_border).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
@@ -106,7 +104,7 @@ public class ListGroupContactsAdapter extends RecyclerView.Adapter<ListGroupCont
 
         } else {
             int color = context.getResources().getColor(R.color.colorAccent);
-            GlideApp.with(context).load(R.drawable.classzz).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
+            GlideApp.with(context).load(R.drawable.classzz_border).apply(RequestOptions.circleCropTransform()).into(viewHolder.myRelation);
             viewHolder.myRelation.setColorFilter(color);
             viewHolder.myRelation.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
 
