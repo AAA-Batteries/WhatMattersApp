@@ -20,7 +20,7 @@ import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     Context context;
-    List<String> relationship;
+    static List<String> relationship;
     MenuView.ItemView itemView;
     GroupFragment fragment;
 

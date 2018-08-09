@@ -1,5 +1,6 @@
 package com.example.angsala.whatmattersapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,7 +45,6 @@ public class GroupFragment extends Fragment {
     ParseUser user;
     TextView groupName;
     ImageView groupImage;
-    Button reprioritize;
 
 
     @Override
@@ -154,7 +154,22 @@ public class GroupFragment extends Fragment {
 
     public void launchPriorityActivity() {
         Intent intent = new Intent(getActivity(), PriorityActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        GroupAdapter.relationship = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            GroupAdapter.relationship.add("");
+        }
+
+        GroupAdapter.relationship.set((int) ParseUser.getCurrentUser().get("Parents") - 1, "Parents");
+        GroupAdapter.relationship.set((int) ParseUser.getCurrentUser().get("Family") - 1, "Family");
+        GroupAdapter.relationship.set((int) ParseUser.getCurrentUser().get("Friends") - 1, "Friends");
+        GroupAdapter.relationship.set((int) ParseUser.getCurrentUser().get("Classmates") - 1, "Classmates");
+        GroupAdapter.relationship.set((int) ParseUser.getCurrentUser().get("Professors") - 1, "Professors");
+        adapter.notifyDataSetChanged();
     }
 
 }
