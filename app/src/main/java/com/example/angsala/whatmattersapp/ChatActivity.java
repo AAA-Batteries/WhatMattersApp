@@ -8,9 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.BuzzWords;
@@ -521,11 +525,16 @@ public class ChatActivity extends AppCompatActivity {
                                 String message = ParseUser.getQuery().get(recipientId).getUsername()
                                         + " is a member of " + object.getRelationship() + ".";
                                 if (chat.getMessages().isEmpty()) {
-                                    message += "\nThey should be a prioritized contact!\nStart chatting with them now!";
+                                    message += "\nThey are a priority contact!\nStart chatting now!";
                                 } else {
                                     message += "\nYou don't chat enough with them.\nLet's catch up!";
                                 }
-                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER, 0, -500);
+                                LinearLayout toastLayout = (LinearLayout) toast.getView();
+                                TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                                toastTV.setTextSize(18);
+                                toast.show();
                             } catch (ParseException e1) {
                                 e.printStackTrace();
                             }
