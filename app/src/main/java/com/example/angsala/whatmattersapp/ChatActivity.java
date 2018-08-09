@@ -471,12 +471,15 @@ public class ChatActivity extends AppCompatActivity {
         try {
             ObjectInputStream messageIO;
             if (currentId.compareTo(recipientId) <= 0) {
-                messageIO = new ObjectInputStream(new FileInputStream(currentId + recipientId));
+                Log.d("ChatActivity", "FileIO");
+                messageIO = new ObjectInputStream(new FileInputStream(currentId + recipientId + ".txt"));
             } else {
-                messageIO = new ObjectInputStream(new FileInputStream(recipientId + currentId));
+                Log.d("ChatActivity", "FileIO");
+                messageIO = new ObjectInputStream(new FileInputStream(recipientId + currentId + ".txt"));
             }
             // create the array using the content in the file
             try {
+                Log.d("ChatActivity", "FileIO");
                 mMessages = (ArrayList) messageIO.readObject();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -495,9 +498,9 @@ public class ChatActivity extends AppCompatActivity {
             // save the item list as a line-delimited text file
             ObjectOutputStream messageIO;
             if (currentId.compareTo(recipientId) <= 0) {
-                messageIO = new ObjectOutputStream(new FileOutputStream(currentId + recipientId));
+                messageIO = new ObjectOutputStream(new FileOutputStream(currentId + recipientId + ".txt"));
             } else {
-                messageIO = new ObjectOutputStream(new FileOutputStream(recipientId + currentId));
+                messageIO = new ObjectOutputStream(new FileOutputStream(recipientId + currentId + ".txt"));
             }
             messageIO.writeObject(mMessages);
         } catch (IOException e) {

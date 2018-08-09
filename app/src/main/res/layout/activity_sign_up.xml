@@ -48,10 +48,7 @@
         android:background="@color/button_green"
         android:fontFamily="@font/amiko"
         android:text="Sign up"
-        android:layout_alignStart="@id/etUsername"
-        android:layout_alignLeft="@id/etUsername"
-        android:layout_alignEnd="@id/etUsername"
-        android:layout_alignRight="@id/etUsername" />
+         />
 
     <Spinner
         android:id="@+id/spinnerParents"
@@ -59,7 +56,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/etUsername"
-        android:layout_marginTop="303dp" />
+        android:layout_marginTop="303dp"
+       />
 
     <Spinner
         android:id="@+id/spinnerFamily"
@@ -102,7 +100,9 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/spinnerParents"
         android:text="Parents"
-        android:textColor="@android:color/background_dark" />
+        android:textColor="@android:color/background_dark"
+        android:layout_alignEnd="@id/etUsername"
+        android:layout_alignRight="@id/etUsername" />
 
     <TextView
         android:id="@+id/txtFamily"
@@ -112,7 +112,10 @@
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerFamily"
         android:text="Family"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        android:layout_alignEnd="@id/etUsername"
+        android:layout_alignRight="@id/etUsername"
+        android:layout_toRightOf="@+id/spinnerFamily" />
 
     <TextView
         android:id="@+id/txtFriends"
@@ -122,7 +125,9 @@
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
         android:text="Friends"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        android:layout_alignEnd="@id/etUsername"
+        android:layout_alignRight="@id/etUsername"/>
 
     <TextView
         android:id="@+id/txtClassmates"
@@ -132,7 +137,8 @@
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/spinnerParents"
         android:text="Classmates"
-        android:textColor="@android:color/background_dark"/>
+        android:textColor="@android:color/background_dark"
+        />
 
     <TextView
         android:id="@+id/txtProfessors"

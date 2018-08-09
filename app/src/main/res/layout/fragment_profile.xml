@@ -171,8 +171,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="66dp"
+        android:layout_marginBottom="80dp"
         android:background="@color/button_green"
+        android:fontFamily="@font/amiko"
         android:text="Know more" />
 
     <TextView
