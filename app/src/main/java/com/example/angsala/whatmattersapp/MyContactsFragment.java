@@ -263,14 +263,22 @@ public class MyContactsFragment extends Fragment
                                 int halfway = (objects.size() / 2);
                                 String halfwayRelationship = objects.get(halfway).getRelationship();
                                 //cancel the corrected flags --> will get more difficult on time with bigger contacts list
-                                for (int i = 0; i < objects.size() - 1; i++) {
-                                    String obRelationship = objects.get(i).getRelationship();
+                                for (int i = 0; i < objects.size(); i++) {
+                                    if (i < objects.size() - 1){
+                                        String obRelationship = objects.get(i).getRelationship();
                                     String nextRelationship = objects.get(i + 1).getRelationship();
+                                    //if it gets to the end
                                     if (objects.get(i).getFlag() == true && user.getInt(obRelationship) <= user.getInt(nextRelationship)) {
                                         objects.get(i).setFlag(false);
                                         objects.get(i).saveInBackground();
 
                                     }
+                                }
+                                if(i == objects.size()-1 && objects.get(i).getFlag() == true){
+                                    objects.get(i).setFlag(false);
+                                    objects.get(i).saveInBackground();
+                                }
+                                    //i is the last contact
                                 }
 
                                 //set flags
