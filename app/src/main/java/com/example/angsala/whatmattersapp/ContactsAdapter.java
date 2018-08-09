@@ -121,6 +121,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         if (flag) {
             viewHolder.flag.setImageResource(R.color.hoist_contact);
             viewHolder.flag.setImageAlpha(50);
+            viewHolder.trend.setVisibility(View.VISIBLE);
+            GlideApp.with(context).load(R.drawable.trendingdown).into(viewHolder.trend);
+
+
         } else {
             viewHolder.flag.setVisibility(View.INVISIBLE);
         }
@@ -193,6 +197,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView ivSession;
         TextView tvSession;
         ImageView ivContact;
+        ImageView trend;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -208,6 +213,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             tvSession = itemView.findViewById(R.id.tvSession);
 
             ivContact = itemView.findViewById(R.id.ivContact);
+            trend = itemView.findViewById(R.id.ivTrend);
 
             itemView.setOnClickListener(this);
         }

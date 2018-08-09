@@ -19,6 +19,10 @@ android {
     }
 }
 
+ext {
+    roomVersion = "1.1.1"
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -59,5 +63,8 @@ dependencies {
 
     compile 'nl.dionsegijn:konfetti:1.1.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.60"
+    implementation "android.arch.persistence.room:runtime:$roomVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+
 
 }

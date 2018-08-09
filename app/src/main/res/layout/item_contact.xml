@@ -92,5 +92,14 @@
         android:text="TextView"
         android:textSize="11sp" />
 
+    <ImageView
+        android:id="@+id/ivTrend"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/ivRelation"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/shape_circle"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>
