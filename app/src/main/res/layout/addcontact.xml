@@ -11,7 +11,7 @@
         android:background="@color/colorPrimary"
         android:contentDescription="@string/app_name"
         android:scaleType="center"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/face_icon_chat_transparent_small"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
     <EditText

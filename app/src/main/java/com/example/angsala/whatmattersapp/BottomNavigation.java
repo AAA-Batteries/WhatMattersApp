@@ -104,7 +104,7 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
                             case R.id.navigation_notifications:
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.my_placeholder, fragment1).commit();
-                                // removeBadge(bottomNavigationView, 0);
+
 
                                 myBadge.setVisibility(View.GONE);
                                 size = 0;
@@ -179,7 +179,7 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(BottomNavigation.this, NotificationFragment.NOTIFICATION_CHANNEL)
-                .setSmallIcon(R.drawable.ic_add)
+                .setSmallIcon(R.drawable.face_icon_chat_transparent)
                 .setContentTitle("New Notification")
                 .setContentText("Check out your notifications!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

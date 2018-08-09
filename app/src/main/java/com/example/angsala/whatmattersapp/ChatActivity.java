@@ -8,9 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.angsala.whatmattersapp.model.BuzzWords;
@@ -471,12 +475,15 @@ public class ChatActivity extends AppCompatActivity {
         try {
             ObjectInputStream messageIO;
             if (currentId.compareTo(recipientId) <= 0) {
-                messageIO = new ObjectInputStream(new FileInputStream(currentId + recipientId));
+                Log.d("ChatActivity", "FileIO");
+                messageIO = new ObjectInputStream(new FileInputStream(currentId + recipientId + ".txt"));
             } else {
-                messageIO = new ObjectInputStream(new FileInputStream(recipientId + currentId));
+                Log.d("ChatActivity", "FileIO");
+                messageIO = new ObjectInputStream(new FileInputStream(recipientId + currentId + ".txt"));
             }
             // create the array using the content in the file
             try {
+                Log.d("ChatActivity", "FileIO");
                 mMessages = (ArrayList) messageIO.readObject();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -495,9 +502,9 @@ public class ChatActivity extends AppCompatActivity {
             // save the item list as a line-delimited text file
             ObjectOutputStream messageIO;
             if (currentId.compareTo(recipientId) <= 0) {
-                messageIO = new ObjectOutputStream(new FileOutputStream(currentId + recipientId));
+                messageIO = new ObjectOutputStream(new FileOutputStream(currentId + recipientId + ".txt"));
             } else {
-                messageIO = new ObjectOutputStream(new FileOutputStream(recipientId + currentId));
+                messageIO = new ObjectOutputStream(new FileOutputStream(recipientId + currentId + ".txt"));
             }
             messageIO.writeObject(mMessages);
         } catch (IOException e) {
@@ -521,11 +528,16 @@ public class ChatActivity extends AppCompatActivity {
                                 String message = ParseUser.getQuery().get(recipientId).getUsername()
                                         + " is a member of " + object.getRelationship() + ".";
                                 if (chat.getMessages().isEmpty()) {
-                                    message += "\nThey should be a prioritized contact!\nStart chatting with them now!";
+                                    message += "\nThey are a priority contact!\nStart chatting now!";
                                 } else {
                                     message += "\nYou don't chat enough with them.\nLet's catch up!";
                                 }
-                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER, 0, -500);
+                                LinearLayout toastLayout = (LinearLayout) toast.getView();
+                                TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                                toastTV.setTextSize(18);
+                                toast.show();
                             } catch (ParseException e1) {
                                 e.printStackTrace();
                             }

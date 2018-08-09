@@ -53,27 +53,8 @@ public class GroupFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_group, container, false);
 
-//        reprioritize = v.findViewById(R.id.reprioritize);
-//        // handles resetting priorities upon the reset button being clicked
-//        reprioritize.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent intent = new Intent(getActivity(), PriorityActivity.class);
-//                        startActivity(intent);
-//                    }
-//                });
-
         groupImage = v.findViewById(R.id.groupImage);
         groupName = v.findViewById(R.id.groupName);
-
-//        // handles opening contacts fragment with the corresponding parcelable extra upon a relationship image being clicked
-//        groupImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openGroupContacts(groupName.getText().toString());
-//            }
-//        });
 
         return v;
     }
@@ -141,46 +122,6 @@ public class GroupFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    public void myContacts() {
-        String username;
-        user = ParseUser.getCurrentUser();
-        username = user.getUsername();
-        ParseQuery<Contacts> query = ParseQuery.getQuery(Contacts.class).whereEqualTo("Owner", username).orderByDescending("Ranking");
-        Log.d("Fragment", user.getUsername());
-        query.findInBackground(new FindCallback<Contacts>() {
-            @Override
-            public void done(List<Contacts> objects, ParseException e) {
-                if (e == null) {
-                    // contacts.addAll(objects);
-
-                    // adapter.notifyItemInserted(contacts.size() - 1);
-                    //  Log.d("Fragmentcontact", contacts.toString());
-                } else {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-    }
-
-    public void changeFragments(Fragment someFragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.my_placeholder, someFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    public void openGroupContacts(String group) {
-        Fragment fragment = new Fragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("relationship", group);
-        fragment.setArguments(bundle);
-
-    }
-
 
     //new code for persistence:
 

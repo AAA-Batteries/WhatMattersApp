@@ -99,8 +99,6 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
         rvNotifications.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNotifications.setAdapter(adapter);
 
-
-
         //adding the item touch helperI
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvNotifications);
