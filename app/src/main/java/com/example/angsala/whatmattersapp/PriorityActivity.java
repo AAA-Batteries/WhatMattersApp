@@ -32,28 +32,36 @@ public class PriorityActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapterParents = ArrayAdapter.createFromResource(PriorityActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
         adapterParents.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerParents.setAdapter(adapterParents);
+        Integer rank = (Integer) ParseUser.getCurrentUser().get("Parents");
+        spinnerParents.setSelection(rank);
 
         spinnerFamily = findViewById(R.id.respinnerFamily);
         ArrayAdapter<CharSequence> adapterFamily = ArrayAdapter.createFromResource(PriorityActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
         adapterFamily.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFamily.setAdapter(adapterFamily);
+        rank = (Integer) ParseUser.getCurrentUser().get("Family");
+        spinnerFamily.setSelection(rank);
 
         spinnerFriends = findViewById(R.id.respinnerFriends);
         ArrayAdapter<CharSequence> adapterFriends = ArrayAdapter.createFromResource(PriorityActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
         adapterFriends.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFriends.setAdapter(adapterFriends);
-
+        rank = (Integer) ParseUser.getCurrentUser().get("Friends");
+        spinnerFriends.setSelection(rank);
 
         spinnerClassmates = findViewById(R.id.respinnerClassmates);
         ArrayAdapter<CharSequence> adapterClassmates = ArrayAdapter.createFromResource(PriorityActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
         adapterClassmates.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerClassmates.setAdapter(adapterClassmates);
-
+        rank = (Integer) ParseUser.getCurrentUser().get("Classmates");
+        spinnerClassmates.setSelection(rank);
 
         spinnerProfessors = findViewById(R.id.respinnerProfessors);
         ArrayAdapter<CharSequence> adapterProfessors = ArrayAdapter.createFromResource(PriorityActivity.this, R.array.rankings, android.R.layout.simple_spinner_item);
         adapterProfessors.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProfessors.setAdapter(adapterProfessors);
+        rank = (Integer) ParseUser.getCurrentUser().get("Professors");
+        spinnerProfessors.setSelection(rank);
 
         // handles resetting priorities upon the reset button being clicked
         resetBtn.setOnClickListener(
