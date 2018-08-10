@@ -1,13 +1,10 @@
 package com.example.angsala.whatmattersapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,14 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.angsala.whatmattersapp.model.Contacts;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.apache.commons.io.FileUtils;
@@ -94,6 +86,7 @@ public class GroupFragment extends Fragment {
         //where we will read the groups?
         readItems();
         adapter = new GroupAdapter(groups);
+
         // Attach the adapter to the recyclerview to populate items
 
         // Set layout manager to position the items

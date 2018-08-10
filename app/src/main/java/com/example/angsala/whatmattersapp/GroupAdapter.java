@@ -64,6 +64,26 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         Log.d("MyAdapter", relationship.toString());
 
 
+            if (position == 0){
+                GlideApp.with(context).load(R.drawable.numberone).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupIndex);
+                viewHolder.groupIndex.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+            } else if (position == 1){
+                GlideApp.with(context).load(R.drawable.numbertwo).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupIndex);
+                viewHolder.groupIndex.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+            } else if (position == 2){
+                GlideApp.with(context).load(R.drawable.numberthree).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupIndex);
+                viewHolder.groupIndex.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+            } else if (position == 3){
+                GlideApp.with(context).load(R.drawable.numberfour).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupIndex);
+                viewHolder.groupIndex.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+            } else if (position == 4){
+                GlideApp.with(context).load(R.drawable.numberfive).apply(RequestOptions.circleCropTransform()).into(viewHolder.groupIndex);
+                viewHolder.groupIndex.setBackground(context.getResources().getDrawable(R.drawable.shape_circle));
+            }
+
+
+
+
         if (myPosition.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
             viewHolder.groupName.setText("Friends");
@@ -122,12 +142,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView groupName;
         ImageView groupImage;
+        ImageView groupIndex;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             groupImage = itemView.findViewById(R.id.groupImage);
             groupName = itemView.findViewById(R.id.groupName);
+            groupIndex = itemView.findViewById(R.id.groupIndex);
+
             itemView.setOnClickListener(this);
 
 
