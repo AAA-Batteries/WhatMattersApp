@@ -85,6 +85,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
 
                     else{
+                        Log.d("ChatActivity", "Runnable running");
                         ParseQuery<Chat> chatQuery = ParseQuery.or(orQuery());
                         chatQuery.getFirstInBackground(new GetCallback<Chat>() {
                             @Override
@@ -463,9 +464,9 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
+        runnableTest = false;
         if (fm.getBackStackEntryCount() > 0) {
             //set runnableTest back to false, should not run
-            runnableTest = false;
             fm.popBackStack();
         } else {
             super.onBackPressed();

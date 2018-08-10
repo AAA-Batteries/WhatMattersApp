@@ -45,7 +45,7 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
             new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "entering the runnable 1");
+                    Log.d(TAG, "entering the runnable 1" + user.getUsername());
                     ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class).whereEqualTo("UserReceived", user);
                     //this should prevent the notification bug from running when logged out
                     if (ParseUser.getCurrentUser() != null) {

@@ -177,19 +177,11 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
     @Override
-<<<<<<< HEAD
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof NotificationAdapter.ViewHolder) {
-            String name = notificationList.get(viewHolder.getAdapterPosition()).getUserReceived();
-        }
-        adapter.removeItem(viewHolder.getAdapterPosition());
-        int x = viewHolder.getAdapterPosition();
-=======
+
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         String sentID = notificationList.get(position).getUserSent();
         adapter.removeItem(position);
 
->>>>>>> 7f3c7ca74aeaa2510dff645fb5b4cea242724bd3
         // delete the current user's notifications of messages received from the current chat's "recipient"
         ParseQuery<Notification> query = getQuery(Notification.class)
                 .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
