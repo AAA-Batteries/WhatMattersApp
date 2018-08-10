@@ -62,4 +62,10 @@ public class Notification extends ParseObject {
         setReceived(messages);
     }
 
+    public void removeSingular(String senderId, int position) {
+        ArrayList<Message> messages = getReceived();
+        messages.remove(position);
+        setReceived(messages);
+    }
+
 }
