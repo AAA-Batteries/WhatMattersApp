@@ -177,6 +177,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
     }
 
     @Override
+
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         String sentID = notificationList.get(position).getUserSent();
         adapter.removeItem(position);
@@ -189,7 +190,6 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
             public void done(final Notification notif, ParseException e) {
                 TextView usernameView = (TextView) getView().findViewById(R.id.tvNotificationUsername);
                 String sender = usernameView.getText().toString();
-
                 ParseQuery<ParseUser> query = getQuery(ParseUser.class).whereEqualTo("username", sender);
                 query.getFirstInBackground(new GetCallback<ParseUser>() {
                     public void done(ParseUser user, ParseException e) {

@@ -46,6 +46,7 @@
 
     <string-array name="buzz_words">
         <item>DIE</item>
+        <item>DEATH</item>
         <item>DEADLINE</item>
         <item>DUE</item>
         <item>EXAM</item>
