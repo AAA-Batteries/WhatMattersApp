@@ -137,11 +137,11 @@ public class ProfileFragment extends Fragment {
 
 
                 if (uRanking > 90 ){
-                    GlideApp.with(getActivity()).load(R.drawable.finalchartz).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
+                    GlideApp.with(getActivity()).load(R.drawable.revisedchartgood).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
 
 
                 } else {
-                    GlideApp.with(getActivity()).load(R.drawable.poorchart).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
+                    GlideApp.with(getActivity()).load(R.drawable.revisedchartpoor).transform(new RoundedCornersTransformation(50, 10)).into(myGraph);
 
                 }
 

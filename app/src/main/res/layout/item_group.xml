@@ -45,5 +45,14 @@
         tools:layout_editor_absoluteX="51dp"
         tools:layout_editor_absoluteY="52dp" />
 
+    <ImageView
+        android:id="@+id/groupIndex"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/groupImage"
+        android:layout_marginLeft="6dp"
+        app:srcCompat="@drawable/shape_circle" />
+
 
 </RelativeLayout>
