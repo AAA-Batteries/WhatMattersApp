@@ -47,23 +47,28 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
                 public void run() {
                     Log.d(TAG, "entering the runnable 1");
                     ParseQuery<Notification> query = ParseQuery.getQuery(Notification.class).whereEqualTo("UserReceived", user);
-                    query.getFirstInBackground(new GetCallback<Notification>() {
-                        @Override
-                        public void done(Notification object, ParseException e) {
-                            if (e == null) {
-                                if (object.getReceived().size() > NotificationFragment.notificationList.size()) {
-                                    createNotificationChannel();
-                                    Log.d(TAG, "entering the runnable 2");
-                                    sendNotification();
+                    //this should prevent the notification bug from running when logged out
+                    if (ParseUser.getCurrentUser() != null) {
+                        query.getFirstInBackground(new GetCallback<Notification>() {
+                            @Override
+                            public void done(Notification object, ParseException e) {
+                                if (e == null) {
+                                    int x = NotificationFragment.notificationList.size();
+                                    int y = object.getReceived().size();
+                                    if (object.getReceived().size() > NotificationFragment.notificationList.size()) {
+                                        createNotificationChannel();
+                                        Log.d(TAG, "entering the runnable 2");
+                                        sendNotification();
+                                    }
+
                                 }
-
+                                myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
                             }
-                            myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
-                        }
 
-                    });
+                        });
 
 
+                    }
                 }
             };
 
@@ -83,8 +88,8 @@ public class BottomNavigation extends AppCompatActivity implements NotificationF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments_controller);
         final int[] btnMemory = new int[4];
-        myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
         user = ParseUser.getCurrentUser();
+        myHandler.postDelayed(mRefreshNotifsRunnable, POLL_INTERVAL);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         // define your fragments here

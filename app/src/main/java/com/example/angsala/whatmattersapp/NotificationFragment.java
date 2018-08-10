@@ -182,7 +182,7 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
             String name = notificationList.get(viewHolder.getAdapterPosition()).getUserReceived();
         }
         adapter.removeItem(viewHolder.getAdapterPosition());
-
+        int x = viewHolder.getAdapterPosition();
         // delete the current user's notifications of messages received from the current chat's "recipient"
         ParseQuery<Notification> query = getQuery(Notification.class)
                 .whereEqualTo("UserReceived", ParseUser.getCurrentUser());
@@ -191,7 +191,6 @@ public class NotificationFragment extends Fragment implements RecyclerItemTouchH
             public void done(final Notification notif, ParseException e) {
                 TextView usernameView = (TextView) getView().findViewById(R.id.tvNotificationUsername);
                 String sender = usernameView.getText().toString();
-
                 ParseQuery<ParseUser> query = getQuery(ParseUser.class).whereEqualTo("username", sender);
                 query.getFirstInBackground(new GetCallback<ParseUser>() {
                     public void done(ParseUser user, ParseException e) {

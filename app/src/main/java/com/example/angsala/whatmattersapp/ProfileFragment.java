@@ -257,6 +257,7 @@ public class ProfileFragment extends Fragment {
             case R.id.logOut:
                 Log.d(TAG, "Clicked on logout button");
                 user.logOut();
+                user = null;
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +69,9 @@ public class ChatActivity extends AppCompatActivity {
     String contactRelationship;
     int contactPriority;
 
+    //determine if runnable should be executed
+    Boolean runnableTest;
+
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
     Handler myHandler = new Handler(); // android.os.Handler
@@ -77,25 +79,34 @@ public class ChatActivity extends AppCompatActivity {
             new Runnable() {
                 @Override
                 public void run() {
-                    ParseQuery<Chat> chatQuery = ParseQuery.or(orQuery());
-                    chatQuery.getFirstInBackground(new GetCallback<Chat>() {
-                        @Override
-                        public void done(Chat object, ParseException e) {
-                            if (e == null) {
-                                chat = object;
-                                if (mMessages.size() < chat.getMessages().size()) {
-                                    refreshMessages();
+                    if (runnableTest == false){
+                        myHandler.removeCallbacks(this);
+                        Log.d("ChatActivity", "leaving chat activity !");
+                    }
+
+                    else{
+                        ParseQuery<Chat> chatQuery = ParseQuery.or(orQuery());
+                        chatQuery.getFirstInBackground(new GetCallback<Chat>() {
+                            @Override
+                            public void done(Chat object, ParseException e) {
+                                if (e == null) {
+                                    chat = object;
+                                    if (mMessages.size() < chat.getMessages().size()) {
+                                        refreshMessages();
+                                    }
                                 }
                             }
-                        }
-                    });
-                    myHandler.postDelayed(this, POLL_INTERVAL);
+                        });
+                        myHandler.postDelayed(this, POLL_INTERVAL);
+                    }
                 }
             };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        runnableTest = true;
 
         mFirstLoad = true;
 
@@ -453,6 +464,8 @@ public class ChatActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
+            //set runnableTest back to false, should not run
+            runnableTest = false;
             fm.popBackStack();
         } else {
             super.onBackPressed();
