@@ -174,7 +174,7 @@
         android:layout_marginBottom="80dp"
         android:background="@color/button_green"
         android:fontFamily="@font/amiko"
-        android:text="Know more" />
+        android:text="Learn more" />
 
     <TextView
         android:id="@+id/tvReadMore"
