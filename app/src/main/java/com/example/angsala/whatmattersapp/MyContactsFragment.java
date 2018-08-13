@@ -151,6 +151,7 @@ public class MyContactsFragment extends Fragment
         contactOther.setContactName(user.getUsername());
         contactOther.setRelationship(relationship);
         contactOther.saveInBackground();
+        refreshContacts();
 
         adapter.notifyItemInserted(contactsList.size() - 1);
         Log.d("ContactActivity", contactsList.toString());
