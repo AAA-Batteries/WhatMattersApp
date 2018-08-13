@@ -56,7 +56,9 @@
             android:layout_marginStart="13dp"
             android:padding="5dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@android:color/black" />
+            app:srcCompat="@drawable/shape_circle" />
+
+
 
         <TextView
             android:id="@+id/tvNotificationBody"
@@ -101,6 +103,7 @@
             android:layout_alignBottom="@+id/ivNotification"
             android:layout_alignEnd="@+id/ivNotification"
             app:srcCompat="@drawable/shape_circle" />
+
 
 
     </RelativeLayout>

@@ -4,8 +4,10 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
+
 @ParseClassName("Contacts")
-public class Contacts extends ParseObject {
+public class Contacts extends ParseObject implements Serializable {
     private static final String RANKING_KEY = "Ranking";
     private static final String RELATIONSHIP_KEY = "Relationship";
     private static final String OWNER_KEY = "Owner";

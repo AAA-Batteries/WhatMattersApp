@@ -28,6 +28,14 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +72,7 @@ public class MyContactsFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setHasOptionsMenu(true);
     }
 
@@ -71,6 +80,7 @@ public class MyContactsFragment extends Fragment
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_contacts, container, false);
     }
 
@@ -82,6 +92,9 @@ public class MyContactsFragment extends Fragment
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
         contactsList = new ArrayList<>();
+
+        displayObjects();
+
         adapter = new ContactsAdapter(contactsList);
 
 
@@ -307,7 +320,8 @@ public class MyContactsFragment extends Fragment
                                     contactsList.add(objects.get(i));
                                 }
                                 adapter.notifyItemInserted(contactsList.size() - 1);
-                            }
+                            } storeObject(contactsList);
+
 
                         } else {
                             e.printStackTrace();
@@ -323,6 +337,8 @@ public class MyContactsFragment extends Fragment
 //        contactsList.clear();
 //        adapter.notifyDataSetChanged();
 //        myContacts();
+       // displayObjects();
+
         refreshContacts();
     }
 
@@ -353,5 +369,61 @@ public class MyContactsFragment extends Fragment
         } else {
             return 0;
         }
+    }
+
+    public void storeObject(List<Contacts> contacts){
+        OutputStream ops = null;
+        ObjectOutputStream objOps = null;
+        try {
+            ops = new FileOutputStream(getDataFile());
+
+            objOps = new ObjectOutputStream(ops);
+            objOps.writeObject(contacts);
+            objOps.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (objOps != null) {
+                    objOps.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void displayObjects(){
+        FileInputStream fileIs = null;
+        ObjectInputStream objIs = null;
+        try {
+            fileIs = new FileInputStream(getDataFile());
+            objIs = new ObjectInputStream(fileIs);
+            contactsList = (List<Contacts>) objIs.readObject();
+            Log.d("DisplayContact", contactsList.toString());
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if (objIs != null){
+                    objIs.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private File getDataFile() {
+        return new File(getContext().getFilesDir(), ParseUser.getCurrentUser().getObjectId() + "MyContacts.txt");
     }
 }

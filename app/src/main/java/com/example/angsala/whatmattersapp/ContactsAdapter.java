@@ -84,7 +84,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         });
 
 
-        String relationship = contact.getRelationship();
+       String relationship = contact.getRelationship();
         if (relationship.equals("Friends")) {
             int color = context.getResources().getColor(R.color.Friends);
             GlideApp.with(context).load(R.drawable.friendszz).apply(RequestOptions.circleCropTransform()).into(viewHolder.ivRelation);
